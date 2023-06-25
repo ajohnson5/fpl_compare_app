@@ -1,0 +1,8 @@
+pandas
+requests
+nicegui
+asyncio
+gcsfs
+dataclasses
+typing
+gunicorn
