@@ -6,3 +6,4 @@ gcsfs
 dataclasses
 typing
 gunicorn
+pyarrow
