@@ -2,7 +2,7 @@
 from dataclasses import dataclass, field
 from typing import Callable, List
 import requests
-from nicegui import ui,Tailwind,app
+from nicegui import ui, Tailwind, app
 import pandas as pd
 from typing import Self
 import asyncio
