@@ -25,13 +25,7 @@ def manager_gw_picks_api(gw:int, manager_id):
     squad_list = []
     
     for pick in req["picks"]:
-
-
         player_series =  df.iloc[pick['element']-1]
-        print( player_series['second_name'])
-        print(pick['is_captain'])
-        print(pick['multiplier'])
-        print('######')
         squad_list.append(Player(
             id=pick["element"],
             name = player_series['second_name'],
@@ -46,13 +40,8 @@ def manager_gw_picks_api(gw:int, manager_id):
 
 
     chip = req['active_chip']
-    print(chip)
 
-    if chip is not None:
-        print('hello')
     return Squad(int(manager_id), squad_list, chip)
-
-
 
 
 def get_mini_league_managers(league_id: str):
@@ -68,8 +57,6 @@ def get_mini_league_managers(league_id: str):
 
         check = req['standings']['has_next']
         for manager in req['standings']['results']:
-            # managers.append({"id": manager["id"],"manager_name":manager["player_name"],"entry_name":manager["entry_name"]})
-            # managers.append(manager["id"])
             managers[manager["entry"]] = manager["entry_name"]
 
         
@@ -83,10 +70,3 @@ def get_mini_league_managers(league_id: str):
 
 
     return managers
-
-
-# if __name__ == "__main__":
-#     # print(get_mini_league_managers(1))
-
-#     print(asyncio.run(manager_gw_picks_api(38,'12331')))
-
