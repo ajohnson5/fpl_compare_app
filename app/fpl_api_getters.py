@@ -10,6 +10,13 @@ df = pd.read_parquet("gs://fpl_dev_bucket/2022/player_gameweek/")
 df.set_index(["gameweek", "id"], inplace=True)
 
 
+def manager_name(manager_id: int):
+    url = f"https://fantasy.premierleague.com/api/entry/{manager_id}/"
+    req = requests.get(url).json()
+
+    return req["name"]
+
+
 def manager_gw_picks_api(gw: int, manager_id):
     """Returns a list of dictionaries of all picks a manager made in a gameweek"""
     # Check for valid ID
@@ -44,6 +51,7 @@ def manager_gw_picks_api(gw: int, manager_id):
     chip = req["active_chip"]
 
     stats = req["entry_history"]
+    stats["team_name"] = manager_name(int(manager_id))
 
     return Squad(int(manager_id), squad_list, chip, stats)
 
