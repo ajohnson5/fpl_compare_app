@@ -126,26 +126,3 @@ def mini_league_search_bar():
             add_mini_league.value, manager_search_div, complete_div, error_message
         ),
     )
-
-    # return add_input,add_input_2,select1,search_button
-
-
-def mini_league_search_execute():
-    add_input, add_input_2, select1, search_button = manager_id_search_bar()
-
-    error_message = ui.element("div")
-
-    complete_div = ui.element("div").classes("w-full h-full")
-
-    search_button.on(
-        "click",
-        lambda: show_squad(
-            complete_div,
-            error_message,
-            add_input.value,
-            add_input_2.value,
-            select1.value,
-        ),
-    )
-
-    return add_mini_league, search_button
