@@ -6,16 +6,17 @@ import asyncio
 import gcsfs
 
 # df = pd.read_csv("players_raw.csv")
-df = pd.read_parquet('gs://fpl_dev_bucket/2022/player_gameweek/player_gameweek_38.parquet')
+df = pd.read_parquet('gs://fpl_dev_bucket/2022/player_gameweek/')
+df.set_index(['gameweek','id'],inplace=True)
 
 
-def manager_gw_picks_api(gw:int, manager_id):
+def manager_gw_picks_api(gw:int , manager_id):
     """Returns a list of dictionaries of all picks a manager made in a gameweek"""
     #Check for valid ID
     if (manager_id is None) or (not manager_id.isdigit()):
         return None
 
-    url = f"https://fantasy.premierleague.com/api/entry/{manager_id}/event/{gw}/picks/"
+    url = f"https://fantasy.premierleague.com/api/entry/{manager_id}/event/{str(gw)}/picks/"
     req = requests.get(url).json()
 
     #Check if ID exists
@@ -25,7 +26,7 @@ def manager_gw_picks_api(gw:int, manager_id):
     squad_list = []
     
     for pick in req["picks"]:
-        player_series =  df.iloc[pick['element']-1]
+        player_series =  df.loc[gw,pick['element']]
         squad_list.append(Player(
             id=pick["element"],
             name = player_series['second_name'],
