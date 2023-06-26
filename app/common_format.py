@@ -26,39 +26,30 @@ nav_bar_label_div = (
 )
 
 
+# List of all nav bar links with icon, page_name and link
+nav_bar_pages = [
+    ("home", "Home", page_creation.home_page),
+    ("group", "Manager ID", page_creation.by_manager_id_page),
+    ("leaderboard", "Mini-league", page_creation.by_mini_league_page),
+    ("looks_5", "Top 5", page_creation.by_top_5_page),
+]
+
+
+# Create each link in nav bar
+def nav_bar_link(icon: str, page_name: str, link):
+    with ui.element("div").classes(nav_bar_hover_div) as menu_link:
+        with ui.element("div").classes(nav_bar_link_div):
+            with ui.element("div").classes(nav_bar_icon_div):
+                ui.icon(icon).classes("text-5xl absolute text-slate-100")
+            with ui.element("div").classes(nav_bar_label_div):
+                ui.label(page_name).classes("text-slate-100")
+    menu_link.on("click", lambda: ui.open(link))
+
+
 def nav_bar():
     with ui.element("div").classes(nav_bar_whole_div):
-        with ui.element("div").classes(nav_bar_hover_div) as nav_0:
-            with ui.element("div").classes(nav_bar_link_div):
-                with ui.element("div").classes(nav_bar_icon_div):
-                    ui.icon("home").classes("text-5xl absolute text-slate-100")
-                with ui.element("div").classes(nav_bar_label_div):
-                    ui.label("Home").classes("text-slate-100")
-        nav_0.on("click", lambda: ui.open(page_creation.home_page))
-
-        with ui.element("div").classes(nav_bar_hover_div) as nav_1:
-            with ui.element("div").classes(nav_bar_link_div):
-                with ui.element("div").classes(nav_bar_icon_div):
-                    ui.icon("group").classes("text-5xl absolute text-slate-100")
-                with ui.element("div").classes(nav_bar_label_div):
-                    ui.label("Manager ID").classes("text-slate-100")
-        nav_1.on("click", lambda: ui.open(page_creation.by_manager_id_page))
-
-        with ui.element("div").classes(nav_bar_hover_div) as nav_2:
-            with ui.element("div").classes(nav_bar_link_div):
-                with ui.element("div").classes(nav_bar_icon_div):
-                    ui.icon("leaderboard").classes("text-5xl absolute text-slate-100")
-                with ui.element("div").classes(nav_bar_label_div):
-                    ui.label("Mini-League").classes("text-slate-100")
-        nav_2.on("click", lambda: ui.open(page_creation.by_mini_league_page))
-
-        with ui.element("div").classes(nav_bar_hover_div) as nav_3:
-            with ui.element("div").classes(nav_bar_link_div):
-                with ui.element("div").classes(nav_bar_icon_div):
-                    ui.icon("looks_5").classes("text-5xl absolute text-slate-100")
-                with ui.element("div").classes(nav_bar_label_div):
-                    ui.label("Top 5").classes("text-slate-100")
-        nav_3.on("click", lambda: ui.open(page_creation.by_top_5_page))
+        for page in nav_bar_pages:
+            nav_bar_link(page[0], page[1], page[2])
 
 
 @contextmanager
