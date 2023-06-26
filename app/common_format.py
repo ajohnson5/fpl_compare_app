@@ -5,24 +5,24 @@ from nicegui import ui
 
 
 nav_bar_whole_div = (
-    "w-full h-[70px] flex flex-row justify-center items-center",
-    " sm:justify-start mb-2 divide-slate-100 divide-x-2",
+    "w-full h-[70px] flex flex-row justify-center items-center"
+    " sm:justify-start mb-2 divide-slate-100 divide-x-2"
 )
 nav_bar_hover_div = (
-    "flex flex-row items-center justify-center w-1/4",
-    " h-full bg-slate-500 cursor-pointer hover:bg-slate-400",
+    "flex flex-row items-center justify-center w-1/4"
+    " h-full bg-slate-500 cursor-pointer hover:bg-slate-400"
 )
 nav_bar_link_div = (
-    "flex flex-row grid grid-cols-1 grid-rows-3 sm:grid-cols-2",
-    " sm:grid-rows-1 justify-center w-[200px] h-full gap-x-1",
+    "flex flex-row grid grid-cols-1 grid-rows-3 sm:grid-cols-2"
+    " sm:grid-rows-1 justify-center w-[200px] h-full gap-x-1"
 )
 nav_bar_icon_div = (
-    "flex flex-row col-span-1 row-span-2 sm:row-span-1",
-    " items-center justify-center sm:justify-end h-full",
+    "flex flex-row col-span-1 row-span-2 sm:row-span-1"
+    " items-center justify-center sm:justify-end h-full"
 )
 nav_bar_label_div = (
-    "flex flex-row col-span-1 row-span-1 items-center justify-center",
-    " sm:justify-start h-full",
+    "flex flex-row col-span-1 row-span-1 items-center justify-center"
+    " sm:justify-start h-full"
 )
 
 
