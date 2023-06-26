@@ -58,6 +58,27 @@ full_bench_div = (
 )
 
 
+def manager_summary(squad: Squad):
+    with ui.element("div").classes("flex flex-row w-1/2 h-auto "):
+        with ui.column():
+            ui.label(f"squad gameweek points: {squad.stats['points']}")
+            ui.label(f"squad Total points {squad.stats['total_points']}")
+            ui.label(f"Active Chip {squad.chip}")
+            ui.label(f"points on bench {squad.stats['points_on_bench']}")
+
+
+def manager_summary_compare(squad_1: Squad, squad_2: Squad):
+    with ui.element("div").classes(
+        (
+            "col-span-5 flex flex-row flex-1 items-center justify-center content-center"
+            " border-2 border-black p-2"
+        )
+    ):
+        manager_summary(squad_1)
+
+        manager_summary(squad_2)
+
+
 def standard_player_card(player, home: bool):
     with ui.element("div").classes(
         "flex flex-row  flex-1 h-full items-center justify-center content-center"
@@ -179,6 +200,7 @@ def show_squad(
         with ui.element("div").classes(
             "w-full h-full max-w-[1000px] grid grid-cols-5 "
         ):
+            manager_summary_compare(squad_1, squad_2)
             with ui.element("div").classes("col-span-5 lg:h-full lg:col-span-4"):
                 with ui.image("https://i.ibb.co/9WbhshN/pitch.jpg").classes(
                     "w-full h-full"
