@@ -16,7 +16,7 @@ def manager_gw_picks_api(gw: int, manager_id):
     if (manager_id is None) or (not manager_id.isdigit()):
         return None
 
-    url = f"https://fantasy.premierleague.com/api/entry/{manager_id}/event/{str(gw)}/picks/"
+    url = f"https://fantasy.premierleague.com/api/entry/{manager_id}/event/{gw}/picks/"
     req = requests.get(url).json()
 
     # Check if ID exists
@@ -43,7 +43,9 @@ def manager_gw_picks_api(gw: int, manager_id):
 
     chip = req["active_chip"]
 
-    return Squad(int(manager_id), squad_list, chip)
+    stats = req["entry_history"]
+
+    return Squad(int(manager_id), squad_list, chip, stats)
 
 
 def get_mini_league_managers(league_id: str):
