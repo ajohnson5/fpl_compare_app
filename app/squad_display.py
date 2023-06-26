@@ -80,7 +80,7 @@ def manager_summary(squad: Squad, home: bool):
             "lg:h-[80px] content-center " + rounding_1 + color + borders
         ):
             ui.label(squad.stats["team_name"]).classes(
-                "text-center text-xl lg:text-4xl text-white"
+                "text-center text-xl lg:text-3xl text-white"
             )
         with ui.element("div").classes(
             "grid grid-cols-1 col-span-1 lg:col-span-2 " + color_2 + borders
@@ -118,14 +118,17 @@ def manager_summary(squad: Squad, home: bool):
 
 def manager_summary_compare(squad_1: Squad, squad_2: Squad):
     with ui.element("div").classes(
-        (
-            "col-span-5 flex flex-row flex-1 items-center justify-center content-center"
-            " p-2 m-2"
-        )
+        ("col-span-5 flex items-center justify-center content-center w-full")
     ):
-        manager_summary(squad_1, True)
+        with ui.element("div").classes(
+            (
+                "flex flex-row flex-1 items-center justify-center content-center"
+                " p-2 m-2 max-w-[500px]"
+            )
+        ):
+            manager_summary(squad_1, True)
 
-        manager_summary(squad_2, False)
+            manager_summary(squad_2, False)
 
 
 def standard_player_card(player, home: bool):
@@ -247,7 +250,7 @@ def show_squad(
 
     with complete_div.classes("flex flex-row justify-center "):
         with ui.element("div").classes(
-            "w-full h-full max-w-[1000px] grid grid-cols-5 "
+            "w-full h-full max-w-[1000px] grid grid-cols-5 justify-center"
         ):
             manager_summary_compare(squad_1, squad_2)
             with ui.element("div").classes("col-span-5 lg:h-full lg:col-span-4"):
