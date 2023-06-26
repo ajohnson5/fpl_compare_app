@@ -57,26 +57,75 @@ full_bench_div = (
     "border-slate-200 rounded-md lg:ml-4 divide-y-4 divide-double"
 )
 
+borders = " "
 
-def manager_summary(squad: Squad):
-    with ui.element("div").classes("flex flex-row w-1/2 h-auto "):
-        with ui.column():
-            ui.label(f"squad gameweek points: {squad.stats['points']}")
-            ui.label(f"squad Total points {squad.stats['total_points']}")
-            ui.label(f"Active Chip {squad.chip}")
-            ui.label(f"points on bench {squad.stats['points_on_bench']}")
+
+def manager_summary(squad: Squad, home: bool):
+    if home:
+        color = " bg-blue-500 "
+        color_2 = " bg-blue-200 "
+        rounding_1 = "rounded-tl-lg"
+        rounding_2 = "rounded-bl-lg"
+    else:
+        color = " bg-red-500 "
+        color_2 = " bg-red-200 "
+        rounding_1 = "rounded-tr-lg"
+        rounding_2 = "rounded-br-lg"
+    with ui.element("div").classes(
+        "grid grid-cols-1 lg:grid-cols-2 w-1/2 h-auto items-center justify-center "
+        "content-center"
+    ):
+        with ui.element("div").classes(
+            "grid col-span-1 lg:col-span-2 items-center justify-center h-[60px] "
+            "lg:h-[80px] content-center " + rounding_1 + color + borders
+        ):
+            ui.label(squad.stats["team_name"]).classes(
+                "text-center text-xl lg:text-4xl text-white"
+            )
+        with ui.element("div").classes(
+            "grid grid-cols-1 col-span-1 lg:col-span-2 " + color_2 + borders
+        ):
+            with ui.element("div").classes(
+                (
+                    "grid grid-cols-1 col-span-1 items-center "
+                    "justify-center content-center my-2"
+                )
+                + borders
+            ):
+                ui.label(squad.stats["points"]).classes(
+                    "col-span-1 text-center text-6xl text-white" + borders
+                )
+                ui.label("Points").classes(
+                    "col-span-1 text-center text-white" + borders
+                )
+        with ui.element("div").classes(
+            (
+                "grid col-span-1  lg:col-span-2 items-center justify-center "
+                "content-center bg-stone-400  py-2 "
+            )
+            + rounding_2
+        ):
+            if squad.chip is None:
+                chip_label = "No chip"
+            else:
+                chip_label = squad.chip
+            ui.label(chip_label).classes("text-center text-lg text-white")
+        # with ui.element("div").classes("col-span-1"):
+        #     ui.label(f"Total points: {squad.stats['total_points']}")
+        # with ui.element("div").classes("col-span-1"):
+        #     ui.label(f"points on bench: {squad.stats['points_on_bench']}")
 
 
 def manager_summary_compare(squad_1: Squad, squad_2: Squad):
     with ui.element("div").classes(
         (
             "col-span-5 flex flex-row flex-1 items-center justify-center content-center"
-            " border-2 border-black p-2"
+            " p-2 m-2"
         )
     ):
-        manager_summary(squad_1)
+        manager_summary(squad_1, True)
 
-        manager_summary(squad_2)
+        manager_summary(squad_2, False)
 
 
 def standard_player_card(player, home: bool):
