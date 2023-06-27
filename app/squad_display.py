@@ -64,44 +64,41 @@ def manager_summary(squad: Squad, home: bool):
     if home:
         color = " bg-blue-500 "
         color_2 = " bg-blue-200 "
-        rounding_1 = "rounded-tl-lg"
-        rounding_2 = "rounded-bl-lg"
+        rounding_1 = "rounded-tl-lg lg:rounded-t-lg"
+        rounding_2 = "rounded-bl-lg lg:rounded-b-lg"
     else:
         color = " bg-red-500 "
         color_2 = " bg-red-200 "
-        rounding_1 = "rounded-tr-lg"
-        rounding_2 = "rounded-br-lg"
+        rounding_1 = "rounded-tr-lg lg:rounded-t-lg"
+        rounding_2 = "rounded-br-lg lg:rounded-b-lg"
     with ui.element("div").classes(
-        "grid grid-cols-1 lg:grid-cols-2 w-1/2 h-auto items-center justify-center "
-        "content-center"
+        "grid grid-cols-1 lg:grid-cols-2 w-1/2 lg:w-2/5 lg:max-w-[350px] h-auto "
+        "items-center justify-center content-center"
     ):
         with ui.element("div").classes(
             "grid col-span-1 lg:col-span-2 items-center justify-center h-[60px] "
-            "lg:h-[80px] content-center " + rounding_1 + color + borders
+            "lg:h-[80px] content-center " + color + rounding_1
         ):
             ui.label(squad.stats["team_name"]).classes(
                 "text-center text-xl lg:text-3xl text-white"
             )
         with ui.element("div").classes(
-            "grid grid-cols-1 col-span-1 lg:col-span-2 " + color_2 + borders
+            "grid grid-cols-1 col-span-1 lg:col-span-2 " + color_2
         ):
             with ui.element("div").classes(
                 (
                     "grid grid-cols-1 col-span-1 items-center "
                     "justify-center content-center my-2"
                 )
-                + borders
             ):
                 ui.label(squad.stats["points"]).classes(
-                    "col-span-1 text-center text-6xl text-white" + borders
+                    "col-span-1 text-center text-6xl text-white"
                 )
-                ui.label("Points").classes(
-                    "col-span-1 text-center text-white" + borders
-                )
+                ui.label("Points").classes("col-span-1 text-center text-white")
         with ui.element("div").classes(
             (
                 "grid col-span-1  lg:col-span-2 items-center justify-center "
-                "content-center bg-stone-400  py-2 "
+                "content-center bg-stone-400  py-1 "
             )
             + rounding_2
         ):
@@ -122,8 +119,8 @@ def manager_summary_compare(squad_1: Squad, squad_2: Squad):
     ):
         with ui.element("div").classes(
             (
-                "flex flex-row flex-1 items-center justify-center content-center"
-                " p-2 m-2 max-w-[500px]"
+                "flex flex-row flex-1 items-center justify-evenly content-center"
+                " p-2 m-2 divide-x-2 divide-white"
             )
         ):
             manager_summary(squad_1, True)
@@ -250,12 +247,12 @@ def show_squad(
 
     with complete_div.classes("flex flex-row justify-center "):
         with ui.element("div").classes(
-            "w-full h-full max-w-[1000px] grid grid-cols-5 justify-center"
+            "w-full h-full max-w-[1000px] grid grid-cols-5 justify-center "
         ):
             manager_summary_compare(squad_1, squad_2)
             with ui.element("div").classes("col-span-5 lg:h-full lg:col-span-4"):
                 with ui.image("https://i.ibb.co/9WbhshN/pitch.jpg").classes(
-                    "w-full h-full"
+                    "w-full h-full rounded-2xl mb-4"
                 ):
                     with ui.element("div").classes("w-full h-full grid-cols-1").style(
                         "background: transparent;"
