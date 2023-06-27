@@ -7,7 +7,9 @@ from fpl_api_getters import get_mini_league_managers
 
 
 def manager_id_search_bar():
-    with ui.element("div").classes("row row-flex items-center justify-center w-full"):
+    with ui.element("div").classes(
+        "row row-flex items-center justify-center w-full p-2"
+    ):
         with ui.element("div").classes(
             "row row-flex items-center justify-center w-full max-w-[500px]"
         ):
@@ -15,22 +17,28 @@ def manager_id_search_bar():
                 ui.input(
                     "Manager ID 1",
                 )
-                .classes("w-3/4 p-2")
-                .props("clearable rounded")
+                .classes("w-3/4 pr-2 pb-2")
+                .props('clearable outlined color="blue-6"')
             )
 
-            gameweek_select = ui.select(
-                [x for x in range(1, 39)], value=38, label="GW"
-            ).classes("w-1/4 p-2")
+            gameweek_select = (
+                ui.select([x for x in range(1, 39)], value=38, label="GW")
+                .classes("w-1/4 pb-2")
+                .props('outlined behavior="menu" color="blue-grey"')
+            )
 
             add_input_2 = (
-                ui.input("Manager ID 2").classes("w-3/4 p-2").props("clearable")
+                ui.input("Manager ID 2")
+                .classes("w-3/4 pr-2")
+                .props('clearable outlined color="red-6"')
             )
 
             search_button = (
-                ui.button("")
-                .classes("w-1/4 p-2")
-                .props('icon=search flat color="primary" size=xl')
+                ui.button(
+                    "Compare",
+                )
+                .classes("w-1/4 h-[55px]")
+                .props('color="blue-grey" outline')
             )
 
     return add_input, add_input_2, gameweek_select, search_button
@@ -62,26 +70,28 @@ def create_mini_league(league_id, manager_search_div, complete_div, error_messag
     with manager_search_div:
         manager_1_select = (
             ui.select(managers, with_input=True, label="Manager 1 Name")
-            .classes("w-3/4 p-2")
-            .props("rounded")
+            .classes("w-3/4 pr-2 pb-2")
+            .props('color="blue-6" outlined behavior="menu"')
         )
 
-        gameweek_select = ui.select(
-            [x for x in range(1, 39)], value=38, label="GW"
-        ).classes("w-1/4 p-2")
+        gameweek_select = (
+            ui.select([x for x in range(1, 39)], value=38, label="GW")
+            .classes("w-1/4 pb-2")
+            .props('outlined behavior="menu" color="blue-grey"')
+        )
 
         manager_2_select = (
             ui.select(managers, with_input=True, label="Manager 2 Name")
-            .classes("w-3/4 p-2")
-            .props("rounded")
+            .classes("w-3/4 pr-2")
+            .props('color="red-6" outlined behavior="menu"')
         )
 
         squad_search_button = (
             ui.button(
                 "Compare",
             )
-            .classes("w-1/4 p-2")
-            .props('flat color="primary" size=md')
+            .classes("w-1/4 h-[55px]")
+            .props('color="blue-grey" outline')
         )
 
     squad_search_button.on(
@@ -108,12 +118,12 @@ def mini_league_search_bar():
                     ui.input(
                         "Mini League ID",
                     )
-                    .classes("w-full p-2")
-                    .props("clearable rounded")
+                    .classes("w-full px-2")
+                    .props('clearable outlined color="blue-grey"')
                 )
 
             manager_search_div = ui.element("div").classes(
-                "row row-flex items-center justify-center w-full max-w-[500px]"
+                "row row-flex items-center justify-center w-full max-w-[500px] p-2"
             )
 
     error_message = ui.element("div")
