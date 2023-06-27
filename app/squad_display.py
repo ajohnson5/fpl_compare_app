@@ -57,6 +57,76 @@ full_bench_div = (
     "border-slate-200 rounded-md lg:ml-4 divide-y-4 divide-double"
 )
 
+borders = " "
+
+
+def manager_summary(squad: Squad, home: bool):
+    if home:
+        color = " bg-blue-500 "
+        color_2 = " bg-blue-200 "
+        rounding_1 = "rounded-tl-lg lg:rounded-t-lg"
+        rounding_2 = "rounded-bl-lg lg:rounded-b-lg"
+    else:
+        color = " bg-red-500 "
+        color_2 = " bg-red-200 "
+        rounding_1 = "rounded-tr-lg lg:rounded-t-lg"
+        rounding_2 = "rounded-br-lg lg:rounded-b-lg"
+    with ui.element("div").classes(
+        "grid grid-cols-1 lg:grid-cols-2 w-1/2 lg:w-2/5 lg:max-w-[350px] h-auto "
+        "items-center justify-center content-center"
+    ):
+        with ui.element("div").classes(
+            "grid col-span-1 lg:col-span-2 items-center justify-center h-[60px] "
+            "lg:h-[80px] content-center " + color + rounding_1
+        ):
+            ui.label(squad.stats["team_name"]).classes(
+                "text-center text-xl lg:text-3xl text-white"
+            )
+        with ui.element("div").classes(
+            "grid grid-cols-1 col-span-1 lg:col-span-2 " + color_2
+        ):
+            with ui.element("div").classes(
+                (
+                    "grid grid-cols-1 col-span-1 items-center "
+                    "justify-center content-center my-2"
+                )
+            ):
+                ui.label(squad.stats["points"]).classes(
+                    "col-span-1 text-center text-6xl text-white"
+                )
+                ui.label("Points").classes("col-span-1 text-center text-white")
+        with ui.element("div").classes(
+            (
+                "grid col-span-1  lg:col-span-2 items-center justify-center "
+                "content-center bg-stone-400  py-1 "
+            )
+            + rounding_2
+        ):
+            if squad.chip is None:
+                chip_label = "No chip"
+            else:
+                chip_label = squad.chip
+            ui.label(chip_label).classes("text-center text-lg text-white")
+        # with ui.element("div").classes("col-span-1"):
+        #     ui.label(f"Total points: {squad.stats['total_points']}")
+        # with ui.element("div").classes("col-span-1"):
+        #     ui.label(f"points on bench: {squad.stats['points_on_bench']}")
+
+
+def manager_summary_compare(squad_1: Squad, squad_2: Squad):
+    with ui.element("div").classes(
+        ("col-span-5 flex items-center justify-center content-center w-full")
+    ):
+        with ui.element("div").classes(
+            (
+                "flex flex-row flex-1 items-center justify-evenly content-center"
+                " p-2 m-2 divide-x-2 divide-white"
+            )
+        ):
+            manager_summary(squad_1, True)
+
+            manager_summary(squad_2, False)
+
 
 def standard_player_card(player, home: bool):
     with ui.element("div").classes(
@@ -177,11 +247,12 @@ def show_squad(
 
     with complete_div.classes("flex flex-row justify-center "):
         with ui.element("div").classes(
-            "w-full h-full max-w-[1000px] grid grid-cols-5 "
+            "w-full h-full max-w-[1000px] grid grid-cols-5 justify-center "
         ):
+            manager_summary_compare(squad_1, squad_2)
             with ui.element("div").classes("col-span-5 lg:h-full lg:col-span-4"):
                 with ui.image("https://i.ibb.co/9WbhshN/pitch.jpg").classes(
-                    "w-full h-full"
+                    "w-full h-full rounded-2xl mb-4"
                 ):
                     with ui.element("div").classes("w-full h-full grid-cols-1").style(
                         "background: transparent;"

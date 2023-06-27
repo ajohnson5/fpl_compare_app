@@ -4,7 +4,7 @@ from player import Player
 
 
 class Squad:
-    def __init__(self, manager_id: int, squad_list: list[Player], chip):
+    def __init__(self, manager_id: int, squad_list: list[Player], chip, stats: dict):
         self.manager_id = manager_id
         self.start_xi = squad_list[:11]
         self.bench = sorted(squad_list[11:], key=lambda x: x.actual_position)
@@ -13,6 +13,7 @@ class Squad:
         self.midfielders = [x for x in self.start_xi if x.actual_position == 3]
         self.strikers = [x for x in self.start_xi if x.actual_position == 4]
         self.chip = chip
+        self.stats = stats
 
     def players_by_position(self, position: int):
         if position == 1:
