@@ -72,6 +72,10 @@ def manager_id_search_bar_execute():
 
 def create_mini_league(league_id, manager_search_div, complete_div, error_message):
     managers = get_mini_league_managers(league_id)
+
+    if not managers:
+        return ui.notify("League does not exist", type="negative", position="center")
+
     manager_search_div.clear()
 
     with manager_search_div:
