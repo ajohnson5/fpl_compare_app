@@ -20,9 +20,6 @@ def manager_id_search_bar():
                 )
 
             state = {"enough": False}
-            # input_1 = ui.input(label="Input 1", on_change=check_length)
-            # input_2 = ui.input(label="Input 2", on_change=check_length)
-            # search_button = ui.button("Search").bind_enabled_from(state, "enough")
 
             add_input = (
                 ui.input("Manager ID 1", on_change=check_length)
@@ -124,12 +121,19 @@ def mini_league_search_bar():
             with ui.element("div").classes(
                 "row row-flex items-center justify-evenly w-full max-w-[500px] "
             ):
+                valid = {"digits": ""}
+
+                def valid_mini_league():
+                    if not add_mini_league.value.isdigit():
+                        valid["digits"] = add_mini_league.value[:-1]
+                    else:
+                        valid["digits"] = add_mini_league.value
+
                 add_mini_league = (
-                    ui.input(
-                        "Mini League ID",
-                    )
+                    ui.input("Mini League ID", on_change=valid_mini_league)
                     .classes("w-full px-2")
                     .props('clearable outlined color="blue-grey"')
+                    .bind_value(valid, "digits")
                 )
 
             manager_search_div = ui.element("div").classes(
