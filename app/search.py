@@ -13,10 +13,16 @@ def manager_id_search_bar():
         with ui.element("div").classes(
             "row row-flex items-center justify-center w-full max-w-[500px]"
         ):
-            add_input = (
-                ui.input(
-                    "Manager ID 1",
+
+            def check_length():
+                state["enough"] = (
+                    add_input.value.isdigit() and add_input_2.value.isdigit()
                 )
+
+            state = {"enough": False}
+
+            add_input = (
+                ui.input("Manager ID 1", on_change=check_length)
                 .classes("w-3/4 pr-2 pb-2")
                 .props('clearable outlined color="blue-6"')
             )
@@ -28,7 +34,7 @@ def manager_id_search_bar():
             )
 
             add_input_2 = (
-                ui.input("Manager ID 2")
+                ui.input("Manager ID 2", on_change=check_length)
                 .classes("w-3/4 pr-2")
                 .props('clearable outlined color="red-6"')
             )
@@ -39,6 +45,7 @@ def manager_id_search_bar():
                 )
                 .classes("w-1/4 h-[55px]")
                 .props('color="blue-grey" outline')
+                .bind_enabled_from(state, "enough")
             )
 
     return add_input, add_input_2, gameweek_select, search_button
@@ -65,11 +72,29 @@ def manager_id_search_bar_execute():
 
 def create_mini_league(league_id, manager_search_div, complete_div, error_message):
     managers = get_mini_league_managers(league_id)
+
+    if not managers:
+        return ui.notify("League does not exist", type="negative", position="center")
+
     manager_search_div.clear()
 
     with manager_search_div:
+
+        def check_manager_select():
+            mini_league_select["selected"] = (
+                manager_1_select.value is not None
+                and manager_2_select.value is not None
+            )
+
+        mini_league_select = {"selected": False}
+
         manager_1_select = (
-            ui.select(managers, with_input=True, label="Manager 1 Name")
+            ui.select(
+                managers,
+                with_input=True,
+                label="Manager 1 Name",
+                on_change=check_manager_select,
+            )
             .classes("w-3/4 pr-2 pb-2")
             .props('color="blue-6" outlined behavior="menu"')
         )
@@ -81,7 +106,12 @@ def create_mini_league(league_id, manager_search_div, complete_div, error_messag
         )
 
         manager_2_select = (
-            ui.select(managers, with_input=True, label="Manager 2 Name")
+            ui.select(
+                managers,
+                with_input=True,
+                label="Manager 2 Name",
+                on_change=check_manager_select,
+            )
             .classes("w-3/4 pr-2")
             .props('color="red-6" outlined behavior="menu"')
         )
@@ -92,6 +122,7 @@ def create_mini_league(league_id, manager_search_div, complete_div, error_messag
             )
             .classes("w-1/4 h-[55px]")
             .props('color="blue-grey" outline')
+            .bind_enabled_from(mini_league_select, "selected")
         )
 
     squad_search_button.on(
@@ -114,12 +145,19 @@ def mini_league_search_bar():
             with ui.element("div").classes(
                 "row row-flex items-center justify-evenly w-full max-w-[500px] "
             ):
+                valid = {"digits": ""}
+
+                def valid_mini_league():
+                    if not add_mini_league.value.isdigit():
+                        valid["digits"] = add_mini_league.value[:-1]
+                    else:
+                        valid["digits"] = add_mini_league.value
+
                 add_mini_league = (
-                    ui.input(
-                        "Mini League ID",
-                    )
+                    ui.input("Mini League ID", on_change=valid_mini_league)
                     .classes("w-full px-2")
                     .props('clearable outlined color="blue-grey"')
+                    .bind_value(valid, "digits")
                 )
 
             manager_search_div = ui.element("div").classes(

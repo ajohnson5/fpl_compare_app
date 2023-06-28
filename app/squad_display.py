@@ -230,13 +230,13 @@ def show_squad(
     squad_1 = manager_gw_picks_api(gameweek, manager_id)
     if squad_1 is None:
         with error_message:
-            ui.label("Manager ID 1 does not exist or is an invalid ID.")
+            ui.notify("Manager ID 1 does not exist", type="negative", position="center")
         return
 
     squad_2 = manager_gw_picks_api(gameweek, manager_id_2)
     if squad_2 is None:
         with error_message:
-            ui.label("Manager ID 2 does not exist or is an invalid ID.")
+            ui.notify("Manager ID 2 does not exist", type="negative", position="center")
         return
 
     if not squad_1.start_xi:

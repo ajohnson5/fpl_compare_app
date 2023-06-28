@@ -20,6 +20,8 @@ def manager_name(manager_id: int):
 def manager_gw_picks_api(gw: int, manager_id):
     """Returns a list of dictionaries of all picks a manager made in a gameweek"""
     # Check for valid ID
+
+    # Might be able to delete this line as input validation
     if (manager_id is None) or (not manager_id.isdigit()):
         return None
 
@@ -57,10 +59,16 @@ def manager_gw_picks_api(gw: int, manager_id):
 
 
 def get_mini_league_managers(league_id: str):
+    if not league_id:
+        return
+
     page = 1
     managers = {}
     url = f"https://fantasy.premierleague.com/api/leagues-classic/{league_id}/standings/?page_standings={str(page)}"
     req = requests.get(url).json()
+
+    if not mini_league_check(req):
+        return
 
     check = True
 
@@ -78,3 +86,10 @@ def get_mini_league_managers(league_id: str):
             return managers
 
     return managers
+
+
+def mini_league_check(mini_league_json: dict):
+    if "detail" in mini_league_json:
+        return False
+    else:
+        return True
