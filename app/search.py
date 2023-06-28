@@ -13,10 +13,19 @@ def manager_id_search_bar():
         with ui.element("div").classes(
             "row row-flex items-center justify-center w-full max-w-[500px]"
         ):
-            add_input = (
-                ui.input(
-                    "Manager ID 1",
+
+            def check_length():
+                state["enough"] = (
+                    add_input.value.isdigit() and add_input_2.value.isdigit()
                 )
+
+            state = {"enough": False}
+            # input_1 = ui.input(label="Input 1", on_change=check_length)
+            # input_2 = ui.input(label="Input 2", on_change=check_length)
+            # search_button = ui.button("Search").bind_enabled_from(state, "enough")
+
+            add_input = (
+                ui.input("Manager ID 1", on_change=check_length)
                 .classes("w-3/4 pr-2 pb-2")
                 .props('clearable outlined color="blue-6"')
             )
@@ -28,7 +37,7 @@ def manager_id_search_bar():
             )
 
             add_input_2 = (
-                ui.input("Manager ID 2")
+                ui.input("Manager ID 2", on_change=check_length)
                 .classes("w-3/4 pr-2")
                 .props('clearable outlined color="red-6"')
             )
@@ -39,6 +48,7 @@ def manager_id_search_bar():
                 )
                 .classes("w-1/4 h-[55px]")
                 .props('color="blue-grey" outline')
+                .bind_enabled_from(state, "enough")
             )
 
     return add_input, add_input_2, gameweek_select, search_button
