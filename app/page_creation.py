@@ -32,7 +32,7 @@ def by_mini_league_page():
 @ui.page("/search_top")
 def by_top_5_page():
     with common_format.display():
-        ui.label("C")
+        top.show_page()
 
 
 def create(fastapi_app: FastAPI) -> None:

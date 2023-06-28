@@ -174,3 +174,73 @@ def mini_league_search_bar():
             add_mini_league.value, manager_search_div, complete_div, error_message
         ),
     )
+
+
+def top_50_search():
+    top_50_managers = get_mini_league_managers(314, 1)
+
+    with ui.element("div").classes(
+        "row row-flex items-center justify-center w-full p-2"
+    ):
+        with ui.element("div").classes(
+            "row row-flex items-center justify-center w-full max-w-[500px]"
+        ):
+
+            def check_length():
+                if manager_input.value is None:
+                    valid_selection["valid"] = False
+                else:
+                    valid_selection["valid"] = (
+                        manager_input.value.isdigit()
+                        and manager_input.value
+                        and top_managers_select.value
+                    )
+
+            valid_selection = {"valid": False}
+
+            manager_input = (
+                ui.input("Manager ID", on_change=check_length)
+                .classes("w-3/4 pr-2 pb-2")
+                .props('clearable outlined color="blue-6"')
+            )
+
+            gameweek_select = (
+                ui.select([x for x in range(1, 39)], value=38, label="GW")
+                .classes("w-1/4 pb-2")
+                .props('outlined behavior="menu" color="blue-grey"')
+            )
+
+            top_managers_select = (
+                ui.select(
+                    top_50_managers,
+                    with_input=True,
+                    label="Top Manager",
+                    on_change=check_length,
+                )
+                .classes("w-3/4 pr-2")
+                .props('color="red-6" outlined behavior="menu"')
+            )
+
+            search_button = (
+                ui.button(
+                    "Compare",
+                )
+                .classes("w-1/4 h-[55px]")
+                .props('color="blue-grey" outline')
+                .bind_enabled_from(valid_selection, "valid")
+            )
+
+    error_message = ui.element("div")
+
+    complete_div = ui.element("div").classes("w-full h-full")
+
+    search_button.on(
+        "click",
+        lambda: show_squad(
+            complete_div,
+            error_message,
+            str(manager_input.value),
+            str(top_managers_select.value),
+            gameweek_select.value,
+        ),
+    )
