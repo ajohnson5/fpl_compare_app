@@ -17,13 +17,9 @@ def manager_name(manager_id: int):
     return req["name"]
 
 
-def manager_gw_picks_api(gw: int, manager_id):
+def manager_gw_picks_api(gw: int, manager_id: int):
     """Returns a list of dictionaries of all picks a manager made in a gameweek"""
     # Check for valid ID
-
-    # Might be able to delete this line as input validation
-    if (manager_id is None) or (not manager_id.isdigit()):
-        return None
 
     url = f"https://fantasy.premierleague.com/api/entry/{manager_id}/event/{gw}/picks/"
     req = requests.get(url).json()
@@ -53,18 +49,15 @@ def manager_gw_picks_api(gw: int, manager_id):
     chip = req["active_chip"]
 
     stats = req["entry_history"]
-    stats["team_name"] = manager_name(int(manager_id))
+    stats["team_name"] = manager_name(manager_id)
 
-    return Squad(int(manager_id), squad_list, chip, stats)
+    return Squad(manager_id, squad_list, chip, stats)
 
 
-def get_mini_league_managers(league_id: str, page_num: int = 5):
-    if not league_id:
-        return
-
+def get_mini_league_managers(league_id: int, page_num: int = 5):
     page = 1
     managers = {}
-    url = f"https://fantasy.premierleague.com/api/leagues-classic/{league_id}/standings/?page_standings={str(page)}"
+    url = f"https://fantasy.premierleague.com/api/leagues-classic/{league_id}/standings/?page_standings={page}"
     req = requests.get(url).json()
 
     if not mini_league_check(req):
@@ -80,7 +73,7 @@ def get_mini_league_managers(league_id: str, page_num: int = 5):
         if check and page <= page_num:
             page += 1
             print(page)
-            url = f"https://fantasy.premierleague.com/api/leagues-classic/{league_id}/standings/?page_standings={str(page)}"
+            url = f"https://fantasy.premierleague.com/api/leagues-classic/{league_id}/standings/?page_standings={page}"
             req = requests.get(url).json()
         else:
             return managers
