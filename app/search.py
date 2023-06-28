@@ -137,8 +137,8 @@ def create_mini_league(league_id, manager_search_div, complete_div, error_messag
         lambda: show_squad(
             complete_div,
             error_message,
-            str(manager_1_select.value),
-            str(manager_2_select.value),
+            int(manager_1_select.value),
+            int(manager_2_select.value),
             gameweek_select.value,
         ),
     )
@@ -254,8 +254,8 @@ def top_50_search():
         lambda: show_squad(
             complete_div,
             error_message,
-            str(manager_input.value),
-            str(top_managers_select.value),
+            int(manager_input.value),
+            int(top_managers_select.value),
             gameweek_select.value,
         ),
     )
