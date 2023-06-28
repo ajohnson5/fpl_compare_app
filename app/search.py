@@ -14,17 +14,20 @@ def manager_id_search_bar():
             "row row-flex items-center justify-center w-full max-w-[500px]"
         ):
 
-            def check_length():
-                state["enough"] = (
-                    add_input.value.isdigit() and add_input_2.value.isdigit()
-                )
+            def check_valid():
+                state["valid"] = add_input.value and add_input_2.value
 
-            state = {"enough": False}
+            state = {"valid": False}
 
             add_input = (
-                ui.input("Manager ID 1", on_change=check_length)
+                ui.input("Manager ID 1", on_change=check_valid)
                 .classes("w-3/4 pr-2 pb-2")
-                .props('clearable outlined color="blue-6"')
+                .props(
+                    (
+                        'clearable outlined color="blue-6" mask="############"'
+                        ' inputmode="numeric"'
+                    )
+                )
             )
 
             gameweek_select = (
@@ -34,9 +37,14 @@ def manager_id_search_bar():
             )
 
             add_input_2 = (
-                ui.input("Manager ID 2", on_change=check_length)
+                ui.input("Manager ID 2", on_change=check_valid)
                 .classes("w-3/4 pr-2")
-                .props('clearable outlined color="red-6"')
+                .props(
+                    (
+                        'clearable outlined color="red-6" mask="############" '
+                        'inputmode="numeric"'
+                    )
+                )
             )
 
             search_button = (
@@ -45,7 +53,7 @@ def manager_id_search_bar():
                 )
                 .classes("w-1/4 h-[55px]")
                 .props('color="blue-grey" outline')
-                .bind_enabled_from(state, "enough")
+                .bind_enabled_from(state, "valid")
             )
 
     return add_input, add_input_2, gameweek_select, search_button
@@ -82,8 +90,7 @@ def create_mini_league(league_id, manager_search_div, complete_div, error_messag
 
         def check_manager_select():
             mini_league_select["selected"] = (
-                manager_1_select.value is not None
-                and manager_2_select.value is not None
+                manager_1_select.value and manager_2_select.value
             )
 
         mini_league_select = {"selected": False}
@@ -156,7 +163,12 @@ def mini_league_search_bar():
                 add_mini_league = (
                     ui.input("Mini League ID", on_change=valid_mini_league)
                     .classes("w-full px-2")
-                    .props('clearable outlined color="blue-grey"')
+                    .props(
+                        (
+                            'clearable outlined color="blue-grey" mask="############" '
+                            'inputmode="numeric"'
+                        )
+                    )
                     .bind_value(valid, "digits")
                 )
 
@@ -186,22 +198,25 @@ def top_50_search():
             "row row-flex items-center justify-center w-full max-w-[500px]"
         ):
 
-            def check_length():
+            def check_valid():
                 if manager_input.value is None:
                     valid_selection["valid"] = False
                 else:
                     valid_selection["valid"] = (
-                        manager_input.value.isdigit()
-                        and manager_input.value
-                        and top_managers_select.value
+                        manager_input.value and top_managers_select.value
                     )
 
             valid_selection = {"valid": False}
 
             manager_input = (
-                ui.input("Manager ID", on_change=check_length)
+                ui.input("Manager ID", on_change=check_valid)
                 .classes("w-3/4 pr-2 pb-2")
-                .props('clearable outlined color="blue-6"')
+                .props(
+                    (
+                        'clearable outlined color="blue-6" mask="############" '
+                        'inputmode="numeric"'
+                    )
+                )
             )
 
             gameweek_select = (
@@ -215,7 +230,7 @@ def top_50_search():
                     top_50_managers,
                     with_input=True,
                     label="Top Manager",
-                    on_change=check_length,
+                    on_change=check_valid,
                 )
                 .classes("w-3/4 pr-2")
                 .props('color="red-6" outlined behavior="menu"')
