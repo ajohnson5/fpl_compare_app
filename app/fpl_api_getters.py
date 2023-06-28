@@ -58,7 +58,7 @@ def manager_gw_picks_api(gw: int, manager_id):
     return Squad(int(manager_id), squad_list, chip, stats)
 
 
-def get_mini_league_managers(league_id: str):
+def get_mini_league_managers(league_id: str, page_num: int = 5):
     if not league_id:
         return
 
@@ -77,7 +77,7 @@ def get_mini_league_managers(league_id: str):
         for manager in req["standings"]["results"]:
             managers[manager["entry"]] = manager["entry_name"]
 
-        if check and page < 5:
+        if check and page <= page_num:
             page += 1
             print(page)
             url = f"https://fantasy.premierleague.com/api/leagues-classic/{league_id}/standings/?page_standings={str(page)}"
