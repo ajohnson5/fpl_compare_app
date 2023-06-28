@@ -75,8 +75,22 @@ def create_mini_league(league_id, manager_search_div, complete_div, error_messag
     manager_search_div.clear()
 
     with manager_search_div:
+
+        def check_manager_select():
+            mini_league_select["selected"] = (
+                manager_1_select.value is not None
+                and manager_2_select.value is not None
+            )
+
+        mini_league_select = {"selected": False}
+
         manager_1_select = (
-            ui.select(managers, with_input=True, label="Manager 1 Name")
+            ui.select(
+                managers,
+                with_input=True,
+                label="Manager 1 Name",
+                on_change=check_manager_select,
+            )
             .classes("w-3/4 pr-2 pb-2")
             .props('color="blue-6" outlined behavior="menu"')
         )
@@ -88,7 +102,12 @@ def create_mini_league(league_id, manager_search_div, complete_div, error_messag
         )
 
         manager_2_select = (
-            ui.select(managers, with_input=True, label="Manager 2 Name")
+            ui.select(
+                managers,
+                with_input=True,
+                label="Manager 2 Name",
+                on_change=check_manager_select,
+            )
             .classes("w-3/4 pr-2")
             .props('color="red-6" outlined behavior="menu"')
         )
@@ -99,6 +118,7 @@ def create_mini_league(league_id, manager_search_div, complete_div, error_messag
             )
             .classes("w-1/4 h-[55px]")
             .props('color="blue-grey" outline')
+            .bind_enabled_from(mini_league_select, "selected")
         )
 
     squad_search_button.on(
