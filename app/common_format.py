@@ -4,25 +4,17 @@ import page_creation
 from nicegui import ui
 
 
-nav_bar_whole_div = (
-    "w-full h-[70px] flex flex-row justify-center items-center"
-    " sm:justify-start mb-2 divide-slate-100 divide-x-2"
-)
+nav_bar_whole_div = "w-full h-[70px] flex flex-row justify-between items-center mb-2"
 nav_bar_hover_div = (
-    "flex flex-row items-center justify-center w-1/4"
-    " h-full bg-slate-500 cursor-pointer hover:bg-slate-400"
+    "flex flex-row items-center justify-center w-1/5 h-full cursor-pointer"
 )
 nav_bar_link_div = (
-    "flex flex-row grid grid-cols-1 grid-rows-3 sm:grid-cols-2"
-    " sm:grid-rows-1 justify-center w-[200px] h-full gap-x-1"
+    "flex flex-row justify-center justify-center w-[200px] h-full gap-x-1"
 )
-nav_bar_icon_div = (
-    "flex flex-row col-span-1 row-span-2 sm:row-span-1"
-    " items-center justify-center sm:justify-end h-full"
-)
+nav_bar_icon_div = "flex flex-row" " items-center justify-center sm:justify-end h-full"
 nav_bar_label_div = (
-    "flex flex-row col-span-1 row-span-1 items-center justify-center"
-    " sm:justify-start h-full"
+    "flex flex-row items-center justify-center content-end "
+    "w-full flex-1 border-b-[1px] border-slate-200 hover:border-slate-500 "
 )
 
 
@@ -39,17 +31,25 @@ nav_bar_pages = [
 def nav_bar_link(icon: str, page_name: str, link):
     with ui.element("div").classes(nav_bar_hover_div) as menu_link:
         with ui.element("div").classes(nav_bar_link_div):
-            with ui.element("div").classes(nav_bar_icon_div):
-                ui.icon(icon).classes("text-5xl absolute text-slate-100")
             with ui.element("div").classes(nav_bar_label_div):
-                ui.label(page_name).classes("text-slate-100")
+                ui.label(page_name).classes(
+                    "text-slate-600 text-center text-lg font-base mb-2"
+                )
     menu_link.on("click", lambda: ui.open(link))
 
 
 def nav_bar():
-    with ui.element("div").classes(nav_bar_whole_div):
-        for page in nav_bar_pages:
-            nav_bar_link(page[0], page[1], page[2])
+    with ui.element("div").classes(
+        "w-full flex flex-row h-[110px] items-center content-center"
+    ):
+        with ui.element("div").classes(nav_bar_whole_div):
+            with ui.element("div").classes("w-[150px] flex flex-row  ml-[20px]"):
+                ui.image("https://i.ibb.co/DgpgtXN/FPLCOMPARE.png").classes("w-[150px]")
+            with ui.element("div").classes(
+                "w-1/2 h-[70px] flex flex-row justify-center items-center  mr-6 gap-x-4"
+            ):
+                for page in nav_bar_pages:
+                    nav_bar_link(page[0], page[1], page[2])
 
 
 @contextmanager
