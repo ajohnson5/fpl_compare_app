@@ -1,17 +1,12 @@
 from contextlib import contextmanager
-import page_creation
 from router import Router
 from nicegui import ui
 
 
 nav_bar_whole_div = "w-full h-[70px] flex flex-row justify-between items-center mb-2"
-nav_bar_hover_div = (
-    "flex flex-row items-center justify-center w-1/5 h-full cursor-pointer"
-)
-nav_bar_link_div = (
-    "flex flex-row justify-center justify-center w-[200px] h-full gap-x-1"
-)
-nav_bar_icon_div = "flex flex-row" " items-center justify-center sm:justify-end h-full"
+nav_bar_hover_div = "flex flex-row items-center justify-center h-full cursor-pointer"
+nav_bar_link_div = "w-auto flex flex-row justify-center justify-center h-full gap-x-1"
+nav_bar_icon_div = "flex flex-row items-center justify-center sm:justify-end h-full"
 nav_bar_label_div = (
     "flex flex-row items-center justify-center content-end "
     "w-full flex-1 border-b-[1px] border-slate-200 hover:border-slate-500 "
@@ -42,7 +37,7 @@ def nav_bar(nav_links: list, router):
                 logo.on("click", lambda: router.open(nav_links[0][0]))
 
             with ui.element("div").classes(
-                "w-1/2 h-[70px] flex flex-row justify-center items-center  mr-6 gap-x-4"
+                "h-[70px] flex flex-row justify-center items-center gap-x-4 mr-6"
             ):
                 for page in nav_links:
                     nav_bar_link(page[0], page[1], router)
