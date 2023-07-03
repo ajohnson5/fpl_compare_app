@@ -61,22 +61,17 @@ def get_mini_league_managers(league_id: int, page_num: int = 5):
     req = requests.get(url).json()
 
     if not mini_league_check(req):
-        return
+        return managers
 
-    check = True
+    for manager in req["standings"]["results"]:
+        managers[manager["entry"]] = manager["entry_name"]
 
-    while check:
-        check = req["standings"]["has_next"]
+    while req["standings"]["has_next"] and page <= page_num:
+        page += 1
+        url = f"https://fantasy.premierleague.com/api/leagues-classic/{league_id}/standings/?page_standings={page}"
+        req = requests.get(url).json()
         for manager in req["standings"]["results"]:
             managers[manager["entry"]] = manager["entry_name"]
-
-        if check and page <= page_num:
-            page += 1
-            print(page)
-            url = f"https://fantasy.premierleague.com/api/leagues-classic/{league_id}/standings/?page_standings={page}"
-            req = requests.get(url).json()
-        else:
-            return managers
 
     return managers
 
