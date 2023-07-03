@@ -143,8 +143,8 @@ def mini_league_search_bar():
     return manager_1_input, manager_2_input, gameweek_select, search_button
 
 
-def top_50_search():
-    top_50_managers = {}  # get_mini_league_managers(314, 1)
+async def top_50_search():
+    top_50_managers = await get_mini_league_managers(314, 1)
 
     with ui.element("div").classes(
         "row row-flex items-center justify-center w-full p-2"
@@ -205,13 +205,13 @@ def manager_id_search():
 
 
 def mini_league_search():
-    manager_id_1, manager_id_2, gameweek, search_button = manager_id_search_bar()
+    manager_id_1, manager_id_2, gameweek, search_button = mini_league_search_bar()
 
     search(manager_id_1, manager_id_2, gameweek, search_button)
 
 
-def top_search():
-    manager_id_1, manager_id_2, gameweek, search_button = top_50_search()
+async def top_search():
+    manager_id_1, manager_id_2, gameweek, search_button = await top_50_search()
 
     search(manager_id_1, manager_id_2, gameweek, search_button)
 

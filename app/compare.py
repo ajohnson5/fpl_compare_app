@@ -21,7 +21,7 @@ from search import (
 manager_id_1, manager_id_2, gameweek, search_button = manager_id_search_bar()
 
 
-def show_page():
+async def show_page():
     with ui.element("div").classes(
         "flex flex-row justify-center items-center content-center"
     ):
@@ -56,7 +56,7 @@ def show_page():
                         manager_id_2_tab_3,
                         gameweek_tab_3,
                         search_button_tab_3,
-                    ) = top_50_search()
+                    ) = await top_50_search()
 
     error_message = ui.element("div")
 
