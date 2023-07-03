@@ -15,11 +15,11 @@ def manager_id_search_bar():
         ):
 
             def check_valid():
-                state["valid"] = add_input.value and add_input_2.value
+                state["valid"] = manager_1_input.value and manager_2_input.value
 
             state = {"valid": False}
 
-            add_input = (
+            manager_1_input = (
                 ui.input("Manager ID 1", on_change=check_valid)
                 .classes("w-3/4 pr-2 pb-2")
                 .props(
@@ -36,7 +36,7 @@ def manager_id_search_bar():
                 .props('outlined behavior="menu" color="blue-grey"')
             )
 
-            add_input_2 = (
+            manager_2_input = (
                 ui.input("Manager ID 2", on_change=check_valid)
                 .classes("w-3/4 pr-2")
                 .props(
@@ -56,136 +56,90 @@ def manager_id_search_bar():
                 .bind_enabled_from(state, "valid")
             )
 
-    return add_input, add_input_2, gameweek_select, search_button
-
-
-def manager_id_search_bar_execute():
-    add_input, add_input_2, gameweek_select, search_button = manager_id_search_bar()
-
-    error_message = ui.element("div")
-
-    complete_div = ui.element("div").classes("w-full h-auto")
-
-    search_button.on(
-        "click",
-        lambda: show_squad(
-            complete_div,
-            error_message,
-            add_input.value,
-            add_input_2.value,
-            gameweek_select.value,
-        ),
-    )
-
-
-def create_mini_league(league_id, manager_search_div, complete_div, error_message):
-    managers = get_mini_league_managers(league_id)
-
-    if not managers:
-        return ui.notify("League does not exist", type="negative", position="center")
-
-    manager_search_div.clear()
-
-    with manager_search_div:
-
-        def check_manager_select():
-            mini_league_select["selected"] = (
-                manager_1_select.value and manager_2_select.value
-            )
-
-        mini_league_select = {"selected": False}
-
-        manager_1_select = (
-            ui.select(
-                managers,
-                with_input=True,
-                label="Manager 1 Name",
-                on_change=check_manager_select,
-            )
-            .classes("w-3/4 pr-2 pb-2")
-            .props('color="blue-6" outlined behavior="menu"')
-        )
-
-        gameweek_select = (
-            ui.select([x for x in range(1, 39)], value=38, label="GW")
-            .classes("w-1/4 pb-2")
-            .props('outlined behavior="menu" color="blue-grey"')
-        )
-
-        manager_2_select = (
-            ui.select(
-                managers,
-                with_input=True,
-                label="Manager 2 Name",
-                on_change=check_manager_select,
-            )
-            .classes("w-3/4 pr-2")
-            .props('color="red-6" outlined behavior="menu"')
-        )
-
-        squad_search_button = (
-            ui.button(
-                "Compare",
-            )
-            .classes("w-1/4 h-[55px]")
-            .props('color="blue-grey" outline')
-            .bind_enabled_from(mini_league_select, "selected")
-        )
-
-    squad_search_button.on(
-        "click",
-        lambda: show_squad(
-            complete_div,
-            error_message,
-            int(manager_1_select.value),
-            int(manager_2_select.value),
-            gameweek_select.value,
-        ),
-    )
+    return manager_1_input, manager_2_input, gameweek_select, search_button
 
 
 def mini_league_search_bar():
-    with ui.element("div").classes("row row-flex items-center justify-center w-full"):
+    with ui.element("div").classes(
+        "row row-flex items-center justify-center w-full p-2"
+    ):
         with ui.element("div").classes(
             "row row-flex items-center justify-center w-full max-w-[500px]"
         ):
-            with ui.element("div").classes(
-                "row row-flex items-center justify-evenly w-full max-w-[500px] "
-            ):
-                valid = {"digits": ""}
-
-                def valid_mini_league():
-                    if not add_mini_league.value.isdigit():
-                        valid["digits"] = add_mini_league.value[:-1]
-                    else:
-                        valid["digits"] = add_mini_league.value
-
-                add_mini_league = (
-                    ui.input("Mini League ID", on_change=valid_mini_league)
-                    .classes("w-full px-2")
-                    .props(
-                        (
-                            'clearable outlined color="blue-grey" mask="############" '
-                            'inputmode="numeric"'
-                        )
+            add_mini_league = (
+                ui.input("Mini League ID")
+                .classes("w-full pb-2")
+                .props(
+                    (
+                        'clearable outlined color="blue-grey" mask="############" '
+                        'inputmode="numeric"'
                     )
-                    .bind_value(valid, "digits")
                 )
-
-            manager_search_div = ui.element("div").classes(
-                "row row-flex items-center justify-center w-full max-w-[500px] p-2"
             )
 
-    error_message = ui.element("div")
+            def add_league_managers(league_id: int):
+                manager_1_input.clear()
+                manager_2_input.clear()
 
-    complete_div = ui.element("div").classes("w-full h-full")
+                manager_1_input.set_value(value=None)
+                manager_2_input.set_value(value=None)
 
-    add_mini_league.on(
-        "keydown.enter",
-        lambda: create_mini_league(
-            add_mini_league.value, manager_search_div, complete_div, error_message
-        ),
-    )
+                managers = get_mini_league_managers(league_id)
+                manager_1_input.options = managers
+                manager_2_input.options = managers
+                manager_1_input.update()
+                manager_2_input.update()
+
+            def check_valid():
+                state["valid"] = manager_1_input.value and manager_2_input.value
+
+            state = {"valid": False}
+
+            manager_1_input = (
+                ui.select(
+                    value=None,
+                    options={},
+                    with_input=True,
+                    label="Manager 1 Name",
+                    on_change=check_valid,
+                )
+                .classes("w-3/4 pr-2 pb-2")
+                .props('color="blue-6" outlined behavior="menu"')
+            )
+
+            gameweek_select = (
+                ui.select([x for x in range(1, 39)], value=38, label="GW")
+                .classes("w-1/4 pb-2")
+                .props('outlined behavior="menu" color="blue-grey"')
+            )
+
+            manager_2_input = (
+                ui.select(
+                    value=None,
+                    options={},
+                    with_input=True,
+                    label="Manager 2 Name",
+                    on_change=check_valid,
+                )
+                .classes("w-3/4 pr-2")
+                .props('color="red-6" outlined behavior="menu"')
+            )
+
+            add_mini_league.on(
+                "keydown.enter",
+                lambda: add_league_managers(int(add_mini_league.value)),
+            )
+
+            search_button = (
+                ui.button(
+                    "Compare",
+                )
+                .classes("w-1/4 h-[55px]")
+                .props('color="blue-grey" outline')
+                .bind_enabled_from(state, "valid")
+            )
+
+    return manager_1_input, manager_2_input, gameweek_select, search_button
 
 
 def top_50_search():
@@ -199,16 +153,11 @@ def top_50_search():
         ):
 
             def check_valid():
-                if manager_input.value is None:
-                    valid_selection["valid"] = False
-                else:
-                    valid_selection["valid"] = (
-                        manager_input.value and top_managers_select.value
-                    )
+                state["valid"] = manager_1_input.value and manager_2_input.value
 
-            valid_selection = {"valid": False}
+            state = {"valid": False}
 
-            manager_input = (
+            manager_1_input = (
                 ui.input("Manager ID", on_change=check_valid)
                 .classes("w-3/4 pr-2 pb-2")
                 .props(
@@ -225,7 +174,7 @@ def top_50_search():
                 .props('outlined behavior="menu" color="blue-grey"')
             )
 
-            top_managers_select = (
+            manager_2_input = (
                 ui.select(
                     top_50_managers,
                     with_input=True,
@@ -242,20 +191,45 @@ def top_50_search():
                 )
                 .classes("w-1/4 h-[55px]")
                 .props('color="blue-grey" outline')
-                .bind_enabled_from(valid_selection, "valid")
+                .bind_enabled_from(state, "valid")
             )
 
-    error_message = ui.element("div")
+    return manager_1_input, manager_2_input, gameweek_select, search_button
 
-    complete_div = ui.element("div").classes("w-full h-full")
 
+def manager_id_search():
+    manager_id_1, manager_id_2, gameweek, search_button = manager_id_search_bar()
+
+    search(manager_id_1, manager_id_2, gameweek, search_button)
+
+
+def mini_league_search():
+    manager_id_1, manager_id_2, gameweek, search_button = manager_id_search_bar()
+
+    search(manager_id_1, manager_id_2, gameweek, search_button)
+
+
+def top_search():
+    manager_id_1, manager_id_2, gameweek, search_button = top_50_search()
+
+    search(manager_id_1, manager_id_2, gameweek, search_button)
+
+
+def search(
+    manager_id_1: int,
+    manager_id_2: int,
+    gameweek: int,
+    search_button,
+    error_message,
+    complete_div,
+):
     search_button.on(
         "click",
         lambda: show_squad(
             complete_div,
             error_message,
-            int(manager_input.value),
-            int(top_managers_select.value),
-            gameweek_select.value,
+            manager_id_1.value,
+            manager_id_2.value,
+            gameweek.value,
         ),
     )
