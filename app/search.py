@@ -3,7 +3,7 @@ import asyncio
 
 from squad_display import show_squad
 
-from fpl_api_getters import get_mini_league_managers
+from fpl_api_getters import get_mini_league_managers, get_mini_league_managers_async
 
 
 def manager_id_search_bar():
@@ -77,14 +77,14 @@ def mini_league_search_bar():
                 )
             )
 
-            def add_league_managers(league_id: int):
+            async def add_league_managers(league_id: int):
                 manager_1_input.clear()
                 manager_2_input.clear()
 
                 manager_1_input.set_value(value=None)
                 manager_2_input.set_value(value=None)
 
-                managers = get_mini_league_managers(league_id)
+                managers = await get_mini_league_managers(league_id)
                 manager_1_input.options = managers
                 manager_2_input.options = managers
                 manager_1_input.update()
@@ -128,6 +128,7 @@ def mini_league_search_bar():
             add_mini_league.on(
                 "keydown.enter",
                 lambda: add_league_managers(int(add_mini_league.value)),
+                throttle=6.0,
             )
 
             search_button = (
@@ -143,7 +144,7 @@ def mini_league_search_bar():
 
 
 def top_50_search():
-    top_50_managers = get_mini_league_managers(314, 1)
+    top_50_managers = {}  # get_mini_league_managers(314, 1)
 
     with ui.element("div").classes(
         "row row-flex items-center justify-center w-full p-2"
