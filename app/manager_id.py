@@ -25,7 +25,9 @@ def show_page():
     with ui.element("div").classes(
         "flex flex-row justify-center items-center content-center"
     ):
-        with ui.element("div").classes("w-full max-w-[500px] px-2"):
+        with ui.element("div").classes(
+            "w-full max-w-[500px] border-2 border-slate-300 drop-shadow-xl"
+        ):
             with ui.tabs() as tabs:
                 manager_id_search_tab = ui.tab("Manager ID")
                 mini_league_search_tab = ui.tab("Mini League")
