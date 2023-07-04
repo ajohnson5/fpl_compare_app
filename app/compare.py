@@ -26,7 +26,7 @@ async def show_page():
         "flex flex-row justify-center items-center content-center"
     ):
         with ui.element("div").classes(
-            "w-full max-w-[500px] border-2 border-slate-300 drop-shadow-xl"
+            "w-full max-w-[500px] border-2 border-slate-300 drop-shadow-xl mx-2"
         ):
             with ui.tabs() as tabs:
                 manager_id_search_tab = ui.tab("Manager ID")
