@@ -77,6 +77,12 @@ def mini_league_search_bar():
             )
 
             async def add_league_managers(league_id: int):
+                if not league_id:
+                    with add_mini_league.add_slot("append"):
+                        ui.icon("error", color="red-500")
+                        add_mini_league.update()
+                    return
+
                 manager_1_input.clear()
                 manager_2_input.clear()
 
@@ -84,6 +90,16 @@ def mini_league_search_bar():
                 manager_2_input.set_value(value=None)
 
                 managers = await get_mini_league_managers(league_id)
+
+                if managers:
+                    with add_mini_league.add_slot("append"):
+                        ui.icon("check_circle", color="green-500")
+                        add_mini_league.update()
+                else:
+                    with add_mini_league.add_slot("append"):
+                        ui.icon("error", color="red-500")
+                        add_mini_league.update()
+
                 manager_1_input.options = managers
                 manager_2_input.options = managers
                 manager_1_input.update()
@@ -126,8 +142,8 @@ def mini_league_search_bar():
 
             add_mini_league.on(
                 "keydown.enter",
-                lambda: add_league_managers(int(add_mini_league.value)),
-                throttle=6.0,
+                lambda: add_league_managers(add_mini_league.value),
+                throttle=2.0,
             )
 
             search_button = (
