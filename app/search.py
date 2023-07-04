@@ -79,7 +79,8 @@ def mini_league_search_bar():
             async def add_league_managers(league_id: int):
                 if not league_id:
                     with add_mini_league.add_slot("append"):
-                        ui.icon("error", color="red-500")
+                        with ui.icon("error", color="red-500"):
+                            ui.tooltip("Please enter a League ID").classes("bg-red-500")
                         add_mini_league.update()
                     return
 
@@ -97,7 +98,8 @@ def mini_league_search_bar():
                         add_mini_league.update()
                 else:
                     with add_mini_league.add_slot("append"):
-                        ui.icon("error", color="red-500")
+                        with ui.icon("error", color="red-500"):
+                            ui.tooltip("Invalid League ID").classes("bg-red-500")
                         add_mini_league.update()
 
                 manager_1_input.options = managers
@@ -137,7 +139,7 @@ def mini_league_search_bar():
                     on_change=check_valid,
                 )
                 .classes("w-3/4 pr-2")
-                .props('color="red-6" outlined behavior="menu"')
+                .props('color="red-6" outlined behavior="menu" append-icon-right')
             )
 
             add_mini_league.on(
@@ -231,7 +233,7 @@ async def top_search():
 
 def search(
     tab,
-    manager_id_1: int,
+    manager_id_1,
     manager_id_2: int,
     gameweek: int,
     search_button,
@@ -244,8 +246,8 @@ def search(
             tab,
             complete_div,
             error_message,
-            int(manager_id_1.value),
-            int(manager_id_2.value),
+            manager_id_1,
+            manager_id_2,
             gameweek.value,
         ),
     )
