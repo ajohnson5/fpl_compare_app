@@ -250,4 +250,5 @@ def search(
             manager_id_2,
             gameweek.value,
         ),
+        throttle=2.0,
     )
