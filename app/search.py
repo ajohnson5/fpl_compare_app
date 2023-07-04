@@ -1,6 +1,5 @@
 from nicegui import ui
 import asyncio
-
 from squad_display import show_squad
 
 from fpl_api_getters import get_mini_league_managers, get_mini_league_managers_async
@@ -187,9 +186,7 @@ async def top_50_search():
             )
 
             search_button = (
-                ui.button(
-                    "Compare",
-                )
+                ui.button("Compare")
                 .classes("w-1/4 h-[55px]")
                 .props('color="blue-grey" outline')
                 .bind_enabled_from(state, "valid")
@@ -217,6 +214,7 @@ async def top_search():
 
 
 def search(
+    tab,
     manager_id_1: int,
     manager_id_2: int,
     gameweek: int,
@@ -227,10 +225,11 @@ def search(
     search_button.on(
         "click",
         lambda: show_squad(
+            tab,
             complete_div,
             error_message,
-            manager_id_1.value,
-            manager_id_2.value,
+            int(manager_id_1.value),
+            int(manager_id_2.value),
             gameweek.value,
         ),
     )

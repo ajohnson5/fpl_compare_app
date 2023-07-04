@@ -36,21 +36,21 @@ async def show_page():
             with ui.tab_panels(
                 tabs, value=manager_id_search_tab, animated=False
             ).classes("w-full"):
-                with ui.tab_panel(manager_id_search_tab):
+                with ui.tab_panel(manager_id_search_tab) as tab_1:
                     (
                         manager_id_1_tab_1,
                         manager_id_2_tab_1,
                         gameweek_tab_1,
                         search_button_tab_1,
                     ) = manager_id_search_bar()
-                with ui.tab_panel(mini_league_search_tab):
+                with ui.tab_panel(mini_league_search_tab) as tab_2:
                     (
                         manager_id_1_tab_2,
                         manager_id_2_tab_2,
                         gameweek_tab_2,
                         search_button_tab_2,
                     ) = mini_league_search_bar()
-                with ui.tab_panel(top_5_search_tab):
+                with ui.tab_panel(top_5_search_tab) as tab_3:
                     (
                         manager_id_1_tab_3,
                         manager_id_2_tab_3,
@@ -63,6 +63,7 @@ async def show_page():
     complete_div = ui.element("div").classes("w-full h-auto")
 
     search(
+        tab_1,
         manager_id_1_tab_1,
         manager_id_2_tab_1,
         gameweek_tab_1,
@@ -72,6 +73,7 @@ async def show_page():
     )
 
     search(
+        tab_2,
         manager_id_1_tab_2,
         manager_id_2_tab_2,
         gameweek_tab_2,
@@ -81,6 +83,7 @@ async def show_page():
     )
 
     search(
+        tab_3,
         manager_id_1_tab_3,
         manager_id_2_tab_3,
         gameweek_tab_3,
