@@ -221,33 +221,43 @@ def row_generator_bench(player_list: List[Player], home: bool, chip):
                 standard_bench_card(player, home)
 
 
+def check_manager_id_input(input, squad):
+    if not squad:
+        with input.add_slot("append"):
+            with ui.icon("error", color="red-500"):
+                ui.tooltip("Manager ID does not exist").classes("bg-red-500")
+            input.update()
+        return False
+    else:
+        with input.add_slot("append"):
+            ui.icon("check_circle", color="green-500")
+            input.update()
+        return True
+
+
 async def show_squad(
     tab,
     complete_div,
     error_message,
-    manager_id_1: int,
+    manager_id_1,
     manager_id_2: int,
     gameweek: int,
 ):
     complete_div.clear()
     error_message.clear()
 
-    squad_1 = manager_gw_picks_api(gameweek, manager_id_1)
-    squad_2 = manager_gw_picks_api(gameweek, manager_id_2)
-    if squad_1 is None:
-        ui.notify(
-            f"Manager ID 1 does not exist on gameweek {gameweek}",
-            type="negative",
-            position="center",
-        )
-        return
+    squad_1 = manager_gw_picks_api(gameweek, int(manager_id_1.value))
+    squad_2 = manager_gw_picks_api(gameweek, int(manager_id_2.value))
+    # if squad_1 is None:
+    #     # ui.notify(
+    #     #     f"Manager ID 1 does not exist on gameweek {gameweek}",
+    #     #     type="negative",
+    #     #     position="center",
+    #     # )
 
-    if squad_2 is None:
-        ui.notify(
-            f"Manager ID 2 does not exist on gameweek {gameweek}",
-            type="negative",
-            position="center",
-        )
+    check_1 = check_manager_id_input(manager_id_1, squad_1)
+    check_2 = check_manager_id_input(manager_id_2, squad_2)
+    if not check_1 or not check_2:
         return
 
     team_1, team_2 = squad_1.compare_squad(squad_2)
