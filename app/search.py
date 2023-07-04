@@ -65,97 +65,118 @@ def mini_league_search_bar():
         with ui.element("div").classes(
             "row row-flex items-center justify-center w-full max-w-[500px]"
         ):
-            add_mini_league = (
-                ui.input("Mini League ID")
-                .classes("w-full pb-2")
-                .props(
-                    (
-                        'clearable outlined color="blue-grey" mask="############" '
-                        'inputmode="numeric"'
+            with ui.stepper().classes("w-full") as stepper:
+                with ui.step("League"):
+                    add_mini_league = (
+                        ui.input("Mini League ID")
+                        .classes("w-full pb-2")
+                        .props(
+                            (
+                                'clearable outlined color="blue-grey" '
+                                'mask="############" inputmode="numeric"'
+                            )
+                        )
                     )
-                )
-            )
 
-            async def add_league_managers(league_id: int):
-                if not league_id:
-                    with add_mini_league.add_slot("append"):
-                        with ui.icon("error", color="red-500"):
-                            ui.tooltip("Please enter a League ID").classes("bg-red-500")
-                        add_mini_league.update()
-                    return
+                    with ui.stepper_navigation():
+                        next_button = ui.button("Next", on_click=stepper.next).props(
+                            "flat"
+                        )
+                        next_button.set_visibility(False)
 
-                manager_1_input.clear()
-                manager_2_input.clear()
+                with ui.step("<Manager"):
 
-                manager_1_input.set_value(value=None)
-                manager_2_input.set_value(value=None)
+                    async def add_league_managers(league_id: int):
+                        if not league_id:
+                            with add_mini_league.add_slot("append"):
+                                with ui.icon("error", color="red-500"):
+                                    ui.tooltip("Please enter a League ID").classes(
+                                        "bg-red-500"
+                                    )
+                                add_mini_league.update()
+                            return
 
-                managers = await get_mini_league_managers(league_id)
+                        manager_1_input.clear()
+                        manager_2_input.clear()
 
-                if managers:
-                    with add_mini_league.add_slot("append"):
-                        ui.icon("check_circle", color="green-500")
-                        add_mini_league.update()
-                else:
-                    with add_mini_league.add_slot("append"):
-                        with ui.icon("error", color="red-500"):
-                            ui.tooltip("Invalid League ID").classes("bg-red-500")
-                        add_mini_league.update()
+                        manager_1_input.set_value(value=None)
+                        manager_2_input.set_value(value=None)
 
-                manager_1_input.options = managers
-                manager_2_input.options = managers
-                manager_1_input.update()
-                manager_2_input.update()
+                        managers = await get_mini_league_managers(league_id)
 
-            def check_valid():
-                state["valid"] = manager_1_input.value and manager_2_input.value
+                        if managers:
+                            with add_mini_league.add_slot("append"):
+                                ui.icon("check_circle", color="green-500")
+                                add_mini_league.update()
+                        else:
+                            with add_mini_league.add_slot("append"):
+                                with ui.icon("error", color="red-500"):
+                                    ui.tooltip("Invalid League ID").classes(
+                                        "bg-red-500"
+                                    )
+                                add_mini_league.update()
+                            return
+                        stepper.next()
 
-            state = {"valid": False}
+                        manager_1_input.options = managers
+                        manager_2_input.options = managers
+                        manager_1_input.update()
+                        manager_2_input.update()
+                        next_button.set_visibility(True)
 
-            manager_1_input = (
-                ui.select(
-                    value=None,
-                    options={},
-                    with_input=True,
-                    label="Manager 1 Name",
-                    on_change=check_valid,
-                )
-                .classes("w-3/4 pr-2 pb-2")
-                .props('color="blue-6" outlined behavior="menu"')
-            )
+                    def check_valid():
+                        state["valid"] = manager_1_input.value and manager_2_input.value
 
-            gameweek_select = (
-                ui.select([x for x in range(1, 39)], value=38, label="GW")
-                .classes("w-1/4 pb-2")
-                .props('outlined behavior="menu" color="blue-grey"')
-            )
+                    state = {"valid": False}
 
-            manager_2_input = (
-                ui.select(
-                    value=None,
-                    options={},
-                    with_input=True,
-                    label="Manager 2 Name",
-                    on_change=check_valid,
-                )
-                .classes("w-3/4 pr-2")
-                .props('color="red-6" outlined behavior="menu" append-icon-right')
-            )
+                    manager_1_input = (
+                        ui.select(
+                            value=None,
+                            options={},
+                            with_input=True,
+                            label="Manager 1 Name",
+                            on_change=check_valid,
+                        )
+                        .classes("w-3/4 pr-2 pb-2")
+                        .props('color="blue-6" outlined behavior="menu"')
+                    )
 
-            add_mini_league.on(
-                "keydown.enter",
-                lambda: add_league_managers(add_mini_league.value),
-                throttle=2.0,
-            )
+                    gameweek_select = (
+                        ui.select([x for x in range(1, 39)], value=38, label="GW")
+                        .classes("w-1/4 pb-2")
+                        .props('outlined behavior="menu" color="blue-grey"')
+                    )
 
-            search_button = (
-                ui.button(
-                    "Compare",
-                )
-                .classes("w-1/4 h-[55px]")
-                .props('color="blue-grey" outline')
-                .bind_enabled_from(state, "valid")
-            )
+                    manager_2_input = (
+                        ui.select(
+                            value=None,
+                            options={},
+                            with_input=True,
+                            label="Manager 2 Name",
+                            on_change=check_valid,
+                        )
+                        .classes("w-3/4 pr-2")
+                        .props(
+                            'color="red-6" outlined behavior="menu" append-icon-right'
+                        )
+                    )
+
+                    add_mini_league.on(
+                        "keydown.enter",
+                        lambda: add_league_managers(add_mini_league.value),
+                        throttle=2.0,
+                    )
+
+                    search_button = (
+                        ui.button(
+                            "Compare",
+                        )
+                        .classes("w-1/4 h-[55px]")
+                        .props('color="blue-grey" outline')
+                        .bind_enabled_from(state, "valid")
+                    )
+                    with ui.stepper_navigation():
+                        ui.button("Back", on_click=stepper.previous).props("flat")
 
     return manager_1_input, manager_2_input, gameweek_select, search_button
 
