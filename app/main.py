@@ -16,7 +16,7 @@ from router import Router
     "/{_:path}"
 )  # all other pages will be handled by the router but must be registered
 # to also show the SPA index page
-def main(client: Client):
+async def main(client: Client):
     client.content.classes("p-0 m-0")
     router = Router()
 
@@ -25,8 +25,8 @@ def main(client: Client):
         index.show_page()
 
     @router.add("/compare")
-    def compare_page():
-        compare.show_page()
+    async def compare_page():
+        await compare.show_page()
 
     display(
         [

@@ -1,9 +1,8 @@
 from nicegui import ui
 import asyncio
-
 from squad_display import show_squad
 
-from fpl_api_getters import get_mini_league_managers
+from fpl_api_getters import get_mini_league_managers, get_mini_league_managers_async
 
 
 def manager_id_search_bar():
@@ -77,14 +76,14 @@ def mini_league_search_bar():
                 )
             )
 
-            def add_league_managers(league_id: int):
+            async def add_league_managers(league_id: int):
                 manager_1_input.clear()
                 manager_2_input.clear()
 
                 manager_1_input.set_value(value=None)
                 manager_2_input.set_value(value=None)
 
-                managers = get_mini_league_managers(league_id)
+                managers = await get_mini_league_managers(league_id)
                 manager_1_input.options = managers
                 manager_2_input.options = managers
                 manager_1_input.update()
@@ -128,6 +127,7 @@ def mini_league_search_bar():
             add_mini_league.on(
                 "keydown.enter",
                 lambda: add_league_managers(int(add_mini_league.value)),
+                throttle=6.0,
             )
 
             search_button = (
@@ -142,8 +142,8 @@ def mini_league_search_bar():
     return manager_1_input, manager_2_input, gameweek_select, search_button
 
 
-def top_50_search():
-    top_50_managers = get_mini_league_managers(314, 1)
+async def top_50_search():
+    top_50_managers = await get_mini_league_managers(314, 1)
 
     with ui.element("div").classes(
         "row row-flex items-center justify-center w-full p-2"
@@ -186,9 +186,7 @@ def top_50_search():
             )
 
             search_button = (
-                ui.button(
-                    "Compare",
-                )
+                ui.button("Compare")
                 .classes("w-1/4 h-[55px]")
                 .props('color="blue-grey" outline')
                 .bind_enabled_from(state, "valid")
@@ -204,18 +202,19 @@ def manager_id_search():
 
 
 def mini_league_search():
-    manager_id_1, manager_id_2, gameweek, search_button = manager_id_search_bar()
+    manager_id_1, manager_id_2, gameweek, search_button = mini_league_search_bar()
 
     search(manager_id_1, manager_id_2, gameweek, search_button)
 
 
-def top_search():
-    manager_id_1, manager_id_2, gameweek, search_button = top_50_search()
+async def top_search():
+    manager_id_1, manager_id_2, gameweek, search_button = await top_50_search()
 
     search(manager_id_1, manager_id_2, gameweek, search_button)
 
 
 def search(
+    tab,
     manager_id_1: int,
     manager_id_2: int,
     gameweek: int,
@@ -226,10 +225,11 @@ def search(
     search_button.on(
         "click",
         lambda: show_squad(
+            tab,
             complete_div,
             error_message,
-            manager_id_1.value,
-            manager_id_2.value,
+            int(manager_id_1.value),
+            int(manager_id_2.value),
             gameweek.value,
         ),
     )

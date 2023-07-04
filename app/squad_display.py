@@ -7,7 +7,7 @@ import pandas as pd
 from itertools import zip_longest
 from typing import Self
 import asyncio
-
+import time
 
 from fpl_api_getters import manager_gw_picks_api
 from player import Player
@@ -221,29 +221,46 @@ def row_generator_bench(player_list: List[Player], home: bool, chip):
                 standard_bench_card(player, home)
 
 
-def show_squad(
-    complete_div, error_message, manager_id: str, manager_id_2: str, gameweek: int
+async def show_squad(
+    tab,
+    complete_div,
+    error_message,
+    manager_id_1: int,
+    manager_id_2: int,
+    gameweek: int,
 ):
     complete_div.clear()
     error_message.clear()
 
-    squad_1 = manager_gw_picks_api(gameweek, manager_id)
-    if squad_1 is None:
-        with error_message:
-            ui.notify("Manager ID 1 does not exist", type="negative", position="center")
-        return
-
+    squad_1 = manager_gw_picks_api(gameweek, manager_id_1)
     squad_2 = manager_gw_picks_api(gameweek, manager_id_2)
-    if squad_2 is None:
-        with error_message:
-            ui.notify("Manager ID 2 does not exist", type="negative", position="center")
+    if squad_1 is None:
+        ui.notify(
+            f"Manager ID 1 does not exist on gameweek {gameweek}",
+            type="negative",
+            position="center",
+        )
         return
 
-    if not squad_1.start_xi:
-        ui.label("Squad is empty for given gameweek").classes("mx-auto")
+    if squad_2 is None:
+        ui.notify(
+            f"Manager ID 2 does not exist on gameweek {gameweek}",
+            type="negative",
+            position="center",
+        )
         return
 
     team_1, team_2 = squad_1.compare_squad(squad_2)
+
+    with tab:
+        with ui.element("div").classes(
+            (
+                "flex flex-row w-full h-full absolute top-0 left-0 bg-stone-200/50 "
+                "items-center justify-center content-center"
+            )
+        ) as spinner_div:
+            ui.spinner(size="xl")
+    await asyncio.sleep(2)
 
     with complete_div.classes("flex flex-row justify-center "):
         with ui.element("div").classes(
@@ -281,5 +298,7 @@ def show_squad(
 
                 with ui.element("div").classes("col-span-1 min-h-[100px]"):
                     row_generator_bench(team_2[0], False, squad_2.chip)
+
+    tab.remove(spinner_div)
 
     return complete_div

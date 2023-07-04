@@ -21,7 +21,7 @@ from search import (
 manager_id_1, manager_id_2, gameweek, search_button = manager_id_search_bar()
 
 
-def show_page():
+async def show_page():
     with ui.element("div").classes(
         "flex flex-row justify-center items-center content-center"
     ):
@@ -36,33 +36,34 @@ def show_page():
             with ui.tab_panels(
                 tabs, value=manager_id_search_tab, animated=False
             ).classes("w-full"):
-                with ui.tab_panel(manager_id_search_tab):
+                with ui.tab_panel(manager_id_search_tab) as tab_1:
                     (
                         manager_id_1_tab_1,
                         manager_id_2_tab_1,
                         gameweek_tab_1,
                         search_button_tab_1,
                     ) = manager_id_search_bar()
-                with ui.tab_panel(mini_league_search_tab):
+                with ui.tab_panel(mini_league_search_tab) as tab_2:
                     (
                         manager_id_1_tab_2,
                         manager_id_2_tab_2,
                         gameweek_tab_2,
                         search_button_tab_2,
                     ) = mini_league_search_bar()
-                with ui.tab_panel(top_5_search_tab):
+                with ui.tab_panel(top_5_search_tab) as tab_3:
                     (
                         manager_id_1_tab_3,
                         manager_id_2_tab_3,
                         gameweek_tab_3,
                         search_button_tab_3,
-                    ) = top_50_search()
+                    ) = await top_50_search()
 
     error_message = ui.element("div")
 
     complete_div = ui.element("div").classes("w-full h-auto")
 
     search(
+        tab_1,
         manager_id_1_tab_1,
         manager_id_2_tab_1,
         gameweek_tab_1,
@@ -72,6 +73,7 @@ def show_page():
     )
 
     search(
+        tab_2,
         manager_id_1_tab_2,
         manager_id_2_tab_2,
         gameweek_tab_2,
@@ -81,6 +83,7 @@ def show_page():
     )
 
     search(
+        tab_3,
         manager_id_1_tab_3,
         manager_id_2_tab_3,
         gameweek_tab_3,
