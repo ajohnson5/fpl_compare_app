@@ -24,7 +24,7 @@ manager_id_1, manager_id_2, gameweek, search_button = manager_id_search_bar()
 async def show_page():
     with ui.element("div").classes(
         "flex flex-row justify-center items-center content-center"
-    ):
+    ) as full_div:
         with ui.element("div").classes(
             "w-full max-w-[500px] border-2 border-slate-300 drop-shadow-xl mx-2"
         ):
@@ -35,22 +35,22 @@ async def show_page():
             ui.separator()
             with ui.tab_panels(
                 tabs, value=manager_id_search_tab, animated=False
-            ).classes("w-full"):
-                with ui.tab_panel(manager_id_search_tab) as tab_1:
+            ).classes("w-full h-[200px]"):
+                with ui.tab_panel(manager_id_search_tab):
                     (
                         manager_id_1_tab_1,
                         manager_id_2_tab_1,
                         gameweek_tab_1,
                         search_button_tab_1,
                     ) = manager_id_search_bar()
-                with ui.tab_panel(mini_league_search_tab) as tab_2:
+                with ui.tab_panel(mini_league_search_tab):
                     (
                         manager_id_1_tab_2,
                         manager_id_2_tab_2,
                         gameweek_tab_2,
                         search_button_tab_2,
                     ) = mini_league_search_bar()
-                with ui.tab_panel(top_5_search_tab) as tab_3:
+                with ui.tab_panel(top_5_search_tab):
                     (
                         manager_id_1_tab_3,
                         manager_id_2_tab_3,
@@ -63,7 +63,7 @@ async def show_page():
     complete_div = ui.element("div").classes("w-full h-auto")
 
     search(
-        tab_1,
+        full_div,
         manager_id_1_tab_1,
         manager_id_2_tab_1,
         gameweek_tab_1,
@@ -73,7 +73,7 @@ async def show_page():
     )
 
     search(
-        tab_2,
+        full_div,
         manager_id_1_tab_2,
         manager_id_2_tab_2,
         gameweek_tab_2,
@@ -83,7 +83,7 @@ async def show_page():
     )
 
     search(
-        tab_3,
+        full_div,
         manager_id_1_tab_3,
         manager_id_2_tab_3,
         gameweek_tab_3,
