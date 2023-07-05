@@ -21,22 +21,27 @@ async def show_page():
     with ui.element("div").classes(
         (
             "flex flex-row justify-center items-center content-center h-screen "
-            "w-screen bg-blue-400"
+            "w-screen bg-gradient-to-b from-blue-400 via-blue-300 to-white"
         )
     ) as full_div:
+        ui.image("https://i.ibb.co/XYggw31/FPLCOMPARE-white.png").classes(
+            "w-[150px] absolute top-4 left-6 "
+        )
         with ui.element("div").classes(
-            "w-full max-w-[500px] border-2 border-slate-300 drop-shadow-xl mx-2"
+            (
+                "w-full max-w-[500px] drop-shadow-xl mx-4 outline outline-offset-4 "
+                "outline-white rounded-lg bg-white"
+            )
         ):
-            with ui.tabs() as tabs:
+            with ui.tabs().classes("text-blue-4") as tabs:
                 manager_id_search_tab = ui.tab("Manager ID").classes(
-                    "text-white rounded-tl-lg"
+                    " rounded-tl-lg w-1/3 "
                 )
-                mini_league_search_tab = ui.tab("Mini League").classes("text-white")
-                top_5_search_tab = ui.tab("Top 5").classes("text-white rounded-tr-lg")
-            ui.separator()
+                mini_league_search_tab = ui.tab("Mini League").classes("w-1/3")
+                top_5_search_tab = ui.tab("Top 5").classes("rounded-tr-lg w-1/3")
             with ui.tab_panels(
                 tabs, value=manager_id_search_tab, animated=False
-            ).classes("w-full h-[200px]"):
+            ).classes("w-full h-[200px] rounded-b-lg"):
                 with ui.tab_panel(manager_id_search_tab):
                     (
                         manager_id_1_tab_1,
@@ -52,12 +57,13 @@ async def show_page():
                         search_button_tab_2,
                     ) = mini_league_search_bar()
                 with ui.tab_panel(top_5_search_tab):
-                    (
-                        manager_id_1_tab_3,
-                        manager_id_2_tab_3,
-                        gameweek_tab_3,
-                        search_button_tab_3,
-                    ) = await top_50_search()
+                    ui.label("pass")
+                    # (
+                    #     manager_id_1_tab_3,
+                    #     manager_id_2_tab_3,
+                    #     gameweek_tab_3,
+                    #     search_button_tab_3,
+                    # ) = await top_50_search()
 
     complete_div = ui.element("div").classes("w-screen h-auto")
 
@@ -79,11 +85,11 @@ async def show_page():
         complete_div,
     )
 
-    search(
-        full_div,
-        manager_id_1_tab_3,
-        manager_id_2_tab_3,
-        gameweek_tab_3,
-        search_button_tab_3,
-        complete_div,
-    )
+    # search(
+    #     full_div,
+    #     manager_id_1_tab_3,
+    #     manager_id_2_tab_3,
+    #     gameweek_tab_3,
+    #     search_button_tab_3,
+    #     complete_div,
+    # )
