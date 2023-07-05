@@ -27,6 +27,9 @@ async def show_page():
         ui.image("https://i.ibb.co/Lph2Gjv/FPLCOMPARE-white-ball.png").classes(
             "w-[150px] absolute top-4 left-6 "
         )
+        ui.icon("menu", color="white").classes(
+            "text-5xl absolute top-6 right-8 lg:right-12 hover:cursor-pointer"
+        )
         with ui.element("div").classes(
             (
                 "w-full max-w-[500px] drop-shadow-xl mx-4 outline outline-offset-4 "
