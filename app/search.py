@@ -73,14 +73,10 @@ def mini_league_search_bar():
             ):
 
                 def stepper_navigation_foward():
-                    # step_1.classes(transition_foward)
-                    # step_2.classes(transition_foward)
                     step_1.style("translate:0px -100%")
                     step_2.style("translate:0px -100%")
 
                 def stepper_navigation_backward():
-                    # step_1.classes(trnasition_backward)
-                    # step_2.classes(trnasition_backward)
                     step_1.style("translate:0px 0px")
                     step_2.style("translate:0px 0px")
 
@@ -274,31 +270,12 @@ async def top_50_search():
     return manager_1_input, manager_2_input, gameweek_select, search_button
 
 
-def manager_id_search():
-    manager_id_1, manager_id_2, gameweek, search_button = manager_id_search_bar()
-
-    search(manager_id_1, manager_id_2, gameweek, search_button)
-
-
-def mini_league_search():
-    manager_id_1, manager_id_2, gameweek, search_button = mini_league_search_bar()
-
-    search(manager_id_1, manager_id_2, gameweek, search_button)
-
-
-async def top_search():
-    manager_id_1, manager_id_2, gameweek, search_button = await top_50_search()
-
-    search(manager_id_1, manager_id_2, gameweek, search_button)
-
-
 def search(
     tab,
     manager_id_1,
     manager_id_2: int,
     gameweek: int,
     search_button,
-    error_message,
     complete_div,
 ):
     search_button.on(
@@ -306,7 +283,6 @@ def search(
         lambda: show_squad(
             tab,
             complete_div,
-            error_message,
             manager_id_1,
             manager_id_2,
             gameweek.value,

@@ -238,13 +238,11 @@ def check_manager_id_input(input, squad):
 async def show_squad(
     tab,
     complete_div,
-    error_message,
     manager_id_1,
     manager_id_2: int,
     gameweek: int,
 ):
     complete_div.clear()
-    error_message.clear()
 
     squad_1 = manager_gw_picks_api(gameweek, int(manager_id_1.value))
     squad_2 = manager_gw_picks_api(gameweek, int(manager_id_2.value))
