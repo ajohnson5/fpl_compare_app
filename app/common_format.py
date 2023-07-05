@@ -44,6 +44,6 @@ def nav_bar(nav_links: list, router):
 
 
 def display(nav_links: list, router):
-    with ui.element("div").classes("w-full h-full"):
-        nav_bar(nav_links, router)
+    # with ui.element("div").classes("w-full h-full"):
+    #     nav_bar(nav_links, router)
     return

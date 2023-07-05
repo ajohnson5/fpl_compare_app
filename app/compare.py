@@ -23,7 +23,7 @@ manager_id_1, manager_id_2, gameweek, search_button = manager_id_search_bar()
 
 async def show_page():
     with ui.element("div").classes(
-        "flex flex-row justify-center items-center content-center"
+        "flex flex-row justify-center items-center content-center h-screen w-screen"
     ) as full_div:
         with ui.element("div").classes(
             "w-full max-w-[500px] border-2 border-slate-300 drop-shadow-xl mx-2"
@@ -60,7 +60,7 @@ async def show_page():
 
     error_message = ui.element("div")
 
-    complete_div = ui.element("div").classes("w-full h-auto")
+    complete_div = ui.element("div").classes("w-screen h-auto")
 
     search(
         full_div,
