@@ -28,9 +28,11 @@ async def show_page():
             "w-full max-w-[500px] border-2 border-slate-300 drop-shadow-xl mx-2"
         ):
             with ui.tabs() as tabs:
-                manager_id_search_tab = ui.tab("Manager ID")
-                mini_league_search_tab = ui.tab("Mini League")
-                top_5_search_tab = ui.tab("Top 5")
+                manager_id_search_tab = ui.tab("Manager ID").classes(
+                    "text-white rounded-tl-lg"
+                )
+                mini_league_search_tab = ui.tab("Mini League").classes("text-white")
+                top_5_search_tab = ui.tab("Top 5").classes("text-white rounded-tr-lg")
             ui.separator()
             with ui.tab_panels(
                 tabs, value=manager_id_search_tab, animated=False
