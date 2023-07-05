@@ -266,10 +266,10 @@ async def show_squad(
         with ui.element("div").classes(
             (
                 "flex flex-row w-full h-full absolute top-0 left-0 bg-stone-200/50 "
-                "items-center justify-center content-center"
+                "items-center justify-center content-center backdrop-blur-sm"
             )
         ) as spinner_div:
-            ui.spinner(size="xl")
+            ui.spinner(size="xl", thickness=10.0)
     await asyncio.sleep(2)
 
     with complete_div.classes("flex flex-row justify-center "):
