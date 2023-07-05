@@ -24,7 +24,7 @@ async def show_page():
             "w-screen bg-gradient-to-b from-blue-400 via-blue-300 to-white"
         )
     ) as full_div:
-        ui.image("https://i.ibb.co/XYggw31/FPLCOMPARE-white.png").classes(
+        ui.image("https://i.ibb.co/Lph2Gjv/FPLCOMPARE-white-ball.png").classes(
             "w-[150px] absolute top-4 left-6 "
         )
         with ui.element("div").classes(
