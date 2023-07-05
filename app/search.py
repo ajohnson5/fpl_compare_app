@@ -60,16 +60,44 @@ def manager_id_search_bar():
 
 def mini_league_search_bar():
     with ui.element("div").classes(
-        "row row-flex items-center justify-center w-full p-2"
+        "row row-flex items-center justify-center w-full h-full"
     ):
         with ui.element("div").classes(
-            "row row-flex items-center justify-center w-full max-w-[500px]"
+            "row row-flex items-center justify-center w-full max-w-[500px] h-full"
         ):
-            with ui.stepper().classes("w-full") as stepper:
-                with ui.step("League"):
+            with ui.element("div").classes(
+                (
+                    "row row-flex items-center justify-center w-full max-w-[500px] "
+                    "h-full overflow-hidden"
+                )
+            ):
+
+                def stepper_navigation_foward():
+                    # step_1.classes(transition_foward)
+                    # step_2.classes(transition_foward)
+                    step_1.style("translate:0px -100%")
+                    step_2.style("translate:0px -100%")
+
+                def stepper_navigation_backward():
+                    # step_1.classes(trnasition_backward)
+                    # step_2.classes(trnasition_backward)
+                    step_1.style("translate:0px 0px")
+                    step_2.style("translate:0px 0px")
+
+                with ui.element("div").classes(
+                    (
+                        "flex flex-row w-full h-full items-center content-center "
+                        "justify-center"
+                    )
+                ).style(
+                    (
+                        "transition-duration: 300ms; transition-delay: 250ms; "
+                        "transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);"
+                    )
+                ) as step_1:
                     add_mini_league = (
                         ui.input("Mini League ID")
-                        .classes("w-full pb-2")
+                        .classes("w-full")
                         .props(
                             (
                                 'clearable outlined color="blue-grey" '
@@ -78,13 +106,23 @@ def mini_league_search_bar():
                         )
                     )
 
-                    with ui.stepper_navigation():
-                        next_button = ui.button("Next", on_click=stepper.next).props(
-                            "flat"
+                    next_button = (
+                        ui.button(
+                            icon="expand_more", on_click=stepper_navigation_foward
                         )
-                        next_button.set_visibility(False)
+                        .classes("w-full animate-bounce")
+                        .props("flat")
+                    )
+                    next_button.set_visibility(False)
 
-                with ui.step("<Manager"):
+                with ui.element("div").classes(
+                    "w-full h-full flex flex-row items-center justify-center"
+                ).style(
+                    (
+                        "transition-duration: 300ms; transition-delay: 250ms; "
+                        "transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);"
+                    )
+                ) as step_2:
 
                     async def add_league_managers(league_id: int):
                         if not league_id:
@@ -116,7 +154,7 @@ def mini_league_search_bar():
                                     )
                                 add_mini_league.update()
                             return
-                        stepper.next()
+                        stepper_navigation_foward()
 
                         manager_1_input.options = managers
                         manager_2_input.options = managers
@@ -128,6 +166,10 @@ def mini_league_search_bar():
                         state["valid"] = manager_1_input.value and manager_2_input.value
 
                     state = {"valid": False}
+
+                    ui.button(
+                        icon="expand_less", on_click=stepper_navigation_backward
+                    ).classes("w-full animate-bounce").props("flat")
 
                     manager_1_input = (
                         ui.select(
@@ -175,8 +217,6 @@ def mini_league_search_bar():
                         .props('color="blue-grey" outline')
                         .bind_enabled_from(state, "valid")
                     )
-                    with ui.stepper_navigation():
-                        ui.button("Back", on_click=stepper.previous).props("flat")
 
     return manager_1_input, manager_2_input, gameweek_select, search_button
 
