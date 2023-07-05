@@ -24,12 +24,6 @@ async def show_page():
             "w-screen bg-gradient-to-b from-blue-400 via-blue-300 to-white"
         )
     ) as full_div:
-        ui.image("https://i.ibb.co/Lph2Gjv/FPLCOMPARE-white-ball.png").classes(
-            "w-[150px] absolute top-4 left-6 "
-        )
-        ui.icon("menu", color="white").classes(
-            "text-5xl absolute top-6 right-8 lg:right-12 hover:cursor-pointer"
-        )
         with ui.element("div").classes(
             (
                 "w-full max-w-[500px] drop-shadow-xl mx-4 outline outline-offset-4 "
@@ -41,7 +35,7 @@ async def show_page():
                     " rounded-tl-lg w-1/3 "
                 )
                 mini_league_search_tab = ui.tab("Mini League").classes("w-1/3")
-                top_5_search_tab = ui.tab("Top 5").classes("rounded-tr-lg w-1/3")
+                top_5_search_tab = ui.tab("Top 50").classes("rounded-tr-lg w-1/3")
             with ui.tab_panels(
                 tabs, value=manager_id_search_tab, animated=False
             ).classes("w-full h-[200px] rounded-b-lg"):
