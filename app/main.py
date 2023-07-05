@@ -1,6 +1,5 @@
 from common_format import display
-import compare
-import index
+import home
 import asyncio
 from nicegui import ui, Client, globals
 from fastapi import FastAPI
@@ -20,18 +19,17 @@ async def main(client: Client):
     client.content.classes("p-0 m-0")
     router = Router()
 
-    @router.add("/")
-    def home_page():
-        index.show_page()
+    # @router.add("/")
+    # def home_page():
+    #     index.show_page()
 
-    @router.add("/compare")
-    async def compare_page():
-        await compare.show_page()
+    @router.add("/")
+    async def home_page():
+        await home.show_page()
 
     display(
         [
             (home_page, "Home"),
-            (compare_page, "Compare"),
         ],
         router,
     )
