@@ -19,7 +19,10 @@ from search import (
 
 async def show_page():
     with ui.element("div").classes(
-        "flex flex-row justify-center items-center content-center h-screen w-screen"
+        (
+            "flex flex-row justify-center items-center content-center h-screen "
+            "w-screen bg-blue-400"
+        )
     ) as full_div:
         with ui.element("div").classes(
             "w-full max-w-[500px] border-2 border-slate-300 drop-shadow-xl mx-2"
