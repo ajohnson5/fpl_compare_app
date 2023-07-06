@@ -27,7 +27,7 @@ def nav_bar_link(page_link, page_name, router):
 
 def nav_bar(nav_links: list, router):
     with ui.element("div").classes(
-        "w-full flex flex-row h-[110px] items-center content-center"
+        "w-full flex flex-row h-[100px] items-center content-center"
     ):
         with ui.element("div").classes(nav_bar_whole_div):
             with ui.element("div").classes("w-[150px] flex flex-row  ml-[20px]"):
@@ -47,6 +47,6 @@ def nav_bar(nav_links: list, router):
 
 
 def display(nav_links: list, router):
-    with ui.element("div").classes("w-full h-[120px] absolute top-0 left-0"):
+    with ui.element("div").classes("w-full h-[100px] absolute top-0 left-0"):
         nav_bar(nav_links, router)
     return

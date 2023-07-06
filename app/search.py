@@ -20,7 +20,7 @@ def manager_id_search_bar():
 
             manager_1_input = (
                 ui.input("Manager ID 1", on_change=check_valid)
-                .classes("w-3/4 pr-2 pb-2")
+                .classes("w-3/4  pb-2 pr-2")
                 .props(
                     (
                         'clearable outlined color="blue-6" mask="############"'

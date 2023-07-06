@@ -21,9 +21,12 @@ async def show_page():
     with ui.element("div").classes(
         (
             "flex flex-row justify-center items-center content-center h-screen "
-            "w-screen bg-gradient-to-b from-blue-400 via-blue-300 to-white"
+            "w-screen bg-gradient-to-b from-blue-400 via-blue-300 to-white gap-y-10"
         )
     ) as full_div:
+        ui.label("Compare Squads.").classes(
+            "text-4xl sm:text-5xl text-white font-sans font-bold w-full text-center"
+        )
         with ui.element("div").classes(
             (
                 "w-full max-w-[500px] drop-shadow-xl mx-4 outline outline-offset-4 "
