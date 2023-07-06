@@ -22,7 +22,7 @@ def input_with_select():
         select = (
             ui.select([0, 1, 2, 3], label="GW")
             .classes("gw_select_class")
-            .props('outlined bg-color="white"')
+            .props('outlined bg-color="white" behavior="menu"')
         )
 
     return input, select

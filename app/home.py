@@ -23,11 +23,12 @@ async def show_page():
     with ui.element("div").classes(
         (
             "flex flex-row justify-center items-center content-center h-screen "
-            "w-screen bg-gradient-to-b from-blue-400 via-blue-300 to-white gap-y-14"
+            "w-screen bg-gradient-to-b from-blue-400 via-blue-300 to-white"
         )
     ):
         ui.label("Compare Squads.").classes(
-            "text-4xl sm:text-5xl text-white font-sans font-bold w-full text-center"
+            "text-4xl sm:text-5xl text-white font-sans font-bold w-full text-center "
+            "mb-8"
         )
 
         input_1, gw_select_1 = input_with_select()
@@ -35,9 +36,43 @@ async def show_page():
         input_1.classes("w-2/3 max-w-[300px]")
         gw_select_1.classes("w-1/3 max-w-[100px]")
 
-        ui.button("Compare", icon="change_circle").classes("w-[200px] h-[60px]").props(
-            'rounded text-color="black" size="lg" color="white"'
-        )
+        with ui.element("div").classes(
+            "w-full flex flex-row justify-center content-center gap-x-4 gap-y-6 pt-6"
+        ):
+            with ui.element("div").classes(
+                "w-[210px] h-[40px] bg-blue-500 rounded-lg outline outline-offset-4 "
+                "outline-white"
+            ):
+                with ui.row().classes(
+                    "w-full h-full flex flex-row justify-between content-center "
+                    "items-center"
+                ):
+                    ui.label("WHU Tang Clan").classes(
+                        "text-white pl-2 line-clamp-1 max-w-[150px]"
+                    )
+                    ui.icon("cancel", size="25px").classes(
+                        "cursor-pointer pr-2 text-slate-50 hover:text-slate-400"
+                    )
+
+            with ui.element("div").classes(
+                "w-[210px] h-[40px] bg-red-500 rounded-lg outline outline-offset-4 "
+                "outline-white"
+            ):
+                with ui.row().classes(
+                    "w-full h-full flex flex-row justify-between content-center "
+                    "items-center"
+                ):
+                    ui.label("Ruislip Rejects").classes(
+                        "text-white pl-2 line-clamp-1 max-w-[150px]"
+                    )
+                    ui.icon("cancel", size="25px").classes(
+                        "cursor-pointer pr-2 text-slate-50 hover:text-slate-400"
+                    )
+
+        with ui.element("div").classes("w-full flex flex-row justify-center pt-6"):
+            ui.button("Compare", icon="change_circle").classes(
+                "w-[170px] h-[50px]"
+            ).props('rounded text-color="black" size="md" color="white"')
 
     #         with ui.tabs().classes("text-blue-4") as tabs:
     #             manager_id_search_tab = ui.tab("Manager ID").classes(
