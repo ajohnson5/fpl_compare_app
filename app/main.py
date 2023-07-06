@@ -16,6 +16,24 @@ from router import Router
 )  # all other pages will be handled by the router but must be registered
 # to also show the SPA index page
 async def main(client: Client):
+    ui.add_head_html(
+        """<style>
+    .input_class.q-field--outlined .q-field__control {
+    border-top-left-radius:9999px;
+    border-bottom-left-radius:9999px;
+    border-top-right-radius:0px;
+    border-bottom-right-radius:0px;
+    }
+    .gw_select_class.q-field--outlined .q-field__control {
+    border-top-left-radius:0px;
+    border-bottom-left-radius:0px;
+    border-top-right-radius:9999px;
+    border-bottom-right-radius:9999px;
+    }
+    </style>
+    """
+    )
+
     client.content.classes("p-0 m-0")
     router = Router()
 
