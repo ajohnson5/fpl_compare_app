@@ -24,7 +24,7 @@ def manager_id_search_bar():
                 .props(
                     (
                         'clearable outlined color="blue-6" mask="############"'
-                        ' inputmode="numeric"'
+                        ' inputmode="numeric" rounded'
                     )
                 )
             )
@@ -41,7 +41,7 @@ def manager_id_search_bar():
                 .props(
                     (
                         'clearable outlined color="red-6" mask="############" '
-                        'inputmode="numeric"'
+                        'inputmode="numeric" rounded '
                     )
                 )
             )
