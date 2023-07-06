@@ -29,6 +29,9 @@ def manager_id_search_bar():
                 )
             )
 
+            with manager_1_input.add_slot("prepend"):
+                ui.icon("search")
+
             gameweek_select = (
                 ui.select([x for x in range(1, 39)], value=38, label="GW")
                 .classes("w-1/4 pb-2")
@@ -45,6 +48,9 @@ def manager_id_search_bar():
                     )
                 )
             )
+
+            with manager_2_input.add_slot("prepend"):
+                ui.icon("search")
 
             search_button = (
                 ui.button(
