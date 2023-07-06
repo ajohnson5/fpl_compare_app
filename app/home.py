@@ -35,6 +35,10 @@ async def show_page():
         input_1.classes("w-2/3 max-w-[300px]")
         gw_select_1.classes("w-1/3 max-w-[100px]")
 
+        ui.button("Compare", icon="change_circle").classes("w-[200px] h-[60px]").props(
+            'rounded text-color="black" size="lg" color="white"'
+        )
+
     #         with ui.tabs().classes("text-blue-4") as tabs:
     #             manager_id_search_tab = ui.tab("Manager ID").classes(
     #                 " rounded-tl-lg w-1/3 "
