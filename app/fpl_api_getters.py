@@ -26,30 +26,6 @@ squad_dict = {
     "entry_history": {"rank": 1},
     "picks": [
         {
-            "element": 254,
-            "position": 12,
-            "is_captain": False,
-            "multiplier": 0,
-        },
-        {
-            "element": 332,
-            "position": 13,
-            "is_captain": False,
-            "multiplier": 0,
-        },
-        {
-            "element": 85,
-            "position": 14,
-            "is_captain": False,
-            "multiplier": 0,
-        },
-        {
-            "element": 237,
-            "position": 15,
-            "is_captain": False,
-            "multiplier": 0,
-        },
-        {
             "element": 81,
             "position": 1,
             "is_captain": False,
@@ -114,6 +90,30 @@ squad_dict = {
             "position": 11,
             "is_captain": True,
             "multiplier": 2,
+        },
+        {
+            "element": 254,
+            "position": 12,
+            "is_captain": False,
+            "multiplier": 0,
+        },
+        {
+            "element": 332,
+            "position": 13,
+            "is_captain": False,
+            "multiplier": 0,
+        },
+        {
+            "element": 85,
+            "position": 14,
+            "is_captain": False,
+            "multiplier": 0,
+        },
+        {
+            "element": 237,
+            "position": 15,
+            "is_captain": False,
+            "multiplier": 0,
         },
     ],
 }

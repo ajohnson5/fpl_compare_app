@@ -7,6 +7,9 @@ import pandas as pd
 from typing import Self
 import asyncio
 
+import fpl_api_getters
+from player import Player
+
 from custom_components import input_with_select
 
 
@@ -17,6 +20,96 @@ from search import (
     top_50_search,
     mini_league_search_bar,
 )
+
+card_common_style = (
+    "col-span-1 row-span-1 flex justify-center content-center "
+    "items-center max-h-[20px]"
+)
+card_width = " w-[60px]"
+card_height = " h-full "
+shirt_width = " w-[40px]"
+
+shirt_image_div = (
+    "col-span-1 row-span-2 grid-cols-1 grid-rows-1 flex "
+    "justify-center items-center relative"
+)
+
+
+player_name_label = (
+    "text-black text-center align-middle text-xs md:texts-sm "
+    "font-medium overflow-hidden truncate leading-tight "
+    "tracking-tighter line-clamp-1"
+)
+
+player_points_div = (
+    "col-span-1 row-span-1 w-full max-h-[20px] flex justify-center "
+    "content-center items-center bg-slate-400/60"
+)
+
+player_points_label = (
+    "text-white text-center align-top text-xs md:texts-sm "
+    "font-medium truncate overflow-hidden leading-tight "
+    "tracking-tighter"
+)
+
+
+def row_generator(player_list: List[Player], home: bool):
+    if home:
+        rotate = ""
+    else:
+        rotate = " rotate-180 lg:rotate-0"
+
+    with ui.row().classes(
+        "flex flex-row  w-full h-1/4 justify-around content-start gap-x-0 " + rotate
+    ):
+        for player in player_list:
+            standard_player_card(player, home)
+
+
+def standard_player_card(player, home: bool):
+    with ui.element("div").classes(
+        "flex flex-row  flex-1 h-full items-center justify-center content-center"
+    ):
+        with ui.element("div").classes(
+            "grid grid-cols-1 grid-rows-3  h-full" + card_width
+        ):
+            with ui.element("div").classes(shirt_image_div):
+                ui.image("https://i.ibb.co/zsQThP3/ARS-2223-HK-PL-S1.webp").classes(
+                    "cols-span-1 row-span-1 object-contain" + shirt_width
+                )
+
+                if player.is_captain:
+                    if player.multiplier == 3:
+                        ui.icon("local_fire_department").classes(
+                            "w-1/5 h-1/5 absolute top-1 right-1"
+                        )
+
+                    else:
+                        ui.icon("copyright").classes(
+                            "w-1/5 h-1/5 absolute top-1 right-1"
+                        )
+
+            with ui.element("div").classes(
+                "col-span-1 row-span-1 grid grid-col-1 grid-rows-2 w-full max-h-[40px]"
+            ):
+                if home:
+                    card_color = " bg-blue-500"
+                else:
+                    card_color = " bg-red-500"
+
+                with ui.element("div").classes(
+                    card_common_style + card_width + card_color
+                ):
+                    ui.label(player.name).classes(player_name_label)
+
+                with ui.element("div").classes(player_points_div):
+                    ui.label(player.actual_points).classes(player_points_label)
+
+
+squad_1 = fpl_api_getters.manager_gw_picks_api_temp(38, 13231)
+squad_2 = fpl_api_getters.manager_gw_picks_api_temp(38, 1310)
+
+team_1, team_2 = squad_1.compare_squad(squad_2)
 
 
 def manager_chip(manager_name: str, home: bool):
@@ -137,18 +230,19 @@ async def show_page():
                 "text-center  mb-10"
             )
             with ui.element("div").classes(
-                "mx-[4px] w-full gap-x-10 flex flex-row justify-center content-center"
+                "mx-[4px] w-full gap-x-10 flex flex-row justify-center content-center "
+                " mb-2"
             ):
                 with ui.image(
                     "https://i.ibb.co/4pkJx9n/half-pitch-complete-final-2.png"
-                ).classes("max-w-[482px] w-full"):
+                ).classes("max-w-[482px] w-full "):
                     with ui.element("div").classes(
-                        "w-full h-full gap-y-1 flex flex-row bg-transparent"
+                        "w-full h-full gap-y-1 bg-transparent flex flex-row"
                     ):
-                        ui.element("div").classes("w-full h-1/4   bg-transparent")
-                        ui.element("div").classes("w-full h-1/4   bg-transparent")
-                        ui.element("div").classes("w-full h-1/4   bg-transparent")
-                        ui.element("div").classes("w-full h-1/4   bg-transparent")
+                        row_generator(team_1[1], True)
+                        row_generator(team_1[2], True)
+                        row_generator(team_1[3], True)
+                        row_generator(team_1[4], True)
 
                 with ui.image(
                     "https://i.ibb.co/4pkJx9n/half-pitch-complete-final-2.png"
@@ -156,70 +250,7 @@ async def show_page():
                     with ui.element("div").classes(
                         "w-full h-full gap-y-1 flex flex-row bg-transparent"
                     ):
-                        ui.element("div").classes("w-full h-1/4   bg-transparent")
-                        ui.element("div").classes("w-full h-1/4   bg-transparent")
-                        ui.element("div").classes("w-full h-1/4   bg-transparent")
-                        ui.element("div").classes("w-full h-1/4   bg-transparent")
-
-        # chip_1.classes("-z-10")
-
-    #         with ui.tabs().classes("text-blue-4") as tabs:
-    #             manager_id_search_tab = ui.tab("Manager ID").classes(
-    #                 " rounded-tl-lg w-1/3 "
-    #             )
-    #             mini_league_search_tab = ui.tab("Mini League").classes("w-1/3")
-    #             top_5_search_tab = ui.tab("Top 50").classes("rounded-tr-lg w-1/3")
-    #         with ui.tab_panels(
-    #             tabs, value=manager_id_search_tab, animated=False
-    #         ).classes("w-full h-[200px] rounded-b-lg"):
-    #             with ui.tab_panel(manager_id_search_tab):
-    #                 (
-    #                     manager_id_1_tab_1,
-    #                     manager_id_2_tab_1,
-    #                     gameweek_tab_1,
-    #                     search_button_tab_1,
-    #                 ) = manager_id_search_bar()
-    #             with ui.tab_panel(mini_league_search_tab):
-    #                 (
-    #                     manager_id_1_tab_2,
-    #                     manager_id_2_tab_2,
-    #                     gameweek_tab_2,
-    #                     search_button_tab_2,
-    #                 ) = mini_league_search_bar()
-    #             with ui.tab_panel(top_5_search_tab):
-    #                 ui.label("pass")
-    #                 # (
-    #                 #     manager_id_1_tab_3,
-    #                 #     manager_id_2_tab_3,
-    #                 #     gameweek_tab_3,
-    #                 #     search_button_tab_3,
-    #                 # ) = await top_50_search()
-
-    # complete_div = ui.element("div").classes("w-screen h-auto")
-
-    # search(
-    #     full_div,
-    #     manager_id_1_tab_1,
-    #     manager_id_2_tab_1,
-    #     gameweek_tab_1,
-    #     search_button_tab_1,
-    #     complete_div,
-    # )
-
-    # search(
-    #     full_div,
-    #     manager_id_1_tab_2,
-    #     manager_id_2_tab_2,
-    #     gameweek_tab_2,
-    #     search_button_tab_2,
-    #     complete_div,
-    # )
-
-    # search(
-    #     full_div,
-    #     manager_id_1_tab_3,
-    #     manager_id_2_tab_3,
-    #     gameweek_tab_3,
-    #     search_button_tab_3,
-    #     complete_div,
-    # )
+                        row_generator(team_1[1], False)
+                        row_generator(team_1[2], False)
+                        row_generator(team_1[3], False)
+                        row_generator(team_1[4], False)
