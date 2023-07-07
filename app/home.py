@@ -255,7 +255,7 @@ async def show_page():
             ):
                 ui.button("Change Managers", icon="keyboard_double_arrow_up").classes(
                     "w-full h-[50px] animate-bounce"
-                ).props("flat bg-transparent ")
+                ).props('flat bg-transparent text-color="grey-7"')
 
             with ui.element("div").classes(
                 "w-full h-[150px] flex flex-row justify-evenly content-center mx-2 "
