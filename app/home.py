@@ -106,6 +106,31 @@ def standard_player_card(player, home: bool):
                     ui.label(player.actual_points).classes(player_points_label)
 
 
+def manager_summary(manager_name, points, home: bool):
+    if home:
+        color = " bg-blue-500 "
+    else:
+        color = " bg-red-500 "
+    with ui.element("div").classes(
+        "h-full w-1/2 max-w-[150px] md:max-w-[250px] flex flex-row justify-center "
+        "content-start"
+    ):
+        with ui.element("div").classes(
+            "w-full h-[50px] flex flex-row content-center rounded-t-xl" + color
+        ):
+            ui.label(manager_name).classes(
+                "text-center w-full text-lg lg:text-2xl text-white"
+            )
+
+        with ui.element("div").classes(
+            "w-full h-[100px]  flex flex-row content-center bg-slate-400/60"
+        ):
+            ui.label(points).classes(
+                "text-center w-full text-white text-5xl md:text-7xl"
+            )
+            ui.label("Points").classes("text-center w-full text-white")
+
+
 squad_1 = fpl_api_getters.manager_gw_picks_api_temp(38, 13231)
 squad_2 = fpl_api_getters.manager_gw_picks_api_temp(38, 1310)
 
@@ -225,16 +250,27 @@ async def show_page():
                 "to-emerald-500 to-80% gap-y-0 overflow-hidden gap-x-10"
             )
         ):
-            ui.label("Squad Comparison").classes(
-                "text-5xl sm:text-5xl text-black font-sans font-bold w-full "
-                "text-center  mb-10"
-            )
+            with ui.label("").classes(
+                "w-full h-[100px] flex flex-row justify-center content-center"
+            ):
+                ui.button("Change Managers", icon="keyboard_double_arrow_up").classes(
+                    "w-full h-[50px] animate-bounce"
+                ).props("flat bg-transparent ")
+
+            with ui.element("div").classes(
+                "w-full h-[150px] flex flex-row justify-evenly content-center mx-2 "
+                "lg:gap-x-0 mb-6"
+            ):
+                manager_summary("Manager 1", "67", True)
+
+                manager_summary("Manager 2", "78", False)
+
             with ui.element("div").classes(
                 "mx-[4px] w-full gap-x-10 flex flex-row justify-center content-center "
                 " mb-2"
             ):
                 with ui.image(
-                    "https://i.ibb.co/4pkJx9n/half-pitch-complete-final-2.png"
+                    "https://i.ibb.co/xS9j0v0/half-pitch-complete-final-4.png"
                 ).classes("max-w-[482px] w-full "):
                     with ui.element("div").classes(
                         "w-full h-full gap-y-1 bg-transparent flex flex-row"
@@ -245,7 +281,7 @@ async def show_page():
                         row_generator(team_1[4], True)
 
                 with ui.image(
-                    "https://i.ibb.co/4pkJx9n/half-pitch-complete-final-2.png"
+                    "https://i.ibb.co/xS9j0v0/half-pitch-complete-final-4.png"
                 ).classes("max-w-[482px] w-full rotate-180 lg:rotate-0"):
                     with ui.element("div").classes(
                         "w-full h-full gap-y-1 flex flex-row bg-transparent"
