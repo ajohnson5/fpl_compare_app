@@ -301,15 +301,15 @@ async def show_page():
 
             with ui.element("div").classes(
                 "w-full  flex flex-row justify-center content-center gap-x-10 mb-2 "
-                "gap-y-2"
+                "mx-2 gap-y-2"
             ):
                 with ui.element("div").classes(
                     "w-full max-w-[482px] h-[120px] flex flex-row justify-evenly "
-                    "content-center"
+                    "content-center border-2     border-white"
                 ):
                     row_generator_bench(team_1[0], True)
                 with ui.element("div").classes(
                     "w-full max-w-[482px] h-[120px] flex flex-row justify-evenly "
-                    "content-center"
+                    "content-center border-2 border-white "
                 ):
                     row_generator_bench(team_1[0], False)
