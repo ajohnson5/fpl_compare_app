@@ -139,9 +139,9 @@ team_1, team_2 = squad_1.compare_squad(squad_2)
 
 def manager_chip(manager_name: str, home: bool):
     if home:
-        chip_bg = " bg-blue-500"
+        chip_bg = " bg-blue-400"
     else:
-        chip_bg = " bg-red-500"
+        chip_bg = " bg-red-400"
 
     with ui.element("div").classes(
         "w-[210px] h-[40px] rounded-lg outline outline-offset-4 "
@@ -151,7 +151,7 @@ def manager_chip(manager_name: str, home: bool):
             "w-full h-full flex flex-row justify-between content-center " "items-center"
         ):
             manager_name = ui.label(manager_name).classes(
-                "text-white pl-2 line-clamp-1 max-w-[150px]"
+                "text-white pl-2 line-clamp-1 max-w-[150px] font-semibold text-md"
             )
             delete_chip = ui.icon("cancel", size="25px").classes(
                 "cursor-pointer pr-2 text-slate-50 hover:text-slate-400"
@@ -227,15 +227,15 @@ async def show_page():
                 "h-1/4 w-full flex flex-row content-start justify-center"
             ):
                 with ui.element("div").classes(
-                    "w-full flex flex-row justify-center pt-6"
+                    "w-full flex flex-row justify-center pt-8 sm:pt-0"
                 ):
                     with ui.button().classes("w-[140px] h-[50px]").props(
-                        'rounded color="white" '
-                    ) as compare_button:
-                        ui.label("Compare").classes("text-black text-md")
-                        ui.icon("change_circle", size="35px").classes("text-black")
+                        'push color="white" text-color="primary" '
+                    ):
+                        ui.label("I'm Ready!").classes("text-black text-md")
+                        # ui.icon("search", size="30px").classes("text-black")
 
-                compare_button.style("visibility:hidden")
+                # compare_button.style("visibility:hidden")
 
             delete_chip_1.on("click", lambda x: delete_chip(chip_1))
 
