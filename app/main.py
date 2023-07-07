@@ -20,6 +20,8 @@ async def main(client: Client):
         """<style>
     body {
         max-width: 100%;
+        padding:0;
+        margin:0;
         overflow-x:hidden;
     }
     .input_class.q-field--outlined .q-field__control {

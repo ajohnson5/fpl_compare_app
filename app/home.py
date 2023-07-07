@@ -45,25 +45,24 @@ def manager_chip(manager_name: str, home: bool):
 
 
 async def show_page():
-    with ui.element("div").classes("w-screen overflow-hidden"):
+    with ui.element("div").classes("flex flex-row"):
         with ui.element("div").classes(
             (
                 "flex flex-row justify-center items-center content-center h-screen "
                 "w-screen bg-gradient-to-b from-blue-400 via-blue-300 to-white gap-y-0 "
-                "overflow-hidden"
             )
         ):
-            with ui.label().classes("h-1/4 w-full flex flex-row"):
+            with ui.element("div").classes("h-1/4 w-full flex flex-row"):
                 ui.label()
 
-            with ui.label().classes(
+            with ui.element("div").classes(
                 "h-1/4 w-full flex flex-row justify-center content-end pb-6"
             ):
                 ui.label("Compare Squads.").classes(
                     "text-5xl sm:text-5xl text-white font-sans font-bold w-full "
                     "text-center "
                 )
-            with ui.label().classes(
+            with ui.element("div").classes(
                 "h-1/4 w-full flex flex-row content-start justify-center"
             ):
                 input_1, gw_select_1 = input_with_select()
@@ -106,7 +105,7 @@ async def show_page():
                     manager_name_1.bind_text_from(chip_state, "chip_1")
                     manager_name_2.bind_text_from(chip_state, "chip_2")
 
-            with ui.label().classes(
+            with ui.element("div").classes(
                 "h-1/4 w-full flex flex-row content-start justify-center"
             ):
                 with ui.element("div").classes(
@@ -128,15 +127,39 @@ async def show_page():
 
         with ui.element("div").classes(
             (
-                "flex flex-row justify-center items-center content-center h-screen "
-                "w-screen bg-gradient-to-b from-white via-green-300 to-green-400 "
-                "gap-y-0 overflow-hidden"
+                "flex flex-row justify-center content-center min-h-screen "
+                " w-full bg-gradient-to-b from-white from 5% via-green-400 via-10% "
+                "to-emerald-500 to-80% gap-y-0 overflow-hidden gap-x-10"
             )
         ):
             ui.label("Squad Comparison").classes(
-                "text-5xl sm:text-5xl text-white font-sans font-bold w-full "
-                "text-center "
+                "text-5xl sm:text-5xl text-black font-sans font-bold w-full "
+                "text-center  mb-10"
             )
+            with ui.element("div").classes(
+                "mx-[4px] w-full gap-x-10 flex flex-row justify-center content-center"
+            ):
+                with ui.image(
+                    "https://i.ibb.co/4pkJx9n/half-pitch-complete-final-2.png"
+                ).classes("max-w-[482px] w-full"):
+                    with ui.element("div").classes(
+                        "w-full h-full gap-y-1 flex flex-row bg-transparent"
+                    ):
+                        ui.element("div").classes("w-full h-1/4   bg-transparent")
+                        ui.element("div").classes("w-full h-1/4   bg-transparent")
+                        ui.element("div").classes("w-full h-1/4   bg-transparent")
+                        ui.element("div").classes("w-full h-1/4   bg-transparent")
+
+                with ui.image(
+                    "https://i.ibb.co/4pkJx9n/half-pitch-complete-final-2.png"
+                ).classes("max-w-[482px] w-full rotate-180 lg:rotate-0"):
+                    with ui.element("div").classes(
+                        "w-full h-full gap-y-1 flex flex-row bg-transparent"
+                    ):
+                        ui.element("div").classes("w-full h-1/4   bg-transparent")
+                        ui.element("div").classes("w-full h-1/4   bg-transparent")
+                        ui.element("div").classes("w-full h-1/4   bg-transparent")
+                        ui.element("div").classes("w-full h-1/4   bg-transparent")
 
         # chip_1.classes("-z-10")
 
