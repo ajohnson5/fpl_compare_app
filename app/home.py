@@ -48,50 +48,74 @@ async def show_page():
     with ui.element("div").classes(
         (
             "flex flex-row justify-center items-center content-center h-screen "
-            "w-screen bg-gradient-to-b from-blue-400 via-blue-300 to-white"
+            "w-screen bg-gradient-to-b from-blue-400 via-blue-300 to-white gap-y-0 "
+            "overflow-hidden"
         )
     ):
-        ui.label("Compare Squads.").classes(
-            "text-4xl sm:text-5xl text-white font-sans font-bold w-full text-center "
-            "mb-8"
-        )
+        with ui.label().classes("h-1/4 w-full flex flex-row"):
+            ui.label()
 
-        input_1, gw_select_1 = input_with_select()
-
-        input_1.classes("w-2/3 max-w-[300px]")
-        gw_select_1.classes("w-1/3 max-w-[100px]")
-
-        chip_state = {"chip_1": None, "chip_2": None}
-
-        def add_chip(name):
-            if name:
-                if not chip_state["chip_1"]:
-                    chip_state["chip_1"] = name
-                    chip_1.style("visibility:visible")
-                elif not chip_state["chip_2"]:
-                    chip_state["chip_2"] = name
-                    chip_2.style("visibility:visible")
-            else:
-                ui.label()
-
-        def delete_chip(chip):
-            if chip == chip_1:
-                chip_state["chip_1"] = None
-            else:
-                chip_state["chip_2"] = None
-
-            chip.style("visibility:hidden")
-
-        with ui.element("div").classes(
-            "w-full flex flex-row justify-center content-center gap-x-4 gap-y-6 pt-6"
+        with ui.label().classes(
+            "h-1/4 w-full flex flex-row justify-center content-end pb-6"
         ):
-            chip_1, manager_name_1, delete_chip_1 = manager_chip("WHU Tang Clan", True)
-            chip_2, manager_name_2, delete_chip_2 = manager_chip(
-                "Ruislip Rejects", False
+            ui.label("Compare Squads.").classes(
+                "text-4xl sm:text-5xl text-white font-sans font-bold w-full "
+                "text-center "
             )
+        with ui.label().classes(
+            "h-1/4 w-full flex flex-row content-start justify-center"
+        ):
+            input_1, gw_select_1 = input_with_select()
 
-            manager_name_1.bind_text_from(chip_state, "chip_1")
-            manager_name_2.bind_text_from(chip_state, "chip_2")
+            input_1.classes("w-2/3 max-w-[300px]")
+            gw_select_1.classes("w-1/3 max-w-[100px]")
+
+            chip_state = {"chip_1": None, "chip_2": None}
+
+            def add_chip(name):
+                if name:
+                    if not chip_state["chip_1"]:
+                        chip_state["chip_1"] = name
+                        chip_1.style("visibility:visible")
+                    elif not chip_state["chip_2"]:
+                        chip_state["chip_2"] = name
+                        chip_2.style("visibility:visible")
+                else:
+                    ui.label()
+
+            def delete_chip(chip):
+                if chip == chip_1:
+                    chip_state["chip_1"] = None
+                else:
+                    chip_state["chip_2"] = None
+
+                chip.style("visibility:hidden")
+
+            with ui.element("div").classes(
+                "w-full flex flex-row justify-center content-start gap-x-4 gap-y-6 "
+                "pt-6"
+            ):
+                chip_1, manager_name_1, delete_chip_1 = manager_chip(
+                    "WHU Tang Clan", True
+                )
+                chip_2, manager_name_2, delete_chip_2 = manager_chip(
+                    "Ruislip Rejects", False
+                )
+
+                manager_name_1.bind_text_from(chip_state, "chip_1")
+                manager_name_2.bind_text_from(chip_state, "chip_2")
+
+        with ui.label().classes(
+            "h-1/4 w-full flex flex-row content-start justify-center"
+        ):
+            with ui.element("div").classes("w-full flex flex-row justify-center pt-6"):
+                with ui.button().classes("w-[140px] h-[50px]").props(
+                    'rounded color="white" '
+                ) as compare_button:
+                    ui.label("Compare").classes("text-black text-md")
+                    ui.icon("change_circle", size="35px").classes("text-black")
+
+            compare_button.style("visibility:hidden")
 
         delete_chip_1.on("click", lambda x: delete_chip(chip_1))
 
@@ -100,15 +124,6 @@ async def show_page():
         input_1.on("keydown.enter", lambda x: add_chip(input_1.value))
 
         # chip_1.classes("-z-10")
-
-        with ui.element("div").classes("w-full flex flex-row justify-center pt-6"):
-            with ui.button().classes("w-[170px] h-[50px]").props(
-                'rounded color="white" '
-            ) as compare_button:
-                ui.label("Compare").classes("text-black text-md")
-                ui.icon("change_circle", size="35px").classes("text-black")
-
-        compare_button.style("visibility:hidden")
 
     #         with ui.tabs().classes("text-blue-4") as tabs:
     #             manager_id_search_tab = ui.tab("Manager ID").classes(
