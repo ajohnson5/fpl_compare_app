@@ -53,6 +53,14 @@ player_points_label = (
 )
 
 
+def row_generator_bench(player_list: List[Player], home: bool):
+    with ui.row().classes(
+        "flex flex-row  w-full h-full justify-around content-center gap-x-0 "
+    ):
+        for player in player_list:
+            standard_player_card(player, home)
+
+
 def row_generator(player_list: List[Player], home: bool):
     if home:
         rotate = ""
@@ -290,3 +298,18 @@ async def show_page():
                         row_generator(team_1[2], False)
                         row_generator(team_1[3], False)
                         row_generator(team_1[4], False)
+
+            with ui.element("div").classes(
+                "w-full  flex flex-row justify-center content-center gap-x-10 mb-2 "
+                "gap-y-2"
+            ):
+                with ui.element("div").classes(
+                    "w-full max-w-[482px] h-[120px] flex flex-row justify-evenly "
+                    "content-center"
+                ):
+                    row_generator_bench(team_1[0], True)
+                with ui.element("div").classes(
+                    "w-full max-w-[482px] h-[120px] flex flex-row justify-evenly "
+                    "content-center"
+                ):
+                    row_generator_bench(team_1[0], False)
