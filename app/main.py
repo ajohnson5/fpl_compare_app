@@ -18,6 +18,12 @@ from router import Router
 async def main(client: Client):
     ui.add_head_html(
         """<style>
+    body {
+        max-width: 100%;
+        padding:0;
+        margin:0;
+        overflow-x:hidden;
+    }
     .input_class.q-field--outlined .q-field__control {
     border-top-left-radius:9999px;
     border-bottom-left-radius:9999px;
