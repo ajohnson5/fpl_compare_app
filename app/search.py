@@ -20,14 +20,17 @@ def manager_id_search_bar():
 
             manager_1_input = (
                 ui.input("Manager ID 1", on_change=check_valid)
-                .classes("w-3/4 pr-2 pb-2")
+                .classes("w-3/4  pb-2 pr-2")
                 .props(
                     (
                         'clearable outlined color="blue-6" mask="############"'
-                        ' inputmode="numeric"'
+                        ' inputmode="numeric" rounded'
                     )
                 )
             )
+
+            with manager_1_input.add_slot("prepend"):
+                ui.icon("search")
 
             gameweek_select = (
                 ui.select([x for x in range(1, 39)], value=38, label="GW")
@@ -41,10 +44,13 @@ def manager_id_search_bar():
                 .props(
                     (
                         'clearable outlined color="red-6" mask="############" '
-                        'inputmode="numeric"'
+                        'inputmode="numeric" rounded '
                     )
                 )
             )
+
+            with manager_2_input.add_slot("prepend"):
+                ui.icon("search")
 
             search_button = (
                 ui.button(
