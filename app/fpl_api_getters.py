@@ -17,6 +17,138 @@ def manager_name(manager_id: int):
     return req["name"]
 
 
+example_picks = {}
+
+
+squad_dict = {
+    "active_chip": "wildcard",
+    "automatic_subs": [],
+    "entry_history": {"rank": 1},
+    "picks": [
+        {
+            "element": 254,
+            "position": 12,
+            "is_captain": False,
+            "multiplier": 0,
+        },
+        {
+            "element": 332,
+            "position": 13,
+            "is_captain": False,
+            "multiplier": 0,
+        },
+        {
+            "element": 85,
+            "position": 14,
+            "is_captain": False,
+            "multiplier": 0,
+        },
+        {
+            "element": 237,
+            "position": 15,
+            "is_captain": False,
+            "multiplier": 0,
+        },
+        {
+            "element": 81,
+            "position": 1,
+            "is_captain": False,
+            "multiplier": 1,
+        },
+        {
+            "element": 586,
+            "position": 2,
+            "is_captain": False,
+            "multiplier": 1,
+        },
+        {
+            "element": 285,
+            "position": 3,
+            "is_captain": False,
+            "multiplier": 1,
+        },
+        {
+            "element": 357,
+            "position": 4,
+            "is_captain": False,
+            "multiplier": 1,
+        },
+        {
+            "element": 124,
+            "position": 5,
+            "is_captain": False,
+            "multiplier": 1,
+        },
+        {
+            "element": 283,
+            "position": 6,
+            "is_captain": False,
+            "multiplier": 1,
+        },
+        {
+            "element": 333,
+            "position": 7,
+            "is_captain": False,
+            "multiplier": 1,
+        },
+        {
+            "element": 335,
+            "position": 8,
+            "is_captain": False,
+            "multiplier": 1,
+        },
+        {
+            "element": 116,
+            "position": 9,
+            "is_captain": False,
+            "multiplier": 1,
+        },
+        {
+            "element": 319,
+            "position": 10,
+            "is_captain": False,
+            "multiplier": 1,
+        },
+        {
+            "element": 427,
+            "position": 11,
+            "is_captain": True,
+            "multiplier": 2,
+        },
+    ],
+}
+
+
+def manager_gw_picks_api_temp(gw: int, manager_id: int):
+    """Returns a list of dictionaries of all picks a manager made in a gameweek"""
+    # Check for valid ID
+
+    squad_list = []
+
+    for pick in squad_dict["picks"]:
+        player_series = df.loc[gw, pick["element"]]
+        squad_list.append(
+            Player(
+                id=pick["element"],
+                name=player_series["second_name"],
+                first_name=player_series["first_name"],
+                position=pick["position"],
+                actual_position=player_series["position"],
+                points=player_series["total_points"],
+                team_name=player_series["team_name"],
+                is_captain=pick["is_captain"],
+                multiplier=pick["multiplier"],
+            )
+        )
+
+    chip = squad_dict["active_chip"]
+
+    stats = squad_dict["entry_history"]
+    # stats["team_name"] = manager_name(manager_id)
+
+    return Squad(manager_id, squad_list, chip, stats)
+
+
 def manager_gw_picks_api(gw: int, manager_id: int):
     """Returns a list of dictionaries of all picks a manager made in a gameweek"""
     # Check for valid ID
@@ -166,3 +298,10 @@ async def get_mini_league_managers(league_id: int, page_num: int = 100):
                 return await get_large_mini_league_managers_async(
                     session, league_id, page_num
                 )
+
+
+if __name__ == "__main__":
+    squad_1 = manager_gw_picks_api_temp(38, 13231)
+    squad_2 = manager_gw_picks_api_temp(38, 1310)
+
+    team_1, team_2 = squad_1.compare_squad(squad_2)
