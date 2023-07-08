@@ -20,7 +20,7 @@ def input_with_select():
             ui.icon("search")
 
         select = (
-            ui.select([0, 1, 2, 3], label="GW")
+            ui.select([1, 2, 3], value=1, label="GW")
             .classes("gw_select_class")
             .props('outlined bg-color="white" behavior="menu"')
         )
