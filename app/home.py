@@ -198,16 +198,16 @@ async def show_page():
 
                 chip_state = {"chip_1": None, "chip_2": None}
 
-                def add_chip(name):
-                    if name:
+                def add_chip(manager_id, gw_select_1):
+                    if manager_id and gw_select_1:
                         if not chip_state["chip_1"]:
-                            chip_state["chip_1"] = name
+                            chip_state["chip_1"] = manager_id
                             chip_1.style("visibility:visible")
                         elif not chip_state["chip_2"]:
-                            chip_state["chip_2"] = name
+                            chip_state["chip_2"] = manager_id
                             chip_2.style("visibility:visible")
                     else:
-                        ui.label()
+                        pass
 
                 def delete_chip(chip):
                     if chip == chip_1:
@@ -249,7 +249,9 @@ async def show_page():
 
             delete_chip_2.on("click", lambda x: delete_chip(chip_2))
 
-            input_1.on("keydown.enter", lambda x: add_chip(input_1.value))
+            input_1.on(
+                "keydown.enter", lambda x: add_chip(input_1.value, gw_select_1.value)
+            )
 
         with ui.element("div").classes(
             (
