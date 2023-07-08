@@ -239,15 +239,21 @@ async def show_page():
                     manager_name_1.bind_text_from(chip_state, "chip_1")
                     manager_name_2.bind_text_from(chip_state, "chip_2")
 
+            def manager_id_search():
+                if chip_state["chip_1"] and chip_state["chip_2"]:
+                    ui.notify("Search Complete", closeBtn="OK")
+                else:
+                    ui.notify("Please enter 2 manager IDs", closeBtn="OK")
+
             with ui.element("div").classes(
                 "h-1/4 w-full flex flex-row content-start justify-center"
             ):
                 with ui.element("div").classes(
                     "w-full flex flex-row justify-center pt-8 sm:pt-0"
                 ):
-                    ui.button("I'm Ready!").classes("w-[140px] h-[50px]").props(
-                        'push color="white" text-color="blue-5" '
-                    )
+                    ui.button("I'm Ready!", on_click=manager_id_search).classes(
+                        "w-[140px] h-[50px]"
+                    ).props('push color="white" text-color="blue-5" ')
 
             # compare_button.style("visibility:hidden")
 
