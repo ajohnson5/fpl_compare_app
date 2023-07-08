@@ -206,14 +206,14 @@ async def show_page():
                                 chip_state["chip_1"] = manager_name
                                 chip_1.style("visibility:visible")
                             else:
-                                ui.label("Manager does not exist")
+                                ui.notify("Manager does not exist", closeBtn="OK")
                         elif not chip_state["chip_2"]:
                             manager_name = fpl_api_getters.manager_name(manager_id)
                             if manager_name:
                                 chip_state["chip_2"] = manager_name
                                 chip_2.style("visibility:visible")
                             else:
-                                ui.label("Manager does not exist")
+                                ui.notify("Manager does not exist", closeBtn="OK")
                     else:
                         pass
 
