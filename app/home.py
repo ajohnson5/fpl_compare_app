@@ -245,13 +245,11 @@ async def show_page():
                 with ui.element("div").classes(
                     "w-full flex flex-row justify-center pt-8 sm:pt-0"
                 ):
-                    with ui.button().classes("w-[140px] h-[50px]").props(
-                        'push color="white" text-color="primary" '
-                    ):
-                        ui.label("I'm Ready!").classes("text-black text-md")
-                        # ui.icon("search", size="30px").classes("text-black")
+                    ui.button("I'm Ready!").classes("w-[140px] h-[50px]").props(
+                        'push color="white" text-color="blue-5" '
+                    )
 
-                # compare_button.style("visibility:hidden")
+            # compare_button.style("visibility:hidden")
 
             delete_chip_1.on("click", lambda x: delete_chip(chip_1))
 
