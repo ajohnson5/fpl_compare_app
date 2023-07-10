@@ -10,7 +10,7 @@ import asyncio
 import fpl_api_getters
 from player import Player
 
-from custom_components import input_with_select
+from custom_components import input_with_select, league_search
 from generate_squad import generate_squad
 
 from squad_display import show_squad
@@ -62,16 +62,40 @@ async def show_page():
                 "h-1/4 w-full flex flex-row justify-center content-end pb-6"
             ):
                 ui.label("Compare Squads.").classes(
-                    "text-5xl sm:text-5xl text-white font-sans font-bold w-full "
+                    "text-4xl sm:text-5xl text-white font-sans font-bold w-full "
                     "text-center "
                 )
+
+            search_toggle = (
+                ui.switch()
+                .classes("absolute top-[85vh] right-[5px]")
+                .props('size="70px"')
+            )
             with ui.element("div").classes(
-                "h-1/4 w-full flex flex-row content-start justify-center"
+                "h-1/4 w-full flex flex-row content-start justify-center relative mx-2"
             ):
                 input_1, gw_select_1 = input_with_select()
 
-                input_1.classes("w-2/3 max-w-[300px]")
-                gw_select_1.classes("w-1/3 max-w-[100px]")
+                input_1.classes("flex-grow min-w-[100px]")
+                gw_select_1.classes("w-[60px] sm:w-[80px]")
+
+                (
+                    league_input,
+                    manager_select_input,
+                    gw_select_2,
+                    league_search_div,
+                ) = league_search()
+
+                gw_select_2.classes("w-[60px] sm:w-[80px]")
+                manager_select_input.classes("w-2/5 flex-grow")
+                league_input.classes("w-2/5 flex-grow")
+
+                league_search_div.classes("absolute top-0 z-100")
+                gw_select_2.bind_visibility_from(search_toggle, "value")
+                league_input.bind_visibility_from(search_toggle, "value")
+                manager_select_input.bind_visibility_from(search_toggle, "value")
+
+                gw_select_1.bind_value(gw_select_2, "value")
 
                 chip_state = {"chip_1": None, "chip_2": None}
 
@@ -165,7 +189,7 @@ async def show_page():
                 "w-full h-[100px] flex flex-row justify-center content-center"
             ):
                 ui.button("Change Managers", icon="keyboard_double_arrow_up").classes(
-                    "w-full h-[50px] animate-bounce"
+                    "w-full h-[50px]"
                 ).props('flat bg-transparent text-color="grey-7"')
 
             manager_summary_div = ui.element("div").classes(

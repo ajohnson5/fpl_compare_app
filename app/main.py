@@ -35,6 +35,38 @@ async def main(client: Client):
     border-bottom-left-radius:0px;
     border-top-right-radius:9999px;
     border-bottom-right-radius:9999px;
+
+    }
+
+    .gw_select_class.q-field--outlined .q-field__control {
+    padding: 0 2px;
+    }
+
+    .gw_select_class.q-field__after, .q-field__append {
+    padding-left: 4px;
+    }
+    .manager_select_class.q-field--outlined .q-field__control {
+    border-top-left-radius:0px;
+    border-bottom-left-radius:0px;
+    border-top-right-radius:0px;
+    border-bottom-right-radius:0px;
+    }
+
+    .q-field__label {
+            font-size:14px
+    }
+
+    @media only screen and (min-width: 40em) {
+        .q-field__label {
+            font-size:16px
+        }
+        .gw_select_class.q-field--outlined .q-field__control {
+            padding: 0 8px;
+            }
+
+        .gw_select_class.q-field__after, .q-field__append {
+            padding-left: 12px;
+        }
     }
     </style>
     """
