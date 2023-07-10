@@ -198,16 +198,24 @@ async def show_page():
 
                 chip_state = {"chip_1": None, "chip_2": None}
 
-                def add_chip(name):
-                    if name:
+                def add_chip(manager_id, gw_select_1):
+                    if manager_id and gw_select_1:
                         if not chip_state["chip_1"]:
-                            chip_state["chip_1"] = name
-                            chip_1.style("visibility:visible")
+                            manager_name = fpl_api_getters.manager_name(manager_id)
+                            if manager_name:
+                                chip_state["chip_1"] = manager_name
+                                chip_1.style("visibility:visible")
+                            else:
+                                ui.notify("Manager does not exist", closeBtn="OK")
                         elif not chip_state["chip_2"]:
-                            chip_state["chip_2"] = name
-                            chip_2.style("visibility:visible")
+                            manager_name = fpl_api_getters.manager_name(manager_id)
+                            if manager_name:
+                                chip_state["chip_2"] = manager_name
+                                chip_2.style("visibility:visible")
+                            else:
+                                ui.notify("Manager does not exist", closeBtn="OK")
                     else:
-                        ui.label()
+                        pass
 
                 def delete_chip(chip):
                     if chip == chip_1:
@@ -231,25 +239,31 @@ async def show_page():
                     manager_name_1.bind_text_from(chip_state, "chip_1")
                     manager_name_2.bind_text_from(chip_state, "chip_2")
 
+            def manager_id_search():
+                if chip_state["chip_1"] and chip_state["chip_2"]:
+                    ui.notify("Search Complete", closeBtn="OK")
+                else:
+                    ui.notify("Please enter 2 manager IDs", closeBtn="OK")
+
             with ui.element("div").classes(
                 "h-1/4 w-full flex flex-row content-start justify-center"
             ):
                 with ui.element("div").classes(
                     "w-full flex flex-row justify-center pt-8 sm:pt-0"
                 ):
-                    with ui.button().classes("w-[140px] h-[50px]").props(
-                        'push color="white" text-color="primary" '
-                    ):
-                        ui.label("I'm Ready!").classes("text-black text-md")
-                        # ui.icon("search", size="30px").classes("text-black")
+                    ui.button("I'm Ready!", on_click=manager_id_search).classes(
+                        "w-[140px] h-[50px]"
+                    ).props('push color="white" text-color="blue-5" ')
 
-                # compare_button.style("visibility:hidden")
+            # compare_button.style("visibility:hidden")
 
             delete_chip_1.on("click", lambda x: delete_chip(chip_1))
 
             delete_chip_2.on("click", lambda x: delete_chip(chip_2))
 
-            input_1.on("keydown.enter", lambda x: add_chip(input_1.value))
+            input_1.on(
+                "keydown.enter", lambda x: add_chip(input_1.value, gw_select_1.value)
+            )
 
         with ui.element("div").classes(
             (

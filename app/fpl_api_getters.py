@@ -14,7 +14,10 @@ def manager_name(manager_id: int):
     url = f"https://fantasy.premierleague.com/api/entry/{manager_id}/"
     req = requests.get(url).json()
 
-    return req["name"]
+    try:
+        return req["name"]
+    except KeyError:
+        return
 
 
 example_picks = {}
