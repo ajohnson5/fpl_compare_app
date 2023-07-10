@@ -27,26 +27,23 @@ def nav_bar_link(page_link, page_name, router):
 
 def nav_bar(nav_links: list, router):
     with ui.element("div").classes(
-        "w-full flex flex-row h-[100px] items-center content-center"
+        "w-full flex flex-row h-[110px] items-center content-center"
     ):
         with ui.element("div").classes(nav_bar_whole_div):
             with ui.element("div").classes("w-[150px] flex flex-row  ml-[20px]"):
-                logo = ui.image(
-                    "https://i.ibb.co/Lph2Gjv/FPLCOMPARE-white-ball.png"
-                ).classes("w-[150px] absolute top-4 left-6 hover:cursor-pointer")
+                logo = ui.image("https://i.ibb.co/DgpgtXN/FPLCOMPARE.png").classes(
+                    "w-[150px] hover:cursor-pointer"
+                )
                 logo.on("click", lambda: router.open(nav_links[0][0]))
 
             with ui.element("div").classes(
                 "h-[70px] flex flex-row justify-center items-center gap-x-4 mr-6"
             ):
-                ui.icon("menu", color="white").classes(
-                    "text-5xl absolute top-6 right-8 lg:right-12 hover:cursor-pointer"
-                )
-                # for page in nav_links:
-                #     nav_bar_link(page[0], page[1], router)
+                for page in nav_links:
+                    nav_bar_link(page[0], page[1], router)
 
 
 def display(nav_links: list, router):
-    with ui.element("div").classes("w-screen h-[100px] absolute top-0 left-0"):
+    with ui.element("div").classes("w-full h-full"):
         nav_bar(nav_links, router)
     return

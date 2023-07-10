@@ -238,11 +238,13 @@ def check_manager_id_input(input, squad):
 async def show_squad(
     tab,
     complete_div,
+    error_message,
     manager_id_1,
     manager_id_2: int,
     gameweek: int,
 ):
     complete_div.clear()
+    error_message.clear()
 
     squad_1 = manager_gw_picks_api(gameweek, int(manager_id_1.value))
     squad_2 = manager_gw_picks_api(gameweek, int(manager_id_2.value))
@@ -264,10 +266,10 @@ async def show_squad(
         with ui.element("div").classes(
             (
                 "flex flex-row w-full h-full absolute top-0 left-0 bg-stone-200/50 "
-                "items-center justify-center content-center backdrop-blur-sm"
+                "items-center justify-center content-center"
             )
         ) as spinner_div:
-            ui.spinner(size="xl", thickness=10.0)
+            ui.spinner(size="xl")
     await asyncio.sleep(2)
 
     with complete_div.classes("flex flex-row justify-center "):
