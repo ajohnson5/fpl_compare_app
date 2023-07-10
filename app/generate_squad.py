@@ -16,7 +16,6 @@ from player import Player
 from squad import Squad
 
 
-
 card_common_style = (
     "col-span-1 row-span-1 flex justify-center content-center "
     "items-center max-h-[20px]"
@@ -135,12 +134,9 @@ def manager_summary(manager_name, points, home: bool):
             ui.label("Points").classes("text-center w-full text-white")
 
 
-
-
-
-async def generate_squad(manager_id_1, manager_id_2, gameweek_1, gameweek_2,display_div, loading_div):
-
-
+async def generate_squad(
+    manager_id_1, manager_id_2, gameweek_1, gameweek_2, display_div, loading_div
+):
     squad_1 = fpl_api_getters.manager_gw_picks_api_temp(38, 13231)
     squad_2 = fpl_api_getters.manager_gw_picks_api_temp(38, 1310)
 
@@ -149,21 +145,17 @@ async def generate_squad(manager_id_1, manager_id_2, gameweek_1, gameweek_2,disp
     display_div.clear()
     display_div.set_visibility(True)
 
-
     with loading_div:
         with ui.element("div") as loading_clearable_div:
             with ui.element("div").classes(
                 (
-                    "flex flex-row w-full h-full absolute top-0 left-0 bg-stone-200/50 "
+                    "flex flex-row w-full h-full fixed top-0 left-0 bg-stone-200/50 "
                     "items-center justify-center content-center backdrop-blur-sm z-50"
                 )
-            ) as spinner_div:
+            ):
                 ui.spinner(size="xl", thickness=10.0)
     await asyncio.sleep(2)
     loading_clearable_div.clear()
-
-
-
 
     with display_div.classes(
         (
