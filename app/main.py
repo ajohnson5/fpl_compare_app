@@ -1,6 +1,5 @@
 from common_format import display
-import compare
-import index
+import home
 import asyncio
 from nicegui import ui, Client, globals
 from fastapi import FastAPI
@@ -17,21 +16,44 @@ from router import Router
 )  # all other pages will be handled by the router but must be registered
 # to also show the SPA index page
 async def main(client: Client):
+    ui.add_head_html(
+        """<style>
+    body {
+        max-width: 100%;
+        padding:0;
+        margin:0;
+        overflow-x:hidden;
+    }
+    .input_class.q-field--outlined .q-field__control {
+    border-top-left-radius:9999px;
+    border-bottom-left-radius:9999px;
+    border-top-right-radius:0px;
+    border-bottom-right-radius:0px;
+    }
+    .gw_select_class.q-field--outlined .q-field__control {
+    border-top-left-radius:0px;
+    border-bottom-left-radius:0px;
+    border-top-right-radius:9999px;
+    border-bottom-right-radius:9999px;
+    }
+    </style>
+    """
+    )
+
     client.content.classes("p-0 m-0")
     router = Router()
 
-    @router.add("/")
-    def home_page():
-        index.show_page()
+    # @router.add("/")
+    # def home_page():
+    #     index.show_page()
 
-    @router.add("/compare")
-    async def compare_page():
-        await compare.show_page()
+    @router.add("/")
+    async def home_page():
+        await home.show_page()
 
     display(
         [
             (home_page, "Home"),
-            (compare_page, "Compare"),
         ],
         router,
     )
