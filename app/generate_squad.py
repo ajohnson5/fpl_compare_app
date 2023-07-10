@@ -135,10 +135,7 @@ def manager_summary(manager_name, points, home: bool):
 
 
 async def generate_squad(
-    manager_id_1,
-    manager_id_2,
-    gameweek_1,
-    gameweek_2,
+    manager_dict,
     display_div,
     loading_div,
     manager_summary_div,
@@ -147,8 +144,8 @@ async def generate_squad(
     bench_1_display,
     bench_2_display,
 ):
-    squad_1 = fpl_api_getters.manager_gw_picks_api_temp(38, 13231)
-    squad_2 = fpl_api_getters.manager_gw_picks_api_temp(38, 1310)
+    squad_1 = fpl_api_getters.manager_gw_picks_api_temp(38, manager_dict["chip_1_id"])
+    squad_2 = fpl_api_getters.manager_gw_picks_api_temp(38, manager_dict["chip_2_id"])
 
     team_1, team_2 = squad_1.compare_squad(squad_2)
 
@@ -166,9 +163,9 @@ async def generate_squad(
 
     with manager_summary_div:
         manager_summary_div.clear()
-        manager_summary("Manager 1", "67", True)
+        manager_summary(manager_dict["chip_1"], "67", True)
 
-        manager_summary("Manager 2", "78", False)
+        manager_summary(manager_dict["chip_2"], "78", False)
 
     with squad_1_display:
         squad_1_display.clear()

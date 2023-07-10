@@ -147,6 +147,8 @@ async def show_page():
                 chip_state = {
                     "chip_1": None,
                     "chip_2": None,
+                    "chip_1_id": None,
+                    "chip_2_id": None,
                     "chip_1_gw": None,
                     "chip_2_gw": None,
                 }
@@ -156,6 +158,7 @@ async def show_page():
                         if not chip_state["chip_1"]:
                             manager_name = fpl_api_getters.manager_name(manager_id)
                             if manager_name:
+                                chip_state["chip_1_id"] = int(manager_id)
                                 chip_state["chip_1"] = manager_name
                                 chip_state["chip_1_gw"] = gw_select_1
                                 chip_1.style("visibility:visible")
@@ -164,6 +167,7 @@ async def show_page():
                         elif not chip_state["chip_2"]:
                             manager_name = fpl_api_getters.manager_name(manager_id)
                             if manager_name:
+                                chip_state["chip_2_id"] = int(manager_id)
                                 chip_state["chip_2"] = manager_name
                                 chip_state["chip_2_gw"] = gw_select_1
                                 chip_2.style("visibility:visible")
@@ -206,10 +210,7 @@ async def show_page():
             async def manager_id_search():
                 if chip_state["chip_1"] and chip_state["chip_2"]:
                     await generate_squad(
-                        chip_state["chip_1"],
-                        chip_state["chip_2"],
-                        38,
-                        38,
+                        chip_state,
                         display_div,
                         landing_div,
                         manager_summary_div,
