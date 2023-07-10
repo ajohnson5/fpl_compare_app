@@ -68,6 +68,23 @@ async def main(client: Client):
             padding-left: 12px;
         }
     }
+
+    .q-toggle__inner--truthy .q-toggle__thumb {
+    left: 0.85em;
+    }
+    .q-toggle__inner {
+    width: 1.6em;
+    }
+    .q-toggle__track {
+    height: 0.5em;
+    border-radius: 0.4em;
+    }
+    .q-toggle__thumb {
+    top: 0.375em;
+    left: 0.35em;
+    width: 0.4em;
+    height: 0.4em;
+    }
     </style>
     """
     )
