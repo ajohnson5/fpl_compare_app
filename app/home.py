@@ -22,8 +22,6 @@ from search import (
 )
 
 
-
-
 def manager_chip(manager_name: str, home: bool):
     if home:
         chip_bg = " bg-blue-400"
@@ -120,8 +118,19 @@ async def show_page():
 
             async def manager_id_search():
                 if chip_state["chip_1"] and chip_state["chip_2"]:
-                    ui.notify("Search Complete", closeBtn="OK")
-                    await generate_squad(chip_state["chip_1"],chip_state["chip_2"],38,38,display_div, landing_div)
+                    await generate_squad(
+                        chip_state["chip_1"],
+                        chip_state["chip_2"],
+                        38,
+                        38,
+                        display_div,
+                        landing_div,
+                        manager_summary_div,
+                        squad_1_display,
+                        squad_2_display,
+                        bench_1_display,
+                        bench_2_display,
+                    )
                 else:
                     ui.notify("Please enter 2 manager IDs", closeBtn="OK")
 
@@ -145,11 +154,53 @@ async def show_page():
                 "keydown.enter", lambda x: add_chip(input_1.value, gw_select_1.value)
             )
 
+        with ui.element("div").classes(
+            (
+                "flex flex-row justify-center content-center min-h-screen "
+                " w-full bg-gradient-to-b from-white from 5% via-green-400 via-10% "
+                "to-emerald-500 to-80% gap-y-0 overflow-hidden gap-x-10"
+            )
+        ) as display_div:
+            with ui.label("").classes(
+                "w-full h-[100px] flex flex-row justify-center content-center"
+            ):
+                ui.button("Change Managers", icon="keyboard_double_arrow_up").classes(
+                    "w-full h-[50px] animate-bounce"
+                ).props('flat bg-transparent text-color="grey-7"')
 
-        display_div = ui.element("div")
+            manager_summary_div = ui.element("div").classes(
+                "w-full h-[150px] flex flex-row justify-evenly content-center mx-2 "
+                "lg:gap-x-0 mb-6"
+            )
+            with ui.element("div").classes(
+                "mx-[4px] w-full gap-x-10 flex flex-row justify-center content-center "
+                " mb-2"
+            ):
+                with ui.image(
+                    "https://i.ibb.co/xS9j0v0/half-pitch-complete-final-4.png"
+                ).classes("max-w-[482px] w-full "):
+                    squad_1_display = ui.element("div").classes(
+                        "w-full h-full gap-y-1 bg-transparent flex flex-row"
+                    )
+
+                with ui.image(
+                    "https://i.ibb.co/xS9j0v0/half-pitch-complete-final-4.png"
+                ).classes("max-w-[482px] w-full rotate-180 lg:rotate-0"):
+                    squad_2_display = ui.element("div").classes(
+                        "w-full h-full gap-y-1 flex flex-row bg-transparent"
+                    )
+            with ui.element("div").classes(
+                "w-full  flex flex-row justify-center content-center gap-x-10 mb-2 "
+                "mx-2 gap-y-2"
+            ):
+                bench_1_display = ui.element("div").classes(
+                    "w-full max-w-[482px] h-[120px] flex flex-row justify-evenly "
+                    "content-center border-2     border-white"
+                )
+
+                bench_2_display = ui.element("div").classes(
+                    "w-full max-w-[482px] h-[120px] flex flex-row justify-evenly "
+                    "content-center border-2 border-white "
+                )
+
         display_div.set_visibility(False)
-
-
-        
-
-

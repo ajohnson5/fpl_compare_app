@@ -135,15 +135,22 @@ def manager_summary(manager_name, points, home: bool):
 
 
 async def generate_squad(
-    manager_id_1, manager_id_2, gameweek_1, gameweek_2, display_div, loading_div
+    manager_id_1,
+    manager_id_2,
+    gameweek_1,
+    gameweek_2,
+    display_div,
+    loading_div,
+    manager_summary_div,
+    squad_1_display,
+    squad_2_display,
+    bench_1_display,
+    bench_2_display,
 ):
     squad_1 = fpl_api_getters.manager_gw_picks_api_temp(38, 13231)
     squad_2 = fpl_api_getters.manager_gw_picks_api_temp(38, 1310)
 
     team_1, team_2 = squad_1.compare_squad(squad_2)
-
-    display_div.clear()
-    display_div.set_visibility(True)
 
     with loading_div:
         with ui.element("div") as loading_clearable_div:
@@ -157,65 +164,33 @@ async def generate_squad(
     await asyncio.sleep(2)
     loading_clearable_div.clear()
 
-    with display_div.classes(
-        (
-            "flex flex-row justify-center content-center min-h-screen "
-            " w-full bg-gradient-to-b from-white from 5% via-green-400 via-10% "
-            "to-emerald-500 to-80% gap-y-0 overflow-hidden gap-x-10"
-        )
-    ):
-        with ui.label("").classes(
-            "w-full h-[100px] flex flex-row justify-center content-center"
-        ):
-            ui.button("Change Managers", icon="keyboard_double_arrow_up").classes(
-                "w-full h-[50px] animate-bounce"
-            ).props('flat bg-transparent text-color="grey-7"')
+    with manager_summary_div:
+        manager_summary_div.clear()
+        manager_summary("Manager 1", "67", True)
 
-        with ui.element("div").classes(
-            "w-full h-[150px] flex flex-row justify-evenly content-center mx-2 "
-            "lg:gap-x-0 mb-6"
-        ):
-            manager_summary("Manager 1", "67", True)
+        manager_summary("Manager 2", "78", False)
 
-            manager_summary("Manager 2", "78", False)
+    with squad_1_display:
+        squad_1_display.clear()
 
-        with ui.element("div").classes(
-            "mx-[4px] w-full gap-x-10 flex flex-row justify-center content-center "
-            " mb-2"
-        ):
-            with ui.image(
-                "https://i.ibb.co/xS9j0v0/half-pitch-complete-final-4.png"
-            ).classes("max-w-[482px] w-full "):
-                with ui.element("div").classes(
-                    "w-full h-full gap-y-1 bg-transparent flex flex-row"
-                ):
-                    row_generator(team_1[1], True)
-                    row_generator(team_1[2], True)
-                    row_generator(team_1[3], True)
-                    row_generator(team_1[4], True)
+        row_generator(team_1[1], True)
+        row_generator(team_1[2], True)
+        row_generator(team_1[3], True)
+        row_generator(team_1[4], True)
 
-            with ui.image(
-                "https://i.ibb.co/xS9j0v0/half-pitch-complete-final-4.png"
-            ).classes("max-w-[482px] w-full rotate-180 lg:rotate-0"):
-                with ui.element("div").classes(
-                    "w-full h-full gap-y-1 flex flex-row bg-transparent"
-                ):
-                    row_generator(team_1[1], False)
-                    row_generator(team_1[2], False)
-                    row_generator(team_1[3], False)
-                    row_generator(team_1[4], False)
+    with squad_2_display:
+        squad_2_display.clear()
+        row_generator(team_1[1], False)
+        row_generator(team_1[2], False)
+        row_generator(team_1[3], False)
+        row_generator(team_1[4], False)
 
-        with ui.element("div").classes(
-            "w-full  flex flex-row justify-center content-center gap-x-10 mb-2 "
-            "mx-2 gap-y-2"
-        ):
-            with ui.element("div").classes(
-                "w-full max-w-[482px] h-[120px] flex flex-row justify-evenly "
-                "content-center border-2     border-white"
-            ):
-                row_generator_bench(team_1[0], True)
-            with ui.element("div").classes(
-                "w-full max-w-[482px] h-[120px] flex flex-row justify-evenly "
-                "content-center border-2 border-white "
-            ):
-                row_generator_bench(team_1[0], False)
+    with bench_1_display:
+        bench_1_display.clear()
+        row_generator_bench(team_1[0], True)
+
+    with bench_2_display:
+        bench_2_display.clear()
+        row_generator_bench(team_1[0], False)
+
+    display_div.set_visibility(True)
