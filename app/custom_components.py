@@ -50,7 +50,7 @@ def league_search():
 
         select = (
             ui.select(
-                ["Ruislip Rejects", "WHU Tang Clan", "Jorgeblemmings"],
+                options=[],
                 label="Manager",
                 with_input=True,
             )

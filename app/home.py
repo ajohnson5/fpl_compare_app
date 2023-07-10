@@ -95,6 +95,48 @@ async def show_page():
                 league_input.bind_visibility_from(search_toggle, "value")
                 manager_select_input.bind_visibility_from(search_toggle, "value")
 
+                async def search_league(league_id):
+                    if not league_id:
+                        with league_input.add_slot("prepend"):
+                            with ui.icon("error", color="red-500"):
+                                ui.tooltip("Please enter a League ID").classes(
+                                    "bg-red-500"
+                                )
+                            league_input.update()
+                        return
+
+                    manager_select_input.clear()
+
+                    manager_select_input.set_value(value=None)
+
+                    managers = await fpl_api_getters.get_mini_league_managers(
+                        int(league_id)
+                    )
+
+                    managers = {
+                        12313: "Ujedinjeni Urci",
+                        2131: "Badger Oblong Quasi",
+                        3763: "Bad Team On Paper",
+                    }
+
+                    if managers:
+                        with league_input.add_slot("prepend"):
+                            ui.icon("check_circle", color="green-500")
+                            league_input.update()
+                    else:
+                        with league_input.add_slot("prepend"):
+                            with ui.icon("error", color="red-500"):
+                                ui.tooltip("Invalid League ID").classes("bg-red-500")
+                            league_input.update()
+                        return
+
+                    manager_select_input.options = managers
+                    manager_select_input.update()
+
+                league_input.on(
+                    "keydown.enter", lambda: search_league(league_input.value)
+                )
+
                 gw_select_1.bind_value(gw_select_2, "value")
 
                 chip_state = {"chip_1": None, "chip_2": None}
@@ -176,6 +218,11 @@ async def show_page():
 
             input_1.on(
                 "keydown.enter", lambda x: add_chip(input_1.value, gw_select_1.value)
+            )
+
+            manager_select_input.on(
+                "update:model-value",
+                lambda x: add_chip(manager_select_input.value, gw_select_2.value),
             )
 
         with ui.element("div").classes(
