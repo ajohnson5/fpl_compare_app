@@ -30,13 +30,18 @@ def manager_chip(manager_name: str, home: bool):
 
     with ui.element("div").classes(
         "w-[210px] h-[40px] rounded-lg outline outline-offset-4 "
-        "outline-white" + chip_bg
+        "outline-white relative" + chip_bg
     ) as chip:
+        gw_chip_label = ui.label("21").classes(
+            "w-[22px] h-[22px] rounded-full "
+            "bg-slate-600 text-white absolute -top-[13px] -left-[10px] text-center "
+            "font-semibold align-middle"
+        )
         with ui.row().classes(
-            "w-full h-full flex flex-row justify-between content-center " "items-center"
+            "w-full h-full flex flex-row justify-between content-center items-center"
         ):
             manager_name = ui.label(manager_name).classes(
-                "text-white pl-2 line-clamp-1 max-w-[150px] font-semibold text-md"
+                "text-white pl-2 max-w-[150px] h-[20px] font-semibold text-md"
             )
             delete_chip = ui.icon("cancel", size="25px").classes(
                 "cursor-pointer pr-2 text-slate-50 hover:text-slate-400"
@@ -44,7 +49,7 @@ def manager_chip(manager_name: str, home: bool):
 
     chip.style("visibility:hidden")
 
-    return chip, manager_name, delete_chip
+    return chip, manager_name, delete_chip, gw_chip_label
 
 
 async def show_page():
@@ -139,7 +144,12 @@ async def show_page():
 
                 gw_select_1.bind_value(gw_select_2, "value")
 
-                chip_state = {"chip_1": None, "chip_2": None}
+                chip_state = {
+                    "chip_1": None,
+                    "chip_2": None,
+                    "chip_1_gw": None,
+                    "chip_2_gw": None,
+                }
 
                 def add_chip(manager_id, gw_select_1):
                     if manager_id and gw_select_1:
@@ -147,6 +157,7 @@ async def show_page():
                             manager_name = fpl_api_getters.manager_name(manager_id)
                             if manager_name:
                                 chip_state["chip_1"] = manager_name
+                                chip_state["chip_1_gw"] = gw_select_1
                                 chip_1.style("visibility:visible")
                             else:
                                 ui.notify("Manager does not exist", closeBtn="OK")
@@ -154,6 +165,7 @@ async def show_page():
                             manager_name = fpl_api_getters.manager_name(manager_id)
                             if manager_name:
                                 chip_state["chip_2"] = manager_name
+                                chip_state["chip_2_gw"] = gw_select_1
                                 chip_2.style("visibility:visible")
                             else:
                                 ui.notify("Manager does not exist", closeBtn="OK")
@@ -172,12 +184,21 @@ async def show_page():
                     "w-full flex flex-row justify-center content-start gap-x-4 gap-y-6 "
                     "pt-6"
                 ):
-                    chip_1, manager_name_1, delete_chip_1 = manager_chip(
-                        "WHU Tang Clan", True
-                    )
-                    chip_2, manager_name_2, delete_chip_2 = manager_chip(
-                        "Ruislip Rejects", False
-                    )
+                    (
+                        chip_1,
+                        manager_name_1,
+                        delete_chip_1,
+                        gw_chip_label_1,
+                    ) = manager_chip("WHU Tang Clan", True)
+                    (
+                        chip_2,
+                        manager_name_2,
+                        delete_chip_2,
+                        gw_chip_label_2,
+                    ) = manager_chip("Ruislip Rejects", False)
+
+                    gw_chip_label_1.bind_text_from(chip_state, "chip_1_gw")
+                    gw_chip_label_2.bind_text_from(chip_state, "chip_2_gw")
 
                     manager_name_1.bind_text_from(chip_state, "chip_1")
                     manager_name_2.bind_text_from(chip_state, "chip_2")
