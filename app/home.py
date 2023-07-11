@@ -59,11 +59,11 @@ async def show_page():
                 "w-screen bg-stone-100 "
             )
         ) as landing_div:
-            with ui.element("div").classes("h-1/4 w-full flex flex-row"):
+            with ui.element("div").classes("h-1/5 w-full flex flex-row"):
                 ui.label()
 
             with ui.element("div").classes(
-                "h-1/3 w-full flex flex-row justify-center content-end items-center "
+                "h-1/4 w-full flex flex-row justify-center content-end items-center "
                 "pb-6 gap-x-2"
             ):
                 compare_button = (
@@ -249,12 +249,13 @@ async def show_page():
         with ui.element("div").classes(
             (
                 "flex flex-row justify-center content-center min-h-screen "
-                " w-full bg-white "
+                " w-full bg-stone-100 "
                 " gap-y-0 overflow-hidden gap-x-10"
             )
         ) as display_div:
+            ui.label().classes("w-11/12 h-2 bg-slate-900")
             ui.label("Squads.").classes(
-                "text-5xl sm:text-7xl text-zinc-800 font-sans font-bold h-auto "
+                "text-5xl sm:text-7xl text-slate-900 font-sans font-bold h-auto "
                 "w-auto text-center align-middle mb-6 mt-1"
             )
 
@@ -267,19 +268,21 @@ async def show_page():
                 " mb-2"
             ):
                 with ui.element("div").classes(
-                    "px-2 pt-2 lg:pb-2 w-full max-w-[490px]  "
+                    "px-2 pt-2 lg:pb-2 w-full max-w-[490px] "
                     "bg-gradient-to-b from-green-400 via-emerald-400 to-emerald-500"
+                    " rounded-t-xl lg:rounded-b-xl"
                 ):
                     with ui.image(
                         "https://i.ibb.co/xS9j0v0/half-pitch-complete-final-4.png"
                     ).classes("max-w-[482px] w-full"):
                         squad_1_display = ui.element("div").classes(
-                            "w-full h-full gap-y-1 bg-transparent flex flex-row"
+                            "w-full h-full gap-y-0 bg-transparent flex flex-row "
+                            "content-start "
                         )
                 with ui.element("div").classes(
                     "px-2 lg:pt-2 pb-2 w-full max-w-[490px]  "
                     "lg:bg-gradient-to-b lg:from-green-400 lg:via-emerald-400 "
-                    "lg:to-emerald-500 "
+                    "lg:to-emerald-500 rounded-b-xl lg:rounded-t-xl "
                     "bg-gradient-to-b from-emerald-500 via-emerald-400 to-green-400"
                 ):
                     with ui.image(
@@ -292,20 +295,32 @@ async def show_page():
                 "w-full  flex flex-row justify-center content-center gap-x-10 mb-4 "
                 "mx-2 gap-y-2"
             ):
-                bench_1_display = ui.element("div").classes(
-                    "w-full max-w-[490px] h-[120px] flex flex-row justify-evenly "
-                    "content-center border-2 border-zinc-500 border-double rounded-lg"
-                )
+                with ui.element("div").classes(
+                    "w-full max-w-[490px] p-1 bg-gradient-to-r rounded-2xl "
+                    "from-sky-500 via-sky-300 to-cyan-400"
+                ):
+                    bench_1_display = ui.element("div").classes(
+                        "w-full max-w-[490px] h-[120px] flex flex-row justify-evenly "
+                        "bg-slate-50 content-center rounded-xl"
+                    )
 
-                bench_2_display = ui.element("div").classes(
-                    "w-full max-w-[490px] h-[120px] flex flex-row justify-evenly "
-                    "content-center border-2 border-zinc-500 border-double rounded-lg "
-                )
+                with ui.element("div").classes(
+                    "w-full max-w-[490px] p-1 bg-gradient-to-r rounded-2xl "
+                    "from-red-500 via-red-400 to-rose-400"
+                ):
+                    bench_2_display = ui.element("div").classes(
+                        "w-full  max-w-[490px] h-[120px] flex flex-row justify-evenly "
+                        "bg-slate-50 content-center rounded-xl"
+                    )
 
-            with ui.element("div").classes("w-full h-screen bg-stone-50"):
+            with ui.element("div").classes(
+                "w-full h-screen bg-stone-100 flex row-flex justify-center "
+                "content-start"
+            ):
+                ui.label().classes("w-11/12 h-2 bg-slate-900")
                 ui.label("Transfers.").classes(
-                    "text-5xl sm:text-7xl text-zinc-500 font-sans font-bold h-auto "
-                    "w-auto text-center align-middle mb-10 mt-1"
+                    "text-5xl sm:text-7xl text-slate-900 font-sans font-bold "
+                    "w-auto text-center align-middle mb-10 "
                 )
 
         display_div.set_visibility(False)
