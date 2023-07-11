@@ -56,7 +56,7 @@ async def show_page():
         with ui.element("div").classes(
             (
                 "flex flex-row justify-center items-center content-center h-screen "
-                "w-screen bg-stone-50 "
+                "w-screen bg-stone-100 "
             )
         ) as landing_div:
             with ui.element("div").classes("h-1/4 w-full flex flex-row"):
@@ -73,14 +73,14 @@ async def show_page():
                 )
                 compare_button.classes("text-5xl sm:text-6xl font-sans font-bold mt-2")
                 ui.label("Squads.").classes(
-                    "text-5xl sm:text-6xl text-sky-500 font-sans font-bold h-auto "
+                    "text-5xl sm:text-6xl text-slate-900 font-sans font-bold h-auto "
                     "w-auto text-center align-middle"
                 )
 
             search_toggle = (
                 ui.switch()
                 .classes("absolute top-[85vh] right-[5px]")
-                .props('size="70px"')
+                .props('size="70px" checked-icon="leaderboard" unchecked-icon="person"')
             )
             with ui.element("div").classes(
                 "h-1/4 w-full flex flex-row content-start justify-center relative mx-2"
@@ -249,12 +249,13 @@ async def show_page():
         with ui.element("div").classes(
             (
                 "flex flex-row justify-center content-center min-h-screen "
-                " w-full bg-stone-50 "
+                " w-full bg-white "
                 " gap-y-0 overflow-hidden gap-x-10"
             )
         ) as display_div:
-            ui.label("").classes(
-                "w-full h-[100px] flex flex-row justify-center content-center"
+            ui.label("Squads.").classes(
+                "text-5xl sm:text-7xl text-zinc-800 font-sans font-bold h-auto "
+                "w-auto text-center align-middle mb-6 mt-1"
             )
 
             manager_summary_div = ui.element("div").classes(
@@ -266,8 +267,8 @@ async def show_page():
                 " mb-2"
             ):
                 with ui.element("div").classes(
-                    "px-2 pt-2 lg:pb-2 w-full max-w-[490px]  bg-gradient-to-b "
-                    "from-green-200 via-green-400 to-green-500"
+                    "px-2 pt-2 lg:pb-2 w-full max-w-[490px]  "
+                    "bg-gradient-to-b from-green-400 via-emerald-400 to-emerald-500"
                 ):
                     with ui.image(
                         "https://i.ibb.co/xS9j0v0/half-pitch-complete-final-4.png"
@@ -276,9 +277,10 @@ async def show_page():
                             "w-full h-full gap-y-1 bg-transparent flex flex-row"
                         )
                 with ui.element("div").classes(
-                    "px-2 lg:pt-2 pb-2 w-full max-w-[490px]  bg-gradient-to-t "
-                    "from-green-200 via-green-400 to-green-500 lg:bg-gradient-to-b "
-                    "lg:from-green-200 lg:via-green-400 lg:to-green-500"
+                    "px-2 lg:pt-2 pb-2 w-full max-w-[490px]  "
+                    "lg:bg-gradient-to-b lg:from-green-400 lg:via-emerald-400 "
+                    "lg:to-emerald-500 "
+                    "bg-gradient-to-b from-emerald-500 via-emerald-400 to-green-400"
                 ):
                     with ui.image(
                         "https://i.ibb.co/xS9j0v0/half-pitch-complete-final-4.png"
@@ -287,17 +289,23 @@ async def show_page():
                             "w-full h-full gap-y-1 flex flex-row bg-transparent"
                         )
             with ui.element("div").classes(
-                "w-full  flex flex-row justify-center content-center gap-x-10 mb-2 "
+                "w-full  flex flex-row justify-center content-center gap-x-10 mb-4 "
                 "mx-2 gap-y-2"
             ):
                 bench_1_display = ui.element("div").classes(
-                    "w-full max-w-[482px] h-[120px] flex flex-row justify-evenly "
-                    "content-center border-2     border-white"
+                    "w-full max-w-[490px] h-[120px] flex flex-row justify-evenly "
+                    "content-center border-2 border-zinc-500 border-double rounded-lg"
                 )
 
                 bench_2_display = ui.element("div").classes(
-                    "w-full max-w-[482px] h-[120px] flex flex-row justify-evenly "
-                    "content-center border-2 border-white "
+                    "w-full max-w-[490px] h-[120px] flex flex-row justify-evenly "
+                    "content-center border-2 border-zinc-500 border-double rounded-lg "
+                )
+
+            with ui.element("div").classes("w-full h-screen bg-stone-50"):
+                ui.label("Transfers.").classes(
+                    "text-5xl sm:text-7xl text-zinc-500 font-sans font-bold h-auto "
+                    "w-auto text-center align-middle mb-10 mt-1"
                 )
 
         display_div.set_visibility(False)

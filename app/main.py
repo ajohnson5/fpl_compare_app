@@ -85,6 +85,9 @@ async def main(client: Client):
     width: 0.4em;
     height: 0.4em;
     }
+    .q-toggle__thumb .q-icon {
+        margin-right:1px;
+    }
     .compare_button_class.text-white {
     color: #0ea5e9 !important;
     }

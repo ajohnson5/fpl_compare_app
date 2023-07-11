@@ -50,7 +50,7 @@ player_points_label = (
 
 def row_generator_bench(player_list: List[Player], home: bool):
     with ui.row().classes(
-        "flex flex-row  w-full h-full justify-around content-center gap-x-0 "
+        "flex flex-row  w-full h-full justify-around content-center gap-x-0 mb-4"
     ):
         for player in player_list:
             standard_player_card(player, home)
@@ -111,27 +111,28 @@ def standard_player_card(player, home: bool):
 
 def manager_summary(manager_name, points, home: bool):
     if home:
-        color = " bg-sky-500 "
+        bg_color = " from-sky-500 via-sky-300 to-cyan-400 lg:mr-12"
     else:
-        color = " bg-red-500 "
-    with ui.element("div").classes(
-        "h-full w-1/2 max-w-[150px] md:max-w-[250px] flex flex-row justify-center "
-        "content-start"
-    ):
+        bg_color = " from-red-500 via-red-400 to-rose-400  lg:ml-12"
+    with ui.element("div").classes(" p-1 bg-gradient-to-r  rounded-2xl" + bg_color):
         with ui.element("div").classes(
-            "w-full h-[50px] flex flex-row content-center rounded-t-xl" + color
+            "h-full w-[150px] md:w-[250px] flex flex-row justify-center "
+            "content-start gap-y-0.5"
         ):
-            ui.label(manager_name).classes(
-                "text-center w-full text-lg lg:text-2xl text-white"
-            )
+            with ui.element("div").classes(
+                "w-full h-[50px] flex flex-row content-center rounded-t-xl bg-white"
+            ):
+                ui.label(manager_name).classes(
+                    "text-center w-full text-lg lg:text-2xl text-zinc-800"
+                )
 
-        with ui.element("div").classes(
-            "w-full h-[100px]  flex flex-row content-center bg-slate-400/60"
-        ):
-            ui.label(points).classes(
-                "text-center w-full text-white text-5xl md:text-7xl"
-            )
-            ui.label("Points").classes("text-center w-full text-white")
+            with ui.element("div").classes(
+                "w-full h-[100px]  flex flex-row content-center bg-white rounded-b-xl"
+            ):
+                ui.label(points).classes(
+                    "text-center w-full text-zinc-800 text-5xl md:text-7xl"
+                )
+                ui.label("Points").classes("text-center w-full text-zinc-800")
 
 
 async def generate_squad(
