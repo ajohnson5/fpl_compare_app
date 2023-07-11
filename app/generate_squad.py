@@ -96,7 +96,7 @@ def standard_player_card(player, home: bool):
                 "col-span-1 row-span-1 grid grid-col-1 grid-rows-2 w-full max-h-[40px]"
             ):
                 if home:
-                    card_color = " bg-blue-500"
+                    card_color = " bg-sky-500"
                 else:
                     card_color = " bg-red-500"
 
@@ -111,7 +111,7 @@ def standard_player_card(player, home: bool):
 
 def manager_summary(manager_name, points, home: bool):
     if home:
-        color = " bg-blue-500 "
+        color = " bg-sky-500 "
     else:
         color = " bg-red-500 "
     with ui.element("div").classes(

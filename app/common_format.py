@@ -32,14 +32,14 @@ def nav_bar(nav_links: list, router):
         with ui.element("div").classes(nav_bar_whole_div):
             with ui.element("div").classes("w-[150px] flex flex-row  ml-[20px]"):
                 logo = ui.image(
-                    "https://i.ibb.co/2F0hpWd/FPLCOMPARE-blue-ball-2.png"
+                    "https://i.ibb.co/jWnPq2b/FPLCOMPARE-grey-ball-3-ver2.png"
                 ).classes("w-[150px] absolute top-4 left-6 hover:cursor-pointer")
                 logo.on("click", lambda: router.open(nav_links[0][0]))
 
             with ui.element("div").classes(
                 "h-[70px] flex flex-row justify-center items-center gap-x-4 mr-6"
             ):
-                ui.icon("menu", color="blue-400").classes(
+                ui.icon("menu", color="sky-500").classes(
                     "text-5xl absolute top-6 right-8 lg:right-12 hover:cursor-pointer"
                 )
                 # for page in nav_links:
