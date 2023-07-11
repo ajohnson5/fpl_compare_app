@@ -57,7 +57,7 @@ async def show_page():
         with ui.element("div").classes(
             (
                 "flex flex-row justify-center items-center content-center h-screen "
-                "w-screen bg-gradient-to-b from-blue-400 via-blue-300 to-white gap-y-0 "
+                "w-screen bg-stone-50 "
             )
         ) as landing_div:
             with ui.element("div").classes("h-1/4 w-full flex flex-row"):
@@ -67,7 +67,7 @@ async def show_page():
                 "h-1/4 w-full flex flex-row justify-center content-end pb-6"
             ):
                 ui.label("Compare Squads.").classes(
-                    "text-4xl sm:text-5xl text-white font-sans font-bold w-full "
+                    "text-4xl sm:text-5xl text-blue-400 font-sans font-bold w-full "
                     "text-center "
                 )
 
