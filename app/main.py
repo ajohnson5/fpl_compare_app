@@ -1,5 +1,6 @@
 from common_format import display
 import home
+import about
 import asyncio
 from nicegui import ui, Client, globals
 from fastapi import FastAPI
@@ -104,17 +105,18 @@ async def main(client: Client):
     client.content.classes("p-0 m-0")
     router = Router()
 
-    # @router.add("/")
-    # def home_page():
-    #     index.show_page()
-
     @router.add("/")
     async def home_page():
         await home.show_page()
 
+    @router.add("/about")
+    async def about_page():
+        await about.show_page()
+
     display(
         [
             (home_page, "Home"),
+            (about_page, "About"),
         ],
         router,
     )
