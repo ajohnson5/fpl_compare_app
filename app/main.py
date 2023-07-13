@@ -98,6 +98,17 @@ async def main(client: Client):
     padding: 10px 8px 20px 8px;
     text-transform:none;
     } 
+
+    .side_bar {
+        width:100% !important;
+    }
+
+    @media only screen and (min-width: 640px) {
+        .side_bar{
+            width:300px !important;   
+        }
+    }
+    
     </style>
     """
     )
@@ -115,8 +126,8 @@ async def main(client: Client):
 
     display(
         [
-            (home_page, "Home"),
-            (about_page, "About"),
+            (home_page, "Home."),
+            (about_page, "About."),
         ],
         router,
     )
