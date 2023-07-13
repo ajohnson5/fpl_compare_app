@@ -18,7 +18,9 @@ from router import Router
 # to also show the SPA index page
 async def main(client: Client):
     ui.add_head_html(
-        """<style>
+        """
+    <link href="https://unpkg.com/eva-icons@1.1.3/style/eva-icons.css" rel="stylesheet">
+        <style>
     body {
         max-width: 100%;
         padding:0;

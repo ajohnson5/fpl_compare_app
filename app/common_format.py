@@ -100,6 +100,11 @@ def nav_bar(nav_links: list, router):
             for link in nav_links:
                 nav_bar_link(link[0], link[1], router)
 
+            with ui.link(target="https://github.com/ajohnson5"):
+                ui.element("i").classes("eva eva-github").classes(
+                    "text-5xl hover:scale-105 hover:cursor-pointer pt-4 text-zinc-900"
+                )
+
     burger_menu.on("click", lambda x: menu_open_func())
 
 
