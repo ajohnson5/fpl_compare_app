@@ -98,8 +98,14 @@ async def show_page():
                 ) = league_search()
 
                 gw_select_2.classes("w-[60px] sm:w-[80px]")
-                manager_select_input.classes("w-2/5 flex-grow")
-                league_input.classes("w-2/5 flex-grow")
+                manager_select_input.style(
+                    "width:0;transition: 0.5s;"
+                    "transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1); "
+                )
+                league_input.classes("flex-grow shrink").style(
+                    "transition: 0.5s;"
+                    "transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);"
+                )
 
                 league_search_div.classes("absolute top-0 z-100")
                 gw_select_2.bind_visibility_from(search_toggle, "value")
@@ -133,6 +139,9 @@ async def show_page():
                     if managers:
                         with league_input.add_slot("prepend"):
                             ui.icon("check_circle", color="green-500")
+                            manager_select_input.style("width:50%;")
+                            manager_select_input.update()
+                            league_input.style("width:30%;")
                             league_input.update()
                     else:
                         with league_input.add_slot("prepend"):
