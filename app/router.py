@@ -1,10 +1,9 @@
 from typing import Awaitable, Callable, Dict, Union
 
 from nicegui import background_tasks, ui
+from nicegui.dependencies import register_component
 
-
-class RouterFrame(ui.element, component="router_frame.js"):
-    pass
+register_component("router_frame", __file__, "router_frame.js")
 
 
 class Router:
@@ -45,5 +44,7 @@ class Router:
         background_tasks.create(build())
 
     def frame(self) -> ui.element:
-        self.content = RouterFrame().on("open", lambda e: self.open(e.args))
+        self.content = ui.element("router_frame").on(
+            "open", lambda msg: self.open(msg["args"])
+        )
         return self.content

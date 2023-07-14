@@ -31,9 +31,9 @@ shirt_image_div = (
 
 
 player_name_label = (
-    "text-black text-center align-middle text-xs md:texts-sm "
-    "font-medium overflow-hidden truncate leading-tight "
-    "tracking-tighter line-clamp-1"
+    "text-white text-center align-middle text-xs md:texts-sm "
+    "font-medium overflow-hidden leading-tight "
+    "tracking-tighter line-clamp-1 truncate"
 )
 
 player_points_div = (
@@ -42,7 +42,7 @@ player_points_div = (
 )
 
 player_points_label = (
-    "text-white text-center align-top text-xs md:texts-sm "
+    "text-zinc-900 text-center align-top text-xs md:texts-sm "
     "font-medium truncate overflow-hidden leading-tight "
     "tracking-tighter"
 )

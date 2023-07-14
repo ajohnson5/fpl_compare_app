@@ -109,5 +109,8 @@ def nav_bar(nav_links: list, router):
 
 
 def display(nav_links: list, router):
+    ui.element("div").classes(
+        ("h-screen w-screen bg-stone-100 absolute top-0 left-0 -z-10")
+    )
     nav_bar(nav_links, router)
     return
