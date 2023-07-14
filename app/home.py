@@ -309,7 +309,7 @@ async def show_page():
                     "from-sky-500 via-sky-300 to-cyan-400 drop-shadow-xl "
                 ):
                     bench_1_display = ui.element("div").classes(
-                        "w-full max-w-[490px] h-[120px] flex flex-row justify-evenly "
+                        "w-full max-w-[490px] h-[100px] flex flex-row justify-evenly "
                         "bg-slate-50 content-center rounded-xl"
                     )
 
@@ -318,7 +318,7 @@ async def show_page():
                     "from-red-500 via-red-400 to-rose-400 drop-shadow-xl"
                 ):
                     bench_2_display = ui.element("div").classes(
-                        "w-full  max-w-[490px] h-[120px] flex flex-row justify-evenly "
+                        "w-full  max-w-[490px] h-[100px] flex flex-row justify-evenly "
                         "bg-slate-50 content-center rounded-xl"
                     )
 
