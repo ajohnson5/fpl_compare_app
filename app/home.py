@@ -56,7 +56,7 @@ async def show_page():
         with ui.element("div").classes(
             (
                 "flex flex-row justify-center items-center content-center h-screen "
-                "w-screen bg-stone-100 "
+                "w-screen bg-transparent"
             )
         ) as landing_div:
             with ui.element("div").classes("h-1/5 w-full flex flex-row"):
@@ -69,12 +69,12 @@ async def show_page():
                 compare_button = (
                     ui.button("Compare", color="white")
                     .classes("compare_button_class")
+                    .classes("text-5xl sm:text-6xl font-sans font-bold mt-2")
                     .props('push color="white" :ripple="{ center: true }"')
                 )
-                compare_button.classes("text-5xl sm:text-6xl font-sans font-bold mt-2")
                 ui.label("Squads.").classes(
-                    "text-5xl sm:text-6xl text-slate-900 font-sans font-bold h-auto "
-                    "w-auto text-center align-middle"
+                    "text-5xl sm:text-6xl text-zinc-900 font-sans font-bold h-auto "
+                    "w-auto text-center align-middle z-10"
                 )
 
             search_toggle = (
@@ -98,8 +98,14 @@ async def show_page():
                 ) = league_search()
 
                 gw_select_2.classes("w-[60px] sm:w-[80px]")
-                manager_select_input.classes("w-2/5 flex-grow")
-                league_input.classes("w-2/5 flex-grow")
+                manager_select_input.style(
+                    "width:0;transition: 0.5s;"
+                    "transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1); "
+                )
+                league_input.classes("flex-grow shrink").style(
+                    "transition: 0.5s;"
+                    "transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);"
+                )
 
                 league_search_div.classes("absolute top-0 z-100")
                 gw_select_2.bind_visibility_from(search_toggle, "value")
@@ -133,6 +139,9 @@ async def show_page():
                     if managers:
                         with league_input.add_slot("prepend"):
                             ui.icon("check_circle", color="green-500")
+                            manager_select_input.style("width:50%;")
+                            manager_select_input.update()
+                            league_input.style("width:30%;")
                             league_input.update()
                     else:
                         with league_input.add_slot("prepend"):
@@ -297,7 +306,7 @@ async def show_page():
             ):
                 with ui.element("div").classes(
                     "w-full max-w-[490px] p-1 bg-gradient-to-r rounded-2xl "
-                    "from-sky-500 via-sky-300 to-cyan-400"
+                    "from-sky-500 via-sky-300 to-cyan-400 drop-shadow-xl "
                 ):
                     bench_1_display = ui.element("div").classes(
                         "w-full max-w-[490px] h-[120px] flex flex-row justify-evenly "
@@ -306,7 +315,7 @@ async def show_page():
 
                 with ui.element("div").classes(
                     "w-full max-w-[490px] p-1 bg-gradient-to-r rounded-2xl "
-                    "from-red-500 via-red-400 to-rose-400"
+                    "from-red-500 via-red-400 to-rose-400 drop-shadow-xl"
                 ):
                     bench_2_display = ui.element("div").classes(
                         "w-full  max-w-[490px] h-[120px] flex flex-row justify-evenly "
