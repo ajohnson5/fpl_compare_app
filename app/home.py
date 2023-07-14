@@ -259,12 +259,12 @@ async def show_page():
             (
                 "flex flex-row justify-center content-center min-h-screen "
                 " w-full bg-stone-100 "
-                " gap-y-0 overflow-hidden gap-x-10"
+                " gap-y-0 overflow-hidden gap-x-10 relative"
             )
         ) as display_div:
             ui.label().classes("w-11/12 h-2 bg-slate-900")
             ui.label("Squads.").classes(
-                "text-5xl sm:text-7xl text-slate-900 font-sans font-bold h-auto "
+                "text-6xl sm:text-7xl text-slate-900 font-sans font-bold h-auto "
                 "w-auto text-center align-middle mb-6 mt-1"
             )
 
@@ -272,6 +272,31 @@ async def show_page():
                 "w-full h-[150px] flex flex-row justify-evenly content-center mx-2 "
                 "lg:gap-x-0 mb-6"
             )
+
+            with ui.element("div").classes(
+                "flex flex-row justify-center  gap-x-4 gap-y-2 mb-2"
+            ):
+                with ui.element("div").classes(
+                    "flex flex-row  content-center items-center "
+                ):
+                    ui.icon("copyright", color="zinc-900", size="sm")
+                    ui.label("Captain").classes("ml-1")
+                with ui.element("div").classes(
+                    "flex flex-row  content-center items-center "
+                ):
+                    ui.icon("local_fire_department", color="zinc-900", size="sm")
+                    ui.label("Triple Captain").classes("ml-1")
+                with ui.element("div").classes(
+                    "flex flex-row  content-center items-center"
+                ):
+                    ui.icon("add_circle", color="zinc-900", size="sm")
+                    ui.label("Auto sub in").classes("ml-1")
+                with ui.element("div").classes(
+                    "flex flex-row  content-center items-center"
+                ):
+                    ui.icon("do_not_disturb_on", color="zinc-900", size="sm")
+                    ui.label("Auto sub out").classes("ml-1 ")
+
             with ui.element("div").classes(
                 "mx-[4px] w-full gap-x-10 flex flex-row justify-center content-center "
                 " mb-2"
