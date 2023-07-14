@@ -24,13 +24,12 @@ from search import (
 
 def manager_chip(manager_name: str, home: bool):
     if home:
-        chip_bg = " bg-blue-400"
+        chip_bg = " bg-sky-500 outline-sky-500"
     else:
-        chip_bg = " bg-red-400"
+        chip_bg = " bg-red-500 outline-red-500"
 
     with ui.element("div").classes(
-        "w-[210px] h-[40px] rounded-lg outline outline-offset-4 "
-        "outline-white relative" + chip_bg
+        "w-[210px] h-[40px] rounded-lg outline outline-offset-4 " " relative" + chip_bg
     ) as chip:
         gw_chip_label = ui.label("21").classes(
             "w-[22px] h-[22px] rounded-full "
@@ -57,24 +56,31 @@ async def show_page():
         with ui.element("div").classes(
             (
                 "flex flex-row justify-center items-center content-center h-screen "
-                "w-screen bg-gradient-to-b from-blue-400 via-blue-300 to-white gap-y-0 "
+                "w-screen bg-stone-100 "
             )
         ) as landing_div:
-            with ui.element("div").classes("h-1/4 w-full flex flex-row"):
+            with ui.element("div").classes("h-1/5 w-full flex flex-row"):
                 ui.label()
 
             with ui.element("div").classes(
-                "h-1/4 w-full flex flex-row justify-center content-end pb-6"
+                "h-1/4 w-full flex flex-row justify-center content-end items-center "
+                "pb-6 gap-x-2"
             ):
-                ui.label("Compare Squads.").classes(
-                    "text-4xl sm:text-5xl text-white font-sans font-bold w-full "
-                    "text-center "
+                compare_button = (
+                    ui.button("Compare", color="white")
+                    .classes("compare_button_class")
+                    .props('push color="white" :ripple="{ center: true }"')
+                )
+                compare_button.classes("text-5xl sm:text-6xl font-sans font-bold mt-2")
+                ui.label("Squads.").classes(
+                    "text-5xl sm:text-6xl text-slate-900 font-sans font-bold h-auto "
+                    "w-auto text-center align-middle"
                 )
 
             search_toggle = (
                 ui.switch()
                 .classes("absolute top-[85vh] right-[5px]")
-                .props('size="70px"')
+                .props('size="70px" checked-icon="leaderboard" unchecked-icon="person"')
             )
             with ui.element("div").classes(
                 "h-1/4 w-full flex flex-row content-start justify-center relative mx-2"
@@ -222,18 +228,11 @@ async def show_page():
                 else:
                     ui.notify("Please enter 2 manager IDs", closeBtn="OK")
 
-            with ui.element("div").classes(
-                "h-1/4 w-full flex flex-row content-start justify-center"
-            ):
-                with ui.element("div").classes(
-                    "w-full flex flex-row justify-center pt-8 sm:pt-0"
-                ):
-                    ui.button("I'm Ready!", on_click=manager_id_search).classes(
-                        "w-[140px] h-[50px]"
-                    ).props('push color="white" text-color="blue-5" ')
+            ui.element("div").classes(
+                "h-1/6 w-full flex flex-row content-start justify-center"
+            )
 
-            # compare_button.style("visibility:hidden")
-
+            compare_button.on("click", manager_id_search)
             delete_chip_1.on("click", lambda x: delete_chip(chip_1))
 
             delete_chip_2.on("click", lambda x: delete_chip(chip_2))
@@ -250,16 +249,15 @@ async def show_page():
         with ui.element("div").classes(
             (
                 "flex flex-row justify-center content-center min-h-screen "
-                " w-full bg-gradient-to-b from-white from 5% via-green-400 via-10% "
-                "to-emerald-500 to-80% gap-y-0 overflow-hidden gap-x-10"
+                " w-full bg-stone-100 "
+                " gap-y-0 overflow-hidden gap-x-10"
             )
         ) as display_div:
-            with ui.label("").classes(
-                "w-full h-[100px] flex flex-row justify-center content-center"
-            ):
-                ui.button("Change Managers", icon="keyboard_double_arrow_up").classes(
-                    "w-full h-[50px]"
-                ).props('flat bg-transparent text-color="grey-7"')
+            ui.label().classes("w-11/12 h-2 bg-slate-900")
+            ui.label("Squads.").classes(
+                "text-5xl sm:text-7xl text-slate-900 font-sans font-bold h-auto "
+                "w-auto text-center align-middle mb-6 mt-1"
+            )
 
             manager_summary_div = ui.element("div").classes(
                 "w-full h-[150px] flex flex-row justify-evenly content-center mx-2 "
@@ -269,31 +267,60 @@ async def show_page():
                 "mx-[4px] w-full gap-x-10 flex flex-row justify-center content-center "
                 " mb-2"
             ):
-                with ui.image(
-                    "https://i.ibb.co/xS9j0v0/half-pitch-complete-final-4.png"
-                ).classes("max-w-[482px] w-full "):
-                    squad_1_display = ui.element("div").classes(
-                        "w-full h-full gap-y-1 bg-transparent flex flex-row"
-                    )
-
-                with ui.image(
-                    "https://i.ibb.co/xS9j0v0/half-pitch-complete-final-4.png"
-                ).classes("max-w-[482px] w-full rotate-180 lg:rotate-0"):
-                    squad_2_display = ui.element("div").classes(
-                        "w-full h-full gap-y-1 flex flex-row bg-transparent"
-                    )
+                with ui.element("div").classes(
+                    "px-2 pt-2 lg:pb-2 w-full max-w-[490px] "
+                    "bg-gradient-to-b from-green-400 via-emerald-400 to-emerald-500"
+                    " rounded-t-xl lg:rounded-b-xl"
+                ):
+                    with ui.image(
+                        "https://i.ibb.co/xS9j0v0/half-pitch-complete-final-4.png"
+                    ).classes("max-w-[482px] w-full"):
+                        squad_1_display = ui.element("div").classes(
+                            "w-full h-full gap-y-0 bg-transparent flex flex-row "
+                            "content-start "
+                        )
+                with ui.element("div").classes(
+                    "px-2 lg:pt-2 pb-2 w-full max-w-[490px]  "
+                    "lg:bg-gradient-to-b lg:from-green-400 lg:via-emerald-400 "
+                    "lg:to-emerald-500 rounded-b-xl lg:rounded-t-xl "
+                    "bg-gradient-to-b from-emerald-500 via-emerald-400 to-green-400"
+                ):
+                    with ui.image(
+                        "https://i.ibb.co/xS9j0v0/half-pitch-complete-final-4.png"
+                    ).classes("max-w-[482px] w-full rotate-180 lg:rotate-0"):
+                        squad_2_display = ui.element("div").classes(
+                            "w-full h-full gap-y-1 flex flex-row bg-transparent"
+                        )
             with ui.element("div").classes(
-                "w-full  flex flex-row justify-center content-center gap-x-10 mb-2 "
+                "w-full  flex flex-row justify-center content-center gap-x-10 mb-4 "
                 "mx-2 gap-y-2"
             ):
-                bench_1_display = ui.element("div").classes(
-                    "w-full max-w-[482px] h-[120px] flex flex-row justify-evenly "
-                    "content-center border-2     border-white"
-                )
+                with ui.element("div").classes(
+                    "w-full max-w-[490px] p-1 bg-gradient-to-r rounded-2xl "
+                    "from-sky-500 via-sky-300 to-cyan-400"
+                ):
+                    bench_1_display = ui.element("div").classes(
+                        "w-full max-w-[490px] h-[120px] flex flex-row justify-evenly "
+                        "bg-slate-50 content-center rounded-xl"
+                    )
 
-                bench_2_display = ui.element("div").classes(
-                    "w-full max-w-[482px] h-[120px] flex flex-row justify-evenly "
-                    "content-center border-2 border-white "
+                with ui.element("div").classes(
+                    "w-full max-w-[490px] p-1 bg-gradient-to-r rounded-2xl "
+                    "from-red-500 via-red-400 to-rose-400"
+                ):
+                    bench_2_display = ui.element("div").classes(
+                        "w-full  max-w-[490px] h-[120px] flex flex-row justify-evenly "
+                        "bg-slate-50 content-center rounded-xl"
+                    )
+
+            with ui.element("div").classes(
+                "w-full h-screen bg-stone-100 flex row-flex justify-center "
+                "content-start"
+            ):
+                ui.label().classes("w-11/12 h-2 bg-slate-900")
+                ui.label("Transfers.").classes(
+                    "text-5xl sm:text-7xl text-slate-900 font-sans font-bold "
+                    "w-auto text-center align-middle mb-10 "
                 )
 
         display_div.set_visibility(False)

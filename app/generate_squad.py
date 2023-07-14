@@ -22,7 +22,7 @@ card_common_style = (
 )
 card_width = " w-[60px]"
 card_height = " h-full "
-shirt_width = " w-[40px]"
+shirt_width = " w-[35px] sm:w-[40px] "
 
 shirt_image_div = (
     "col-span-1 row-span-2 grid-cols-1 grid-rows-1 flex "
@@ -50,20 +50,25 @@ player_points_label = (
 
 def row_generator_bench(player_list: List[Player], home: bool):
     with ui.row().classes(
-        "flex flex-row  w-full h-full justify-around content-center gap-x-0 "
+        "flex flex-row  w-full h-full justify-around content-center gap-x-0 mb-4"
     ):
         for player in player_list:
             standard_player_card(player, home)
 
 
-def row_generator(player_list: List[Player], home: bool):
-    if home:
-        rotate = ""
+def row_generator(player_list: List[Player], home: bool, i):
+    if i == 0:
+        x = "top-0"
     else:
-        rotate = " rotate-180 lg:rotate-0"
+        x = f"top-{i}/4"
+    if home:
+        rotate = "left-0 " + x
+    else:
+        rotate = " rotate-180 lg:rotate-0 left-0 " + x
 
-    with ui.row().classes(
-        "flex flex-row  w-full h-1/4 justify-around content-start gap-x-0 " + rotate
+    with ui.element("div").classes(
+        "flex flex-row absolute w-full h-1/4 justify-around content-start gap-x-0 "
+        + rotate
     ):
         for player in player_list:
             standard_player_card(player, home)
@@ -96,7 +101,7 @@ def standard_player_card(player, home: bool):
                 "col-span-1 row-span-1 grid grid-col-1 grid-rows-2 w-full max-h-[40px]"
             ):
                 if home:
-                    card_color = " bg-blue-500"
+                    card_color = " bg-sky-500"
                 else:
                     card_color = " bg-red-500"
 
@@ -111,27 +116,31 @@ def standard_player_card(player, home: bool):
 
 def manager_summary(manager_name, points, home: bool):
     if home:
-        color = " bg-blue-500 "
+        bg_color = " from-sky-500 via-sky-300 to-cyan-400 lg:mr-6"
     else:
-        color = " bg-red-500 "
+        bg_color = " from-red-500 via-red-400 to-rose-400 lg:ml-6"
     with ui.element("div").classes(
-        "h-full w-1/2 max-w-[150px] md:max-w-[250px] flex flex-row justify-center "
-        "content-start"
+        " p-1 bg-gradient-to-r rounded-2xl drop-shadow-xl" + bg_color
     ):
         with ui.element("div").classes(
-            "w-full h-[50px] flex flex-row content-center rounded-t-xl" + color
+            "h-full w-[150px] md:w-[250px] flex flex-row justify-center "
+            "content-start gap-y-1"
         ):
-            ui.label(manager_name).classes(
-                "text-center w-full text-lg lg:text-2xl text-white"
-            )
+            with ui.element("div").classes(
+                "w-full h-[50px] flex flex-row content-center rounded-t-xl bg-slate-50"
+            ):
+                ui.label(manager_name).classes(
+                    "text-center w-full text-lg lg:text-2xl text-zinc-800 font-medium"
+                )
 
-        with ui.element("div").classes(
-            "w-full h-[100px]  flex flex-row content-center bg-slate-400/60"
-        ):
-            ui.label(points).classes(
-                "text-center w-full text-white text-5xl md:text-7xl"
-            )
-            ui.label("Points").classes("text-center w-full text-white")
+            with ui.element("div").classes(
+                "w-full h-[100px]  flex flex-row content-center bg-slate-50 "
+                "rounded-b-xl"
+            ):
+                ui.label(points).classes(
+                    "text-center w-full text-zinc-800 text-5xl md:text-7xl font-medium"
+                )
+                ui.label("Points").classes("text-center w-full text-zinc-800")
 
 
 async def generate_squad(
@@ -170,17 +179,17 @@ async def generate_squad(
     with squad_1_display:
         squad_1_display.clear()
 
-        row_generator(team_1[1], True)
-        row_generator(team_1[2], True)
-        row_generator(team_1[3], True)
-        row_generator(team_1[4], True)
+        row_generator(team_1[1], True, 0)
+        row_generator(team_1[2], True, 1)
+        row_generator(team_1[3], True, 2)
+        row_generator(team_1[4], True, 3)
 
     with squad_2_display:
         squad_2_display.clear()
-        row_generator(team_1[1], False)
-        row_generator(team_1[2], False)
-        row_generator(team_1[3], False)
-        row_generator(team_1[4], False)
+        row_generator(team_1[1], False, 0)
+        row_generator(team_1[2], False, 1)
+        row_generator(team_1[3], False, 2)
+        row_generator(team_1[4], False, 3)
 
     with bench_1_display:
         bench_1_display.clear()

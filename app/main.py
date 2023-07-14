@@ -85,6 +85,18 @@ async def main(client: Client):
     width: 0.4em;
     height: 0.4em;
     }
+    .q-toggle__thumb .q-icon {
+        margin-right:1px;
+    }
+    .compare_button_class.text-white {
+    color: #0ea5e9 !important;
+    }
+
+    .compare_button_class.q-btn{
+    min-height:auto;
+    padding: 10px 8px 20px 8px;
+    text-transform:none;
+    } 
     </style>
     """
     )
