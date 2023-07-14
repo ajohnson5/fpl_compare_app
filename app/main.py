@@ -1,5 +1,6 @@
 from common_format import display
 import home
+import about
 import asyncio
 from nicegui import ui, Client, globals
 from fastapi import FastAPI
@@ -17,7 +18,9 @@ from router import Router
 # to also show the SPA index page
 async def main(client: Client):
     ui.add_head_html(
-        """<style>
+        """
+    <link href="https://unpkg.com/eva-icons@1.1.3/style/eva-icons.css" rel="stylesheet">
+        <style>
     body {
         max-width: 100%;
         padding:0;
@@ -97,6 +100,17 @@ async def main(client: Client):
     padding: 10px 8px 20px 8px;
     text-transform:none;
     } 
+
+    .side_bar {
+        width:100% !important;
+    }
+
+    @media only screen and (min-width: 640px) {
+        .side_bar{
+            width:300px !important;   
+        }
+    }
+    
     </style>
     """
     )
@@ -104,17 +118,18 @@ async def main(client: Client):
     client.content.classes("p-0 m-0")
     router = Router()
 
-    # @router.add("/")
-    # def home_page():
-    #     index.show_page()
-
     @router.add("/")
     async def home_page():
         await home.show_page()
 
+    @router.add("/about")
+    async def about_page():
+        await about.show_page()
+
     display(
         [
-            (home_page, "Home"),
+            (home_page, "Home."),
+            (about_page, "About."),
         ],
         router,
     )
