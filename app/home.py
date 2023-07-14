@@ -10,8 +10,8 @@ import asyncio
 import fpl_api_getters
 from player import Player
 
-from custom_components import input_with_select
-
+from custom_components import input_with_select, league_search
+from generate_squad import generate_squad
 
 from squad_display import show_squad
 from search import (
@@ -21,145 +21,26 @@ from search import (
     mini_league_search_bar,
 )
 
-card_common_style = (
-    "col-span-1 row-span-1 flex justify-center content-center "
-    "items-center max-h-[20px]"
-)
-card_width = " w-[60px]"
-card_height = " h-full "
-shirt_width = " w-[40px]"
-
-shirt_image_div = (
-    "col-span-1 row-span-2 grid-cols-1 grid-rows-1 flex "
-    "justify-center items-center relative"
-)
-
-
-player_name_label = (
-    "text-black text-center align-middle text-xs md:texts-sm "
-    "font-medium overflow-hidden truncate leading-tight "
-    "tracking-tighter line-clamp-1"
-)
-
-player_points_div = (
-    "col-span-1 row-span-1 w-full max-h-[20px] flex justify-center "
-    "content-center items-center bg-slate-400/60"
-)
-
-player_points_label = (
-    "text-white text-center align-top text-xs md:texts-sm "
-    "font-medium truncate overflow-hidden leading-tight "
-    "tracking-tighter"
-)
-
-
-def row_generator_bench(player_list: List[Player], home: bool):
-    with ui.row().classes(
-        "flex flex-row  w-full h-full justify-around content-center gap-x-0 "
-    ):
-        for player in player_list:
-            standard_player_card(player, home)
-
-
-def row_generator(player_list: List[Player], home: bool):
-    if home:
-        rotate = ""
-    else:
-        rotate = " rotate-180 lg:rotate-0"
-
-    with ui.row().classes(
-        "flex flex-row  w-full h-1/4 justify-around content-start gap-x-0 " + rotate
-    ):
-        for player in player_list:
-            standard_player_card(player, home)
-
-
-def standard_player_card(player, home: bool):
-    with ui.element("div").classes(
-        "flex flex-row  flex-1 h-full items-center justify-center content-center"
-    ):
-        with ui.element("div").classes(
-            "grid grid-cols-1 grid-rows-3  h-full" + card_width
-        ):
-            with ui.element("div").classes(shirt_image_div):
-                ui.image("https://i.ibb.co/zsQThP3/ARS-2223-HK-PL-S1.webp").classes(
-                    "cols-span-1 row-span-1 object-contain" + shirt_width
-                )
-
-                if player.is_captain:
-                    if player.multiplier == 3:
-                        ui.icon("local_fire_department").classes(
-                            "w-1/5 h-1/5 absolute top-1 right-1"
-                        )
-
-                    else:
-                        ui.icon("copyright").classes(
-                            "w-1/5 h-1/5 absolute top-1 right-1"
-                        )
-
-            with ui.element("div").classes(
-                "col-span-1 row-span-1 grid grid-col-1 grid-rows-2 w-full max-h-[40px]"
-            ):
-                if home:
-                    card_color = " bg-blue-500"
-                else:
-                    card_color = " bg-red-500"
-
-                with ui.element("div").classes(
-                    card_common_style + card_width + card_color
-                ):
-                    ui.label(player.name).classes(player_name_label)
-
-                with ui.element("div").classes(player_points_div):
-                    ui.label(player.actual_points).classes(player_points_label)
-
-
-def manager_summary(manager_name, points, home: bool):
-    if home:
-        color = " bg-blue-500 "
-    else:
-        color = " bg-red-500 "
-    with ui.element("div").classes(
-        "h-full w-1/2 max-w-[150px] md:max-w-[250px] flex flex-row justify-center "
-        "content-start"
-    ):
-        with ui.element("div").classes(
-            "w-full h-[50px] flex flex-row content-center rounded-t-xl" + color
-        ):
-            ui.label(manager_name).classes(
-                "text-center w-full text-lg lg:text-2xl text-white"
-            )
-
-        with ui.element("div").classes(
-            "w-full h-[100px]  flex flex-row content-center bg-slate-400/60"
-        ):
-            ui.label(points).classes(
-                "text-center w-full text-white text-5xl md:text-7xl"
-            )
-            ui.label("Points").classes("text-center w-full text-white")
-
-
-squad_1 = fpl_api_getters.manager_gw_picks_api_temp(38, 13231)
-squad_2 = fpl_api_getters.manager_gw_picks_api_temp(38, 1310)
-
-team_1, team_2 = squad_1.compare_squad(squad_2)
-
 
 def manager_chip(manager_name: str, home: bool):
     if home:
-        chip_bg = " bg-blue-400"
+        chip_bg = " bg-sky-500 outline-sky-500"
     else:
-        chip_bg = " bg-red-400"
+        chip_bg = " bg-red-500 outline-red-500"
 
     with ui.element("div").classes(
-        "w-[210px] h-[40px] rounded-lg outline outline-offset-4 "
-        "outline-white" + chip_bg
+        "w-[210px] h-[40px] rounded-lg outline outline-offset-4 " " relative" + chip_bg
     ) as chip:
+        gw_chip_label = ui.label("21").classes(
+            "w-[22px] h-[22px] rounded-full "
+            "bg-slate-600 text-white absolute -top-[13px] -left-[10px] text-center "
+            "font-semibold align-middle"
+        )
         with ui.row().classes(
-            "w-full h-full flex flex-row justify-between content-center " "items-center"
+            "w-full h-full flex flex-row justify-between content-center items-center"
         ):
             manager_name = ui.label(manager_name).classes(
-                "text-white pl-2 line-clamp-1 max-w-[150px] font-semibold text-md"
+                "text-white pl-2 max-w-[150px] h-[20px] font-semibold text-md"
             )
             delete_chip = ui.icon("cancel", size="25px").classes(
                 "cursor-pointer pr-2 text-slate-50 hover:text-slate-400"
@@ -167,7 +48,7 @@ def manager_chip(manager_name: str, home: bool):
 
     chip.style("visibility:hidden")
 
-    return chip, manager_name, delete_chip
+    return chip, manager_name, delete_chip, gw_chip_label
 
 
 async def show_page():
@@ -175,42 +56,135 @@ async def show_page():
         with ui.element("div").classes(
             (
                 "flex flex-row justify-center items-center content-center h-screen "
-                "w-screen bg-gradient-to-b from-blue-400 via-blue-300 to-white gap-y-0 "
+                "w-screen bg-transparent"
             )
-        ):
-            with ui.element("div").classes("h-1/4 w-full flex flex-row"):
+        ) as landing_div:
+            with ui.element("div").classes("h-1/5 w-full flex flex-row"):
                 ui.label()
 
             with ui.element("div").classes(
-                "h-1/4 w-full flex flex-row justify-center content-end pb-6"
+                "h-1/4 w-full flex flex-row justify-center content-end items-center "
+                "pb-6 gap-x-2"
             ):
-                ui.label("Compare Squads.").classes(
-                    "text-5xl sm:text-5xl text-white font-sans font-bold w-full "
-                    "text-center "
+                compare_button = (
+                    ui.button("Compare", color="white")
+                    .classes("compare_button_class")
+                    .classes("text-5xl sm:text-6xl font-sans font-bold mt-2")
+                    .props('push color="white" :ripple="{ center: true }"')
                 )
+                ui.label("Squads.").classes(
+                    "text-5xl sm:text-6xl text-zinc-900 font-sans font-bold h-auto "
+                    "w-auto text-center align-middle z-10"
+                )
+
+            search_toggle = (
+                ui.switch()
+                .classes("absolute top-[85vh] right-[5px]")
+                .props('size="70px" checked-icon="leaderboard" unchecked-icon="person"')
+            )
             with ui.element("div").classes(
-                "h-1/4 w-full flex flex-row content-start justify-center"
+                "h-1/4 w-full flex flex-row content-start justify-center relative mx-2"
             ):
                 input_1, gw_select_1 = input_with_select()
 
-                input_1.classes("w-2/3 max-w-[300px]")
-                gw_select_1.classes("w-1/3 max-w-[100px]")
+                input_1.classes("flex-grow min-w-[100px]")
+                gw_select_1.classes("w-[60px] sm:w-[80px]")
 
-                chip_state = {"chip_1": None, "chip_2": None}
+                (
+                    league_input,
+                    manager_select_input,
+                    gw_select_2,
+                    league_search_div,
+                ) = league_search()
+
+                gw_select_2.classes("w-[60px] sm:w-[80px]")
+                manager_select_input.style(
+                    "width:0;transition: 0.5s;"
+                    "transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1); "
+                )
+                league_input.classes("flex-grow shrink").style(
+                    "transition: 0.5s;"
+                    "transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);"
+                )
+
+                league_search_div.classes("absolute top-0 z-100")
+                gw_select_2.bind_visibility_from(search_toggle, "value")
+                league_input.bind_visibility_from(search_toggle, "value")
+                manager_select_input.bind_visibility_from(search_toggle, "value")
+
+                async def search_league(league_id):
+                    if not league_id:
+                        with league_input.add_slot("prepend"):
+                            with ui.icon("error", color="red-500"):
+                                ui.tooltip("Please enter a League ID").classes(
+                                    "bg-red-500"
+                                )
+                            league_input.update()
+                        return
+
+                    manager_select_input.clear()
+
+                    manager_select_input.set_value(value=None)
+
+                    managers = await fpl_api_getters.get_mini_league_managers(
+                        int(league_id)
+                    )
+
+                    managers = {
+                        12313: "Ujedinjeni Urci",
+                        2131: "Badger Oblong Quasi",
+                        3763: "Bad Team On Paper",
+                    }
+
+                    if managers:
+                        with league_input.add_slot("prepend"):
+                            ui.icon("check_circle", color="green-500")
+                            manager_select_input.style("width:50%;")
+                            manager_select_input.update()
+                            league_input.style("width:30%;")
+                            league_input.update()
+                    else:
+                        with league_input.add_slot("prepend"):
+                            with ui.icon("error", color="red-500"):
+                                ui.tooltip("Invalid League ID").classes("bg-red-500")
+                            league_input.update()
+                        return
+
+                    manager_select_input.options = managers
+                    manager_select_input.update()
+
+                league_input.on(
+                    "keydown.enter", lambda: search_league(league_input.value)
+                )
+
+                gw_select_1.bind_value(gw_select_2, "value")
+
+                chip_state = {
+                    "chip_1": None,
+                    "chip_2": None,
+                    "chip_1_id": None,
+                    "chip_2_id": None,
+                    "chip_1_gw": None,
+                    "chip_2_gw": None,
+                }
 
                 def add_chip(manager_id, gw_select_1):
                     if manager_id and gw_select_1:
                         if not chip_state["chip_1"]:
                             manager_name = fpl_api_getters.manager_name(manager_id)
                             if manager_name:
+                                chip_state["chip_1_id"] = int(manager_id)
                                 chip_state["chip_1"] = manager_name
+                                chip_state["chip_1_gw"] = gw_select_1
                                 chip_1.style("visibility:visible")
                             else:
                                 ui.notify("Manager does not exist", closeBtn="OK")
                         elif not chip_state["chip_2"]:
                             manager_name = fpl_api_getters.manager_name(manager_id)
                             if manager_name:
+                                chip_state["chip_2_id"] = int(manager_id)
                                 chip_state["chip_2"] = manager_name
+                                chip_state["chip_2_gw"] = gw_select_1
                                 chip_2.style("visibility:visible")
                             else:
                                 ui.notify("Manager does not exist", closeBtn="OK")
@@ -229,34 +203,45 @@ async def show_page():
                     "w-full flex flex-row justify-center content-start gap-x-4 gap-y-6 "
                     "pt-6"
                 ):
-                    chip_1, manager_name_1, delete_chip_1 = manager_chip(
-                        "WHU Tang Clan", True
-                    )
-                    chip_2, manager_name_2, delete_chip_2 = manager_chip(
-                        "Ruislip Rejects", False
-                    )
+                    (
+                        chip_1,
+                        manager_name_1,
+                        delete_chip_1,
+                        gw_chip_label_1,
+                    ) = manager_chip("WHU Tang Clan", True)
+                    (
+                        chip_2,
+                        manager_name_2,
+                        delete_chip_2,
+                        gw_chip_label_2,
+                    ) = manager_chip("Ruislip Rejects", False)
+
+                    gw_chip_label_1.bind_text_from(chip_state, "chip_1_gw")
+                    gw_chip_label_2.bind_text_from(chip_state, "chip_2_gw")
 
                     manager_name_1.bind_text_from(chip_state, "chip_1")
                     manager_name_2.bind_text_from(chip_state, "chip_2")
 
-            def manager_id_search():
+            async def manager_id_search():
                 if chip_state["chip_1"] and chip_state["chip_2"]:
-                    ui.notify("Search Complete", closeBtn="OK")
+                    await generate_squad(
+                        chip_state,
+                        display_div,
+                        landing_div,
+                        manager_summary_div,
+                        squad_1_display,
+                        squad_2_display,
+                        bench_1_display,
+                        bench_2_display,
+                    )
                 else:
                     ui.notify("Please enter 2 manager IDs", closeBtn="OK")
 
-            with ui.element("div").classes(
-                "h-1/4 w-full flex flex-row content-start justify-center"
-            ):
-                with ui.element("div").classes(
-                    "w-full flex flex-row justify-center pt-8 sm:pt-0"
-                ):
-                    ui.button("I'm Ready!", on_click=manager_id_search).classes(
-                        "w-[140px] h-[50px]"
-                    ).props('push color="white" text-color="blue-5" ')
+            ui.element("div").classes(
+                "h-1/6 w-full flex flex-row content-start justify-center"
+            )
 
-            # compare_button.style("visibility:hidden")
-
+            compare_button.on("click", manager_id_search)
             delete_chip_1.on("click", lambda x: delete_chip(chip_1))
 
             delete_chip_2.on("click", lambda x: delete_chip(chip_2))
@@ -265,65 +250,86 @@ async def show_page():
                 "keydown.enter", lambda x: add_chip(input_1.value, gw_select_1.value)
             )
 
+            manager_select_input.on(
+                "update:model-value",
+                lambda x: add_chip(manager_select_input.value, gw_select_2.value),
+            )
+
         with ui.element("div").classes(
             (
                 "flex flex-row justify-center content-center min-h-screen "
-                " w-full bg-gradient-to-b from-white from 5% via-green-400 via-10% "
-                "to-emerald-500 to-80% gap-y-0 overflow-hidden gap-x-10"
+                " w-full bg-stone-100 "
+                " gap-y-0 overflow-hidden gap-x-10"
             )
-        ):
-            with ui.label("").classes(
-                "w-full h-[100px] flex flex-row justify-center content-center"
-            ):
-                ui.button("Change Managers", icon="keyboard_double_arrow_up").classes(
-                    "w-full h-[50px] animate-bounce"
-                ).props('flat bg-transparent text-color="grey-7"')
+        ) as display_div:
+            ui.label().classes("w-11/12 h-2 bg-slate-900")
+            ui.label("Squads.").classes(
+                "text-5xl sm:text-7xl text-slate-900 font-sans font-bold h-auto "
+                "w-auto text-center align-middle mb-6 mt-1"
+            )
 
-            with ui.element("div").classes(
+            manager_summary_div = ui.element("div").classes(
                 "w-full h-[150px] flex flex-row justify-evenly content-center mx-2 "
                 "lg:gap-x-0 mb-6"
-            ):
-                manager_summary("Manager 1", "67", True)
-
-                manager_summary("Manager 2", "78", False)
-
+            )
             with ui.element("div").classes(
                 "mx-[4px] w-full gap-x-10 flex flex-row justify-center content-center "
                 " mb-2"
             ):
-                with ui.image(
-                    "https://i.ibb.co/xS9j0v0/half-pitch-complete-final-4.png"
-                ).classes("max-w-[482px] w-full "):
-                    with ui.element("div").classes(
-                        "w-full h-full gap-y-1 bg-transparent flex flex-row"
-                    ):
-                        row_generator(team_1[1], True)
-                        row_generator(team_1[2], True)
-                        row_generator(team_1[3], True)
-                        row_generator(team_1[4], True)
-
-                with ui.image(
-                    "https://i.ibb.co/xS9j0v0/half-pitch-complete-final-4.png"
-                ).classes("max-w-[482px] w-full rotate-180 lg:rotate-0"):
-                    with ui.element("div").classes(
-                        "w-full h-full gap-y-1 flex flex-row bg-transparent"
-                    ):
-                        row_generator(team_1[1], False)
-                        row_generator(team_1[2], False)
-                        row_generator(team_1[3], False)
-                        row_generator(team_1[4], False)
-
+                with ui.element("div").classes(
+                    "px-2 pt-2 lg:pb-2 w-full max-w-[490px] "
+                    "bg-gradient-to-b from-green-400 via-emerald-400 to-emerald-500"
+                    " rounded-t-xl lg:rounded-b-xl"
+                ):
+                    with ui.image(
+                        "https://i.ibb.co/xS9j0v0/half-pitch-complete-final-4.png"
+                    ).classes("max-w-[482px] w-full"):
+                        squad_1_display = ui.element("div").classes(
+                            "w-full h-full gap-y-0 bg-transparent flex flex-row "
+                            "content-start "
+                        )
+                with ui.element("div").classes(
+                    "px-2 lg:pt-2 pb-2 w-full max-w-[490px]  "
+                    "lg:bg-gradient-to-b lg:from-green-400 lg:via-emerald-400 "
+                    "lg:to-emerald-500 rounded-b-xl lg:rounded-t-xl "
+                    "bg-gradient-to-b from-emerald-500 via-emerald-400 to-green-400"
+                ):
+                    with ui.image(
+                        "https://i.ibb.co/xS9j0v0/half-pitch-complete-final-4.png"
+                    ).classes("max-w-[482px] w-full rotate-180 lg:rotate-0"):
+                        squad_2_display = ui.element("div").classes(
+                            "w-full h-full gap-y-1 flex flex-row bg-transparent"
+                        )
             with ui.element("div").classes(
-                "w-full  flex flex-row justify-center content-center gap-x-10 mb-2 "
+                "w-full  flex flex-row justify-center content-center gap-x-10 mb-4 "
                 "mx-2 gap-y-2"
             ):
                 with ui.element("div").classes(
-                    "w-full max-w-[482px] h-[120px] flex flex-row justify-evenly "
-                    "content-center border-2     border-white"
+                    "w-full max-w-[490px] p-1 bg-gradient-to-r rounded-2xl "
+                    "from-sky-500 via-sky-300 to-cyan-400 drop-shadow-xl "
                 ):
-                    row_generator_bench(team_1[0], True)
+                    bench_1_display = ui.element("div").classes(
+                        "w-full max-w-[490px] h-[120px] flex flex-row justify-evenly "
+                        "bg-slate-50 content-center rounded-xl"
+                    )
+
                 with ui.element("div").classes(
-                    "w-full max-w-[482px] h-[120px] flex flex-row justify-evenly "
-                    "content-center border-2 border-white "
+                    "w-full max-w-[490px] p-1 bg-gradient-to-r rounded-2xl "
+                    "from-red-500 via-red-400 to-rose-400 drop-shadow-xl"
                 ):
-                    row_generator_bench(team_1[0], False)
+                    bench_2_display = ui.element("div").classes(
+                        "w-full  max-w-[490px] h-[120px] flex flex-row justify-evenly "
+                        "bg-slate-50 content-center rounded-xl"
+                    )
+
+            with ui.element("div").classes(
+                "w-full h-screen bg-stone-100 flex row-flex justify-center "
+                "content-start"
+            ):
+                ui.label().classes("w-11/12 h-2 bg-slate-900")
+                ui.label("Transfers.").classes(
+                    "text-5xl sm:text-7xl text-slate-900 font-sans font-bold "
+                    "w-auto text-center align-middle mb-10 "
+                )
+
+        display_div.set_visibility(False)
