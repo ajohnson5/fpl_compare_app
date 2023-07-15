@@ -1,6 +1,6 @@
 pandas
 requests
-nicegui
+nicegui==1.2.24 
 asyncio
 gcsfs
 dataclasses

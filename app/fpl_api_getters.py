@@ -6,7 +6,8 @@ import aiohttp
 import asyncio
 import gcsfs
 
-df = pd.read_parquet("gs://fpl_dev_bucket/2022/player_gameweek/")
+df = pd.read_parquet("app\data\player_gameweek_38.parquet")
+
 df.set_index(["gameweek", "id"], inplace=True)
 
 
@@ -40,6 +41,118 @@ squad_dict = {
         },
     ],
     "entry_history": {"rank": 1},
+    "picks": [
+        {
+            "element": 81,
+            "position": 1,
+            "is_captain": False,
+            "multiplier": 1,
+        },
+        {
+            "element": 586,
+            "position": 2,
+            "is_captain": False,
+            "multiplier": 1,
+        },
+        {
+            "element": 285,
+            "position": 3,
+            "is_captain": False,
+            "multiplier": 1,
+        },
+        {
+            "element": 357,
+            "position": 4,
+            "is_captain": False,
+            "multiplier": 1,
+        },
+        {
+            "element": 124,
+            "position": 5,
+            "is_captain": False,
+            "multiplier": 1,
+        },
+        {
+            "element": 283,
+            "position": 6,
+            "is_captain": False,
+            "multiplier": 1,
+        },
+        {
+            "element": 333,
+            "position": 7,
+            "is_captain": False,
+            "multiplier": 1,
+        },
+        {
+            "element": 335,
+            "position": 8,
+            "is_captain": False,
+            "multiplier": 1,
+        },
+        {
+            "element": 116,
+            "position": 9,
+            "is_captain": False,
+            "multiplier": 1,
+        },
+        {
+            "element": 319,
+            "position": 10,
+            "is_captain": False,
+            "multiplier": 1,
+        },
+        {
+            "element": 427,
+            "position": 11,
+            "is_captain": True,
+            "multiplier": 2,
+        },
+        {
+            "element": 254,
+            "position": 12,
+            "is_captain": False,
+            "multiplier": 0,
+        },
+        {
+            "element": 332,
+            "position": 13,
+            "is_captain": False,
+            "multiplier": 0,
+        },
+        {
+            "element": 85,
+            "position": 14,
+            "is_captain": False,
+            "multiplier": 0,
+        },
+        {
+            "element": 237,
+            "position": 15,
+            "is_captain": False,
+            "multiplier": 0,
+        },
+    ],
+}
+
+
+squad_dict_2 = {
+    "active_chip": "wildcard",
+    "automatic_subs": [
+        {
+            "entry": 123,
+            "element_in": 586,
+            "element_out": 332,
+            "event": 4,
+        },
+        {
+            "entry": 123,
+            "element_in": 81,
+            "element_out": 254,
+            "event": 7,
+        },
+    ],
+    "entry_history": {"rank": 11},
     "picks": [
         {
             "element": 81,
