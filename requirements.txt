@@ -5,6 +5,4 @@ asyncio
 gcsfs
 dataclasses
 typing
-gunicorn
-uvicorn
 pyarrow
