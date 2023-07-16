@@ -6,7 +6,9 @@ import aiohttp
 import asyncio
 import gcsfs
 
-df = pd.read_parquet("app\data\player_gameweek_38.parquet")
+df = pd.read_parquet("app/data/player_gameweek_38.parquet")
+
+# df = pd.read_parquet("gs://fpl_dev_bucket/2022/player_gameweek")
 
 df.set_index(["gameweek", "id"], inplace=True)
 
