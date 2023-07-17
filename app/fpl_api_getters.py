@@ -56,7 +56,7 @@ squad_dict = {
             "event": 7,
         },
     ],
-    "entry_history": {"rank": 1},
+    "entry_history": {"rank": 1, "points": 92},
     "picks": [
         {
             "element": 81,
@@ -168,7 +168,9 @@ squad_dict_2 = {
             "event": 7,
         },
     ],
-    "entry_history": {"rank": 11},
+    "entry_history": {
+        "rank": 11,
+    },
     "picks": [
         {
             "element": 81,

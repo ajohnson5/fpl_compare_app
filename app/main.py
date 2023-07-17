@@ -36,11 +36,9 @@ async def main(client: Client):
     border-bottom-right-radius:9999px;
 
     }
-
     .gw_select_class.q-field--outlined .q-field__control {
     padding: 0 2px;
     }
-
     .gw_select_class.q-field__after, .q-field__append {
     padding-left: 4px;
     }

@@ -113,7 +113,7 @@ def standard_player_card(player, home: bool):
                     ui.label(player.actual_points).classes(player_points_label)
 
 
-def manager_summary(manager_name, points, home: bool):
+def manager_summary(home: bool):
     if home:
         bg_color = " from-sky-500 via-sky-300 to-cyan-400 lg:mr-6"
     else:
@@ -129,7 +129,7 @@ def manager_summary(manager_name, points, home: bool):
                 "w-full h-[50px] flex flex-row content-center rounded-t-xl "
                 "bg-slate-50/30"
             ):
-                ui.label(manager_name).classes(
+                manager_name = ui.label().classes(
                     "text-center w-full text-lg lg:text-2xl text-stone-100 font-medium"
                 )
 
@@ -137,17 +137,19 @@ def manager_summary(manager_name, points, home: bool):
                 "w-full h-[100px]  flex flex-row content-center bg-slate-50/30 "
                 "rounded-b-xl"
             ):
-                ui.label(points).classes(
+                total_points = ui.label().classes(
                     "text-center w-full text-stone-100 text-5xl md:text-7xl font-medium"
                 )
                 ui.label("Points").classes("text-center w-full text-stone-100")
+
+    return manager_name, total_points
 
 
 async def generate_squad(
     manager_dict,
     display_div,
     loading_div,
-    manager_summary_div,
+    summary_state,
     squad_1_display,
     squad_2_display,
     bench_1_display,
@@ -170,11 +172,11 @@ async def generate_squad(
     await asyncio.sleep(2)
     loading_clearable_div.clear()
 
-    with manager_summary_div:
-        manager_summary_div.clear()
-        manager_summary(manager_dict["chip_1"], "67", True)
-
-        manager_summary(manager_dict["chip_2"], "78", False)
+    # Update dictionary with manager names and points
+    summary_state["manager_name_1"] = manager_dict["chip_1"]
+    summary_state["manager_name_2"] = manager_dict["chip_2"]
+    summary_state["manager_1_points"] = squad_1.stats["points"]
+    summary_state["manager_2_points"] = squad_2.stats["points"]
 
     with squad_1_display:
         squad_1_display.clear()

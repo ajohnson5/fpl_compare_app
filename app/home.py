@@ -4,7 +4,7 @@ import asyncio
 import fpl_api_getters
 from player import Player
 from custom_components import input_with_select, league_search
-from generate_squad import generate_squad
+from generate_squad import generate_squad, manager_summary
 
 
 def manager_chip(manager_name: str, home: bool):
@@ -213,7 +213,7 @@ async def show_page():
                         chip_state,
                         display_div,
                         landing_div,
-                        manager_summary_div,
+                        summary_state,
                         squad_1_display,
                         squad_2_display,
                         bench_1_display,
@@ -253,10 +253,23 @@ async def show_page():
                 "w-auto text-center align-middle mb-6 mt-1"
             )
 
-            manager_summary_div = ui.element("div").classes(
+            with ui.element("div").classes(
                 "w-full h-auto flex flex-row justify-evenly content-center mx-2 "
                 "lg:gap-x-0 mb-4 gap-y-2"
-            )
+            ):
+                manager_name_1, manager_points_1 = manager_summary(True)
+                manager_name_2, manager_points_2 = manager_summary(False)
+
+            summary_state = {
+                "manager_name_1": "",
+                "manager_1_points": 0,
+                "manager_name_2": "",
+                "manager_2_points": 0,
+            }
+            manager_name_1.bind_text_from(summary_state, "manager_name_1")
+            manager_name_2.bind_text_from(summary_state, "manager_name_2")
+            manager_points_1.bind_text_from(summary_state, "manager_1_points")
+            manager_points_2.bind_text_from(summary_state, "manager_2_points")
 
             with ui.element("div").classes(
                 "flex flex-row justify-center  gap-x-4 gap-y-2 mb-2"
