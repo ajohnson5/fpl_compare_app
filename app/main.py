@@ -110,12 +110,11 @@ async def main(client: Client):
             width:300px !important;   
         }
     }
-    
     </style>
     """
     )
 
-    client.content.classes("p-0 m-0")
+    client.content.classes("p-0 m-0").style("--q-primary: #0ea5e9;")
     router = Router()
 
     @router.add("/")

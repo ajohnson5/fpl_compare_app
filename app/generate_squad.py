@@ -97,16 +97,20 @@ def standard_player_card(player, home: bool):
                         )
 
                     else:
-                        ui.icon("copyright").classes("absolute top-0.5 right-0")
+                        ui.icon("copyright", size="14px").classes(
+                            "absolute top-0.5 right-0"
+                        )
 
                 if player.auto_sub:
                     if player.starting:
-                        ui.icon("add_circle", color=card_color).classes(
+                        ui.icon("add_circle", color=card_color, size="14px").classes(
                             "h-[10px] w-[10px] absolute top-0.5 left-0 bg-white "
                             "rounded-full"
                         )
                     else:
-                        ui.icon("do_not_disturb_on", color=card_color).classes(
+                        ui.icon(
+                            "do_not_disturb_on", color=card_color, size="14px"
+                        ).classes(
                             "h-[10px] w-[10px] absolute top-0.5 left-0 bg-white "
                             "rounded-full"
                         )
@@ -132,24 +136,25 @@ def manager_summary(manager_name, points, home: bool):
         " p-1 bg-gradient-to-r rounded-2xl drop-shadow-xl" + bg_color
     ):
         with ui.element("div").classes(
-            "h-full w-[150px] md:w-[250px] flex flex-row justify-center "
+            " w-[150px] md:w-[250px] flex flex-row justify-center "
             "content-start gap-y-1"
         ):
             with ui.element("div").classes(
-                "w-full h-[50px] flex flex-row content-center rounded-t-xl bg-slate-50"
+                "w-full h-[50px] flex flex-row content-center rounded-t-xl "
+                "bg-slate-50/30"
             ):
                 ui.label(manager_name).classes(
-                    "text-center w-full text-lg lg:text-2xl text-zinc-800 font-medium"
+                    "text-center w-full text-lg lg:text-2xl text-stone-100 font-medium"
                 )
 
             with ui.element("div").classes(
-                "w-full h-[100px]  flex flex-row content-center bg-slate-50 "
+                "w-full h-[100px]  flex flex-row content-center bg-slate-50/30 "
                 "rounded-b-xl"
             ):
                 ui.label(points).classes(
-                    "text-center w-full text-zinc-800 text-5xl md:text-7xl font-medium"
+                    "text-center w-full text-stone-100 text-5xl md:text-7xl font-medium"
                 )
-                ui.label("Points").classes("text-center w-full text-zinc-800")
+                ui.label("Points").classes("text-center w-full text-stone-100")
 
 
 async def generate_squad(

@@ -74,7 +74,7 @@ async def show_page():
                 )
                 ui.label("Squads.").classes(
                     "text-5xl sm:text-6xl text-zinc-900 font-sans font-bold h-auto "
-                    "w-auto text-center align-middle z-10"
+                    "w-auto text-center align-middle"
                 )
 
             search_toggle = (
@@ -269,8 +269,8 @@ async def show_page():
             )
 
             manager_summary_div = ui.element("div").classes(
-                "w-full h-[150px] flex flex-row justify-evenly content-center mx-2 "
-                "lg:gap-x-0 mb-6"
+                "w-full h-auto flex flex-row justify-evenly content-center mx-2 "
+                "lg:gap-x-0 mb-4 gap-y-2"
             )
 
             with ui.element("div").classes(
@@ -335,7 +335,7 @@ async def show_page():
                 ):
                     bench_1_display = ui.element("div").classes(
                         "w-full max-w-[490px] h-[100px] flex flex-row justify-evenly "
-                        "bg-slate-50 content-center rounded-xl"
+                        "bg-slate-50/50 content-center rounded-xl"
                     )
 
                 with ui.element("div").classes(
@@ -344,7 +344,7 @@ async def show_page():
                 ):
                     bench_2_display = ui.element("div").classes(
                         "w-full  max-w-[490px] h-[100px] flex flex-row justify-evenly "
-                        "bg-slate-50 content-center rounded-xl"
+                        "bg-slate-50/50 content-center rounded-xl opac"
                     )
 
             with ui.element("div").classes(
