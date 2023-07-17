@@ -6,31 +6,15 @@ import fpl_api_getters
 from player import Player
 from squad import Squad
 
-
-card_common_style = (
-    "col-span-1 row-span-1 flex justify-center content-center "
-    "items-center max-h-[20px] "
+player_label = (
+    "w-[60px] max-h-[22px] col-span-1 row-span-1 text-center align-middle "
+    "text-xs md:text-sm font-medium tracking-tighter leading-tight "
 )
 card_width = " w-[60px]"
-card_height = " h-full "
 shirt_width = " w-[35px] sm:w-[40px] "
 shirt_image_div = (
     "col-span-1 row-span-2 grid-cols-1 grid-rows-1 flex "
     "justify-center items-center relative"
-)
-player_name_label = (
-    "text-white text-center align-middle text-xs md:texts-sm "
-    "font-medium overflow-hidden leading-tight "
-    "tracking-tighter line-clamp-1 truncate"
-)
-player_points_div = (
-    "col-span-1 row-span-1 w-full max-h-[20px] flex justify-center "
-    "content-center items-center bg-slate-400/60"
-)
-player_points_label = (
-    "text-zinc-900 text-center align-top text-xs md:texts-sm "
-    "font-medium truncate overflow-hidden leading-tight "
-    "tracking-tighter"
 )
 
 
@@ -104,13 +88,16 @@ def standard_player_card(player, home: bool):
             with ui.element("div").classes(
                 "col-span-1 row-span-1 grid grid-col-1 grid-rows-2 w-full max-h-[40px]"
             ):
-                with ui.element("div").classes(
-                    card_common_style + card_width + " bg-" + card_color
-                ):
-                    ui.label(player.name).classes(player_name_label)
+                ui.label(player.name).classes(
+                    player_label + " bg-" + card_color + " text-white"
+                ).style(
+                    "overflow:hidden;white-space: nowrap;text-overflow: "
+                    "ellipsis;display: block;"
+                )
 
-                with ui.element("div").classes(player_points_div):
-                    ui.label(player.actual_points).classes(player_points_label)
+                ui.label(player.actual_points).classes(
+                    player_label + " bg-slate-400/60 text-zinc-900"
+                )
 
 
 def manager_summary(home: bool):
@@ -180,7 +167,6 @@ async def generate_squad(
 
     with squad_1_display:
         squad_1_display.clear()
-
         row_generator(team_1[1], True, 0)
         row_generator(team_1[2], True, 1)
         row_generator(team_1[3], True, 2)
