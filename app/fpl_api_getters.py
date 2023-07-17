@@ -8,7 +8,22 @@ import gcsfs
 
 # df = pd.read_parquet("app/data/player_gameweek_38.parquet")
 
-df = pd.read_parquet("gs://fpl_dev_bucket/2022/player_gameweek")
+df_raw = pd.read_parquet(
+    "gs://fpl_dev_bucket1/2022_player_gameweek_player_gameweek_38.parquet"
+)
+
+df = df_raw[
+    [
+        "first_name",
+        "second_name",
+        "position",
+        "total_points",
+        "team_name",
+        "gameweek",
+        "id",
+    ]
+]
+
 
 df.set_index(["gameweek", "id"], inplace=True)
 
@@ -444,14 +459,18 @@ async def get_mini_league_managers(league_id: int, page_num: int = 100):
 
 
 if __name__ == "__main__":
-    squad_1 = manager_gw_picks_api_temp(38, 13231)
-    squad_2 = manager_gw_picks_api_temp(38, 1310)
+    # squad_1 = manager_gw_picks_api_temp(38, 13231)
+    # squad_2 = manager_gw_picks_api_temp(38, 1310)
 
-    team_1, team_2 = squad_1.compare_squad(squad_2)
+    # team_1, team_2 = squad_1.compare_squad(squad_2)
 
-    for postition in team_1:
-        for player in postition:
-            print(player.position)
-            print(player.auto_sub)
-            print(player.starting)
-            print("####")
+    # for postition in team_1:
+    #     for player in postition:
+    #         print(player.position)
+    #         print(player.auto_sub)
+    #         print(player.starting)
+    #         print("####")
+
+    print(df.memory_usage(deep=True, index=True).sum())
+
+    print(df.dtypes)
