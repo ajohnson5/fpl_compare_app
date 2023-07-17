@@ -25,7 +25,20 @@ example_picks = {}
 
 squad_dict = {
     "active_chip": "wildcard",
-    "automatic_subs": [],
+    "automatic_subs": [
+        {
+            "entry": 123,
+            "element_in": 586,
+            "element_out": 332,
+            "event": 4,
+        },
+        {
+            "entry": 123,
+            "element_in": 81,
+            "element_out": 254,
+            "event": 7,
+        },
+    ],
     "entry_history": {"rank": 1},
     "picks": [
         {
@@ -128,11 +141,20 @@ def manager_gw_picks_api_temp(gw: int, manager_id: int):
 
     squad_list = []
 
+    subs_in = {x["element_in"] for x in squad_dict["automatic_subs"]}
+    subs_out = {x["element_out"] for x in squad_dict["automatic_subs"]}
+
     for pick in squad_dict["picks"]:
-        player_series = df.loc[gw, pick["element"]]
+        id = pick["element"]
+        player_series = df.loc[gw, id]
+        if id in subs_in or id in subs_out:
+            sub = True
+        else:
+            sub = False
+
         squad_list.append(
             Player(
-                id=pick["element"],
+                id=id,
                 name=player_series["second_name"],
                 first_name=player_series["first_name"],
                 position=pick["position"],
@@ -141,15 +163,18 @@ def manager_gw_picks_api_temp(gw: int, manager_id: int):
                 team_name=player_series["team_name"],
                 is_captain=pick["is_captain"],
                 multiplier=pick["multiplier"],
+                auto_sub=sub,
             )
         )
 
-    chip = squad_dict["active_chip"]
-
-    stats = squad_dict["entry_history"]
     # stats["team_name"] = manager_name(manager_id)
 
-    return Squad(manager_id, squad_list, chip, stats)
+    return Squad(
+        manager_id=manager_id,
+        squad_list=squad_list,
+        chip=squad_dict["active_chip"],
+        stats=squad_dict["entry_history"],
+    )
 
 
 def manager_gw_picks_api(gw: int, manager_id: int):
@@ -308,3 +333,10 @@ if __name__ == "__main__":
     squad_2 = manager_gw_picks_api_temp(38, 1310)
 
     team_1, team_2 = squad_1.compare_squad(squad_2)
+
+    for postition in team_1:
+        for player in postition:
+            print(player.position)
+            print(player.auto_sub)
+            print(player.starting)
+            print("####")

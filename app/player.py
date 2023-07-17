@@ -10,6 +10,7 @@ class Player:
         team_name: str,
         is_captain: bool,
         multiplier: int,
+        auto_sub: bool,
     ):
         self.id = id
         self.name = name
@@ -22,6 +23,7 @@ class Player:
         self.team_name = team_name
         self.is_captain = is_captain
         self.multiplier = multiplier
+        self.auto_sub = auto_sub
 
         # self.stats = player_dict
 

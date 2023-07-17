@@ -50,7 +50,7 @@ player_points_label = (
 
 def row_generator_bench(player_list: List[Player], home: bool):
     with ui.row().classes(
-        "flex flex-row  w-full h-full justify-around content-center gap-x-0 mb-4"
+        "flex flex-row  w-full h-full justify-around content-center gap-x-0 pb-1"
     ):
         for player in player_list:
             standard_player_card(player, home)
@@ -75,6 +75,10 @@ def row_generator(player_list: List[Player], home: bool, i):
 
 
 def standard_player_card(player, home: bool):
+    if home:
+        card_color = "sky-500"
+    else:
+        card_color = "red-500"
     with ui.element("div").classes(
         "flex flex-row  flex-1 h-full items-center justify-center content-center"
     ):
@@ -89,24 +93,29 @@ def standard_player_card(player, home: bool):
                 if player.is_captain:
                     if player.multiplier == 3:
                         ui.icon("local_fire_department").classes(
-                            "w-1/5 h-1/5 absolute top-1 right-1"
+                            "absolute top-0.5 right-0"
                         )
 
                     else:
-                        ui.icon("copyright").classes(
-                            "w-1/5 h-1/5 absolute top-1 right-1"
+                        ui.icon("copyright").classes("absolute top-0.5 right-0")
+
+                if player.auto_sub:
+                    if player.starting:
+                        ui.icon("add_circle", color=card_color).classes(
+                            "h-[10px] w-[10px] absolute top-0.5 left-0 bg-white "
+                            "rounded-full"
+                        )
+                    else:
+                        ui.icon("do_not_disturb_on", color=card_color).classes(
+                            "h-[10px] w-[10px] absolute top-0.5 left-0 bg-white "
+                            "rounded-full"
                         )
 
             with ui.element("div").classes(
                 "col-span-1 row-span-1 grid grid-col-1 grid-rows-2 w-full max-h-[40px]"
             ):
-                if home:
-                    card_color = " bg-sky-500"
-                else:
-                    card_color = " bg-red-500"
-
                 with ui.element("div").classes(
-                    card_common_style + card_width + card_color
+                    card_common_style + card_width + " bg-" + card_color
                 ):
                     ui.label(player.name).classes(player_name_label)
 
