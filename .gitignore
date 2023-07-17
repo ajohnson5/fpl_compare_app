@@ -2,3 +2,5 @@ __pycache__/
 todolist.txt
 app.yaml
 .gcloudignore
+env
+.ruff_cache

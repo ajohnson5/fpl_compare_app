@@ -1,25 +1,10 @@
-#!/usr/bin/env python3
-from dataclasses import dataclass, field
-from typing import Callable, List
-import requests
-from nicegui import ui, Tailwind, app
-import pandas as pd
-from typing import Self
+from nicegui import ui
 import asyncio
 
 import fpl_api_getters
 from player import Player
-
 from custom_components import input_with_select, league_search
 from generate_squad import generate_squad
-
-from squad_display import show_squad
-from search import (
-    search,
-    manager_id_search_bar,
-    top_50_search,
-    mini_league_search_bar,
-)
 
 
 def manager_chip(manager_name: str, home: bool):

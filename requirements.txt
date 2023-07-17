@@ -1,8 +1,6 @@
 pandas
 requests
-nicegui==1.2.24 
+nicegui
 asyncio
 gcsfs
-dataclasses
-typing
 pyarrow

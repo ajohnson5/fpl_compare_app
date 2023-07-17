@@ -1,46 +1,32 @@
-#!/usr/bin/env python3
-from dataclasses import dataclass, field
-from typing import Callable, List
-import requests
-from nicegui import ui, Tailwind, app
-import pandas as pd
-from itertools import zip_longest
-from typing import Self
+from nicegui import ui
 import asyncio
-import time
-
+from typing import List
 
 import fpl_api_getters
-from fpl_api_getters import manager_gw_picks_api
 from player import Player
 from squad import Squad
 
 
 card_common_style = (
     "col-span-1 row-span-1 flex justify-center content-center "
-    "items-center max-h-[20px]"
+    "items-center max-h-[20px] "
 )
 card_width = " w-[60px]"
 card_height = " h-full "
 shirt_width = " w-[35px] sm:w-[40px] "
-
 shirt_image_div = (
     "col-span-1 row-span-2 grid-cols-1 grid-rows-1 flex "
     "justify-center items-center relative"
 )
-
-
 player_name_label = (
     "text-white text-center align-middle text-xs md:texts-sm "
     "font-medium overflow-hidden leading-tight "
     "tracking-tighter line-clamp-1 truncate"
 )
-
 player_points_div = (
     "col-span-1 row-span-1 w-full max-h-[20px] flex justify-center "
     "content-center items-center bg-slate-400/60"
 )
-
 player_points_label = (
     "text-zinc-900 text-center align-top text-xs md:texts-sm "
     "font-medium truncate overflow-hidden leading-tight "
