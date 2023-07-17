@@ -7,21 +7,21 @@ import gcsfs
 from player import Player
 from squad import Squad
 
-df_raw = pd.read_parquet(
-    "gs://fpl_dev_bucket1/2022_player_gameweek_player_gameweek_38.parquet"
-)
 
-df = df_raw[
-    [
-        "first_name",
-        "second_name",
-        "position",
-        "total_points",
-        "team_name",
-        "gameweek",
-        "id",
-    ]
+col_list = [
+    "first_name",
+    "second_name",
+    "position",
+    "total_points",
+    "team_name",
+    "gameweek",
+    "id",
 ]
+
+df = pd.read_parquet(
+    "gs://fpl_dev_bucket1/2022_player_gameweek_player_gameweek_38.parquet",
+    columns=col_list,
+)
 
 
 df.set_index(["gameweek", "id"], inplace=True)

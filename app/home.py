@@ -14,7 +14,7 @@ def manager_chip(manager_name: str, home: bool):
         chip_bg = " bg-red-500 outline-red-500"
 
     with ui.element("div").classes(
-        "w-[210px] h-[40px] rounded-lg outline outline-offset-4 " " relative" + chip_bg
+        "w-[210px] h-[40px] rounded-lg outline outline-offset-4 relative" + chip_bg
     ) as chip:
         gw_chip_label = ui.label("21").classes(
             "w-[22px] h-[22px] rounded-full "

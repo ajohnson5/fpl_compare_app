@@ -147,6 +147,7 @@ async def generate_squad(
 
     team_1, team_2 = squad_1.compare_squad(squad_2)
 
+    # Create loading spinner
     with loading_div:
         with ui.element("div") as loading_clearable_div:
             with ui.element("div").classes(
@@ -165,6 +166,7 @@ async def generate_squad(
     summary_state["manager_1_points"] = squad_1.stats["points"]
     summary_state["manager_2_points"] = squad_2.stats["points"]
 
+    # Create player cards for on-pitch players
     with squad_1_display:
         squad_1_display.clear()
         row_generator(team_1[1], True, 0)
@@ -179,6 +181,7 @@ async def generate_squad(
         row_generator(team_1[3], False, 2)
         row_generator(team_1[4], False, 3)
 
+    # Create bench player cards
     with bench_1_display:
         bench_1_display.clear()
         row_generator_bench(team_1[0], True)
