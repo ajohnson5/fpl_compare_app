@@ -162,6 +162,8 @@ async def show_page():
                                 chip_state["chip_1"] = manager_name
                                 chip_state["chip_1_gw"] = gw_select_1
                                 chip_1.style("visibility:visible")
+                                input_1.set_value("")
+
                             else:
                                 ui.notify("Manager does not exist", closeBtn="OK")
                         elif not chip_state["chip_2"]:
@@ -171,6 +173,7 @@ async def show_page():
                                 chip_state["chip_2"] = manager_name
                                 chip_state["chip_2_gw"] = gw_select_1
                                 chip_2.style("visibility:visible")
+                                input_1.set_value("")
                             else:
                                 ui.notify("Manager does not exist", closeBtn="OK")
                     else:
