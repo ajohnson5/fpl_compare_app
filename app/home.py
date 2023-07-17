@@ -74,7 +74,7 @@ async def show_page():
                 )
                 ui.label("Squads.").classes(
                     "text-5xl sm:text-6xl text-zinc-900 font-sans font-bold h-auto "
-                    "w-auto text-center align-middle z-10"
+                    "w-auto text-center align-middle"
                 )
 
             search_toggle = (
@@ -259,19 +259,44 @@ async def show_page():
             (
                 "flex flex-row justify-center content-center min-h-screen "
                 " w-full bg-stone-100 "
-                " gap-y-0 overflow-hidden gap-x-10"
+                " gap-y-0 overflow-hidden gap-x-10 relative"
             )
         ) as display_div:
             ui.label().classes("w-11/12 h-2 bg-slate-900")
             ui.label("Squads.").classes(
-                "text-5xl sm:text-7xl text-slate-900 font-sans font-bold h-auto "
+                "text-6xl sm:text-7xl text-slate-900 font-sans font-bold h-auto "
                 "w-auto text-center align-middle mb-6 mt-1"
             )
 
             manager_summary_div = ui.element("div").classes(
-                "w-full h-[150px] flex flex-row justify-evenly content-center mx-2 "
-                "lg:gap-x-0 mb-6"
+                "w-full h-auto flex flex-row justify-evenly content-center mx-2 "
+                "lg:gap-x-0 mb-4 gap-y-2"
             )
+
+            with ui.element("div").classes(
+                "flex flex-row justify-center  gap-x-4 gap-y-2 mb-2"
+            ):
+                with ui.element("div").classes(
+                    "flex flex-row  content-center items-center "
+                ):
+                    ui.icon("copyright", color="zinc-900", size="sm")
+                    ui.label("Captain").classes("ml-1")
+                with ui.element("div").classes(
+                    "flex flex-row  content-center items-center "
+                ):
+                    ui.icon("local_fire_department", color="zinc-900", size="sm")
+                    ui.label("Triple Captain").classes("ml-1")
+                with ui.element("div").classes(
+                    "flex flex-row  content-center items-center"
+                ):
+                    ui.icon("add_circle", color="zinc-900", size="sm")
+                    ui.label("Auto sub in").classes("ml-1")
+                with ui.element("div").classes(
+                    "flex flex-row  content-center items-center"
+                ):
+                    ui.icon("do_not_disturb_on", color="zinc-900", size="sm")
+                    ui.label("Auto sub out").classes("ml-1 ")
+
             with ui.element("div").classes(
                 "mx-[4px] w-full gap-x-10 flex flex-row justify-center content-center "
                 " mb-2"
@@ -309,8 +334,8 @@ async def show_page():
                     "from-sky-500 via-sky-300 to-cyan-400 drop-shadow-xl "
                 ):
                     bench_1_display = ui.element("div").classes(
-                        "w-full max-w-[490px] h-[120px] flex flex-row justify-evenly "
-                        "bg-slate-50 content-center rounded-xl"
+                        "w-full max-w-[490px] h-[100px] flex flex-row justify-evenly "
+                        "bg-slate-50/50 content-center rounded-xl"
                     )
 
                 with ui.element("div").classes(
@@ -318,8 +343,8 @@ async def show_page():
                     "from-red-500 via-red-400 to-rose-400 drop-shadow-xl"
                 ):
                     bench_2_display = ui.element("div").classes(
-                        "w-full  max-w-[490px] h-[120px] flex flex-row justify-evenly "
-                        "bg-slate-50 content-center rounded-xl"
+                        "w-full  max-w-[490px] h-[100px] flex flex-row justify-evenly "
+                        "bg-slate-50/50 content-center rounded-xl opac"
                     )
 
             with ui.element("div").classes(

@@ -6,7 +6,25 @@ import aiohttp
 import asyncio
 import gcsfs
 
-df = pd.read_parquet("gs://fpl_dev_bucket/2022/player_gameweek/")
+# df = pd.read_parquet("app/data/player_gameweek_38.parquet")
+
+df_raw = pd.read_parquet(
+    "gs://fpl_dev_bucket1/2022_player_gameweek_player_gameweek_38.parquet"
+)
+
+df = df_raw[
+    [
+        "first_name",
+        "second_name",
+        "position",
+        "total_points",
+        "team_name",
+        "gameweek",
+        "id",
+    ]
+]
+
+
 df.set_index(["gameweek", "id"], inplace=True)
 
 
@@ -25,8 +43,133 @@ example_picks = {}
 
 squad_dict = {
     "active_chip": "wildcard",
-    "automatic_subs": [],
+    "automatic_subs": [
+        {
+            "entry": 123,
+            "element_in": 586,
+            "element_out": 332,
+            "event": 4,
+        },
+        {
+            "entry": 123,
+            "element_in": 81,
+            "element_out": 254,
+            "event": 7,
+        },
+    ],
     "entry_history": {"rank": 1},
+    "picks": [
+        {
+            "element": 81,
+            "position": 1,
+            "is_captain": False,
+            "multiplier": 1,
+        },
+        {
+            "element": 586,
+            "position": 2,
+            "is_captain": False,
+            "multiplier": 1,
+        },
+        {
+            "element": 285,
+            "position": 3,
+            "is_captain": False,
+            "multiplier": 1,
+        },
+        {
+            "element": 357,
+            "position": 4,
+            "is_captain": False,
+            "multiplier": 1,
+        },
+        {
+            "element": 124,
+            "position": 5,
+            "is_captain": False,
+            "multiplier": 1,
+        },
+        {
+            "element": 283,
+            "position": 6,
+            "is_captain": False,
+            "multiplier": 1,
+        },
+        {
+            "element": 333,
+            "position": 7,
+            "is_captain": False,
+            "multiplier": 1,
+        },
+        {
+            "element": 335,
+            "position": 8,
+            "is_captain": False,
+            "multiplier": 1,
+        },
+        {
+            "element": 116,
+            "position": 9,
+            "is_captain": False,
+            "multiplier": 1,
+        },
+        {
+            "element": 319,
+            "position": 10,
+            "is_captain": False,
+            "multiplier": 1,
+        },
+        {
+            "element": 427,
+            "position": 11,
+            "is_captain": True,
+            "multiplier": 2,
+        },
+        {
+            "element": 254,
+            "position": 12,
+            "is_captain": False,
+            "multiplier": 0,
+        },
+        {
+            "element": 332,
+            "position": 13,
+            "is_captain": False,
+            "multiplier": 0,
+        },
+        {
+            "element": 85,
+            "position": 14,
+            "is_captain": False,
+            "multiplier": 0,
+        },
+        {
+            "element": 237,
+            "position": 15,
+            "is_captain": False,
+            "multiplier": 0,
+        },
+    ],
+}
+
+
+squad_dict_2 = {
+    "active_chip": "wildcard",
+    "automatic_subs": [
+        {
+            "entry": 123,
+            "element_in": 586,
+            "element_out": 332,
+            "event": 4,
+        },
+        {
+            "entry": 123,
+            "element_in": 81,
+            "element_out": 254,
+            "event": 7,
+        },
+    ],
+    "entry_history": {"rank": 11},
     "picks": [
         {
             "element": 81,
@@ -128,11 +271,20 @@ def manager_gw_picks_api_temp(gw: int, manager_id: int):
 
     squad_list = []
 
+    subs_in = {x["element_in"] for x in squad_dict["automatic_subs"]}
+    subs_out = {x["element_out"] for x in squad_dict["automatic_subs"]}
+
     for pick in squad_dict["picks"]:
-        player_series = df.loc[gw, pick["element"]]
+        id = pick["element"]
+        player_series = df.loc[gw, id]
+        if id in subs_in or id in subs_out:
+            sub = True
+        else:
+            sub = False
+
         squad_list.append(
             Player(
-                id=pick["element"],
+                id=id,
                 name=player_series["second_name"],
                 first_name=player_series["first_name"],
                 position=pick["position"],
@@ -141,15 +293,18 @@ def manager_gw_picks_api_temp(gw: int, manager_id: int):
                 team_name=player_series["team_name"],
                 is_captain=pick["is_captain"],
                 multiplier=pick["multiplier"],
+                auto_sub=sub,
             )
         )
 
-    chip = squad_dict["active_chip"]
-
-    stats = squad_dict["entry_history"]
     # stats["team_name"] = manager_name(manager_id)
 
-    return Squad(manager_id, squad_list, chip, stats)
+    return Squad(
+        manager_id=manager_id,
+        squad_list=squad_list,
+        chip=squad_dict["active_chip"],
+        stats=squad_dict["entry_history"],
+    )
 
 
 def manager_gw_picks_api(gw: int, manager_id: int):
@@ -304,7 +459,18 @@ async def get_mini_league_managers(league_id: int, page_num: int = 100):
 
 
 if __name__ == "__main__":
-    squad_1 = manager_gw_picks_api_temp(38, 13231)
-    squad_2 = manager_gw_picks_api_temp(38, 1310)
+    # squad_1 = manager_gw_picks_api_temp(38, 13231)
+    # squad_2 = manager_gw_picks_api_temp(38, 1310)
 
-    team_1, team_2 = squad_1.compare_squad(squad_2)
+    # team_1, team_2 = squad_1.compare_squad(squad_2)
+
+    # for postition in team_1:
+    #     for player in postition:
+    #         print(player.position)
+    #         print(player.auto_sub)
+    #         print(player.starting)
+    #         print("####")
+
+    print(df.memory_usage(deep=True, index=True).sum())
+
+    print(df.dtypes)
