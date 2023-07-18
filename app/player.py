@@ -1,4 +1,20 @@
+from nicegui import ui
+
+player_label = (
+    "w-[60px] max-h-[22px] col-span-1 row-span-1 text-center align-middle "
+    "text-xs md:text-sm font-medium tracking-tighter leading-tight "
+)
+card_width = " w-[60px]"
+shirt_width = " w-[35px] sm:w-[40px] "
+shirt_image_div = (
+    "col-span-1 row-span-2 grid-cols-1 grid-rows-1 flex "
+    "justify-center items-center relative"
+)
+
+
 class Player:
+    team_color = {"home": "sky-500", "away": "red-500"}
+
     def __init__(
         self,
         id: int,
@@ -41,3 +57,66 @@ class Player:
 
     def __bool__(self):
         return self.id is not None  # <--- added "return"
+
+    def create_card(self, home):
+        if home:
+            pass
+        else:
+            pass
+        with ui.element("div").classes(
+            "flex flex-row  flex-1 h-full items-center justify-center content-center"
+        ):
+            with ui.element("div").classes(
+                "grid grid-cols-1 grid-rows-3  h-full" + card_width
+            ):
+                with ui.element("div").classes(shirt_image_div):
+                    ui.image("https://i.ibb.co/zsQThP3/ARS-2223-HK-PL-S1.webp").classes(
+                        "cols-span-1 row-span-1 object-contain" + shirt_width
+                    )
+
+                    if self.is_captain:
+                        if self.multiplier == 3:
+                            ui.icon("local_fire_department").classes(
+                                "absolute top-0.5 right-0"
+                            )
+
+                        else:
+                            ui.icon("copyright", size="14px").classes(
+                                "absolute top-0.5 right-0"
+                            )
+
+                    if self.auto_sub:
+                        if self.starting:
+                            ui.icon(
+                                "add_circle", color=Player.team_color[home], size="14px"
+                            ).classes(
+                                "h-[10px] w-[10px] absolute top-0.5 left-0 bg-white "
+                                "rounded-full"
+                            )
+                        else:
+                            ui.icon(
+                                "do_not_disturb_on",
+                                color=Player.team_color[home],
+                                size="14px",
+                            ).classes(
+                                "h-[10px] w-[10px] absolute top-0.5 left-0 bg-white "
+                                "rounded-full"
+                            )
+
+                with ui.element("div").classes(
+                    "col-span-1 row-span-1 grid grid-col-1 grid-rows-2 w-full "
+                    "max-h-[40px]"
+                ):
+                    ui.label(self.name).classes(
+                        player_label
+                        + " bg-"
+                        + Player.team_color[home]
+                        + " text-white rounded-t-sm"
+                    ).style(
+                        "overflow:hidden;white-space: nowrap;text-overflow: "
+                        "ellipsis;display: block;"
+                    )
+
+                    ui.label(self.actual_points).classes(
+                        player_label + " bg-slate-400/60 text-zinc-900 rounded-b-sm"
+                    )

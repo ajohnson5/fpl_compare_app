@@ -6,27 +6,16 @@ import fpl_api_getters
 from player import Player
 from squad import Squad
 
-player_label = (
-    "w-[60px] max-h-[22px] col-span-1 row-span-1 text-center align-middle "
-    "text-xs md:text-sm font-medium tracking-tighter leading-tight "
-)
-card_width = " w-[60px]"
-shirt_width = " w-[35px] sm:w-[40px] "
-shirt_image_div = (
-    "col-span-1 row-span-2 grid-cols-1 grid-rows-1 flex "
-    "justify-center items-center relative"
-)
 
-
-def row_generator_bench(player_list: List[Player], home: bool):
+def row_generator_bench(player_list: List[Player], home: str):
     with ui.row().classes(
         "flex flex-row  w-full h-full justify-around content-center gap-x-0 pb-1"
     ):
         for player in player_list:
-            standard_player_card(player, home)
+            player.create_card(home)
 
 
-def row_generator(player_list: List[Player], home: bool, i):
+def row_generator(player_list: List[Player], home: str, i):
     if i == 0:
         x = "top-0"
     else:
@@ -41,63 +30,7 @@ def row_generator(player_list: List[Player], home: bool, i):
         + rotate
     ):
         for player in player_list:
-            standard_player_card(player, home)
-
-
-def standard_player_card(player, home: bool):
-    if home:
-        card_color = "sky-500"
-    else:
-        card_color = "red-500"
-    with ui.element("div").classes(
-        "flex flex-row  flex-1 h-full items-center justify-center content-center"
-    ):
-        with ui.element("div").classes(
-            "grid grid-cols-1 grid-rows-3  h-full" + card_width
-        ):
-            with ui.element("div").classes(shirt_image_div):
-                ui.image("https://i.ibb.co/zsQThP3/ARS-2223-HK-PL-S1.webp").classes(
-                    "cols-span-1 row-span-1 object-contain" + shirt_width
-                )
-
-                if player.is_captain:
-                    if player.multiplier == 3:
-                        ui.icon("local_fire_department").classes(
-                            "absolute top-0.5 right-0"
-                        )
-
-                    else:
-                        ui.icon("copyright", size="14px").classes(
-                            "absolute top-0.5 right-0"
-                        )
-
-                if player.auto_sub:
-                    if player.starting:
-                        ui.icon("add_circle", color=card_color, size="14px").classes(
-                            "h-[10px] w-[10px] absolute top-0.5 left-0 bg-white "
-                            "rounded-full"
-                        )
-                    else:
-                        ui.icon(
-                            "do_not_disturb_on", color=card_color, size="14px"
-                        ).classes(
-                            "h-[10px] w-[10px] absolute top-0.5 left-0 bg-white "
-                            "rounded-full"
-                        )
-
-            with ui.element("div").classes(
-                "col-span-1 row-span-1 grid grid-col-1 grid-rows-2 w-full max-h-[40px]"
-            ):
-                ui.label(player.name).classes(
-                    player_label + " bg-" + card_color + " text-white rounded-t-sm"
-                ).style(
-                    "overflow:hidden;white-space: nowrap;text-overflow: "
-                    "ellipsis;display: block;"
-                )
-
-                ui.label(player.actual_points).classes(
-                    player_label + " bg-slate-400/60 text-zinc-900 rounded-b-sm"
-                )
+            player.create_card(home)
 
 
 def manager_summary(home: bool):
@@ -173,25 +106,25 @@ async def generate_squad(
     # Create player cards for on-pitch players
     with squad_1_display:
         squad_1_display.clear()
-        row_generator(team_1[1], True, 0)
-        row_generator(team_1[2], True, 1)
-        row_generator(team_1[3], True, 2)
-        row_generator(team_1[4], True, 3)
+        row_generator(team_1[1], "home", 0)
+        row_generator(team_1[2], "home", 1)
+        row_generator(team_1[3], "home", 2)
+        row_generator(team_1[4], "home", 3)
 
     with squad_2_display:
         squad_2_display.clear()
-        row_generator(team_2[1], False, 0)
-        row_generator(team_2[2], False, 1)
-        row_generator(team_2[3], False, 2)
-        row_generator(team_2[4], False, 3)
+        row_generator(team_2[1], "away", 0)
+        row_generator(team_2[2], "away", 1)
+        row_generator(team_2[3], "away", 2)
+        row_generator(team_2[4], "away", 3)
 
     # Create bench player cards
     with bench_1_display:
         bench_1_display.clear()
-        row_generator_bench(team_1[0], True)
+        row_generator_bench(team_1[0], "home")
 
     with bench_2_display:
         bench_2_display.clear()
-        row_generator_bench(team_2[0], False)
+        row_generator_bench(team_2[0], "away")
 
     display_div.set_visibility(True)
