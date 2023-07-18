@@ -89,14 +89,14 @@ def standard_player_card(player, home: bool):
                 "col-span-1 row-span-1 grid grid-col-1 grid-rows-2 w-full max-h-[40px]"
             ):
                 ui.label(player.name).classes(
-                    player_label + " bg-" + card_color + " text-white"
+                    player_label + " bg-" + card_color + " text-white rounded-t-sm"
                 ).style(
                     "overflow:hidden;white-space: nowrap;text-overflow: "
                     "ellipsis;display: block;"
                 )
 
                 ui.label(player.actual_points).classes(
-                    player_label + " bg-slate-400/60 text-zinc-900"
+                    player_label + " bg-slate-400/60 text-zinc-900 rounded-b-sm"
                 )
 
 
