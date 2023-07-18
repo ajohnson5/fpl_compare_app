@@ -142,8 +142,12 @@ async def generate_squad(
     bench_1_display,
     bench_2_display,
 ):
-    squad_1 = fpl_api_getters.manager_gw_picks_api_temp(38, manager_dict["chip_1_id"])
-    squad_2 = fpl_api_getters.manager_gw_picks_api_temp(38, manager_dict["chip_2_id"])
+    squad_1 = fpl_api_getters.manager_gw_picks_api_temp(
+        38, manager_dict["chip_1_id"], fpl_api_getters.squad_dict
+    )
+    squad_2 = fpl_api_getters.manager_gw_picks_api_temp(
+        38, manager_dict["chip_2_id"], fpl_api_getters.squad_dict_2
+    )
 
     team_1, team_2 = squad_1.compare_squad(squad_2)
 
@@ -176,10 +180,10 @@ async def generate_squad(
 
     with squad_2_display:
         squad_2_display.clear()
-        row_generator(team_1[1], False, 0)
-        row_generator(team_1[2], False, 1)
-        row_generator(team_1[3], False, 2)
-        row_generator(team_1[4], False, 3)
+        row_generator(team_2[1], False, 0)
+        row_generator(team_2[2], False, 1)
+        row_generator(team_2[3], False, 2)
+        row_generator(team_2[4], False, 3)
 
     # Create bench player cards
     with bench_1_display:
@@ -188,6 +192,6 @@ async def generate_squad(
 
     with bench_2_display:
         bench_2_display.clear()
-        row_generator_bench(team_1[0], False)
+        row_generator_bench(team_2[0], False)
 
     display_div.set_visibility(True)
