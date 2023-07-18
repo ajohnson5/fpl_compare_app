@@ -1,50 +1,20 @@
-#!/usr/bin/env python3
-from dataclasses import dataclass, field
-from typing import Callable, List
-import requests
-from nicegui import ui, Tailwind, app
-import pandas as pd
-from itertools import zip_longest
-from typing import Self
+from nicegui import ui
 import asyncio
-import time
-
+from typing import List
 
 import fpl_api_getters
-from fpl_api_getters import manager_gw_picks_api
 from player import Player
 from squad import Squad
 
-
-card_common_style = (
-    "col-span-1 row-span-1 flex justify-center content-center "
-    "items-center max-h-[20px]"
+player_label = (
+    "w-[60px] max-h-[22px] col-span-1 row-span-1 text-center align-middle "
+    "text-xs md:text-sm font-medium tracking-tighter leading-tight "
 )
 card_width = " w-[60px]"
-card_height = " h-full "
 shirt_width = " w-[35px] sm:w-[40px] "
-
 shirt_image_div = (
     "col-span-1 row-span-2 grid-cols-1 grid-rows-1 flex "
     "justify-center items-center relative"
-)
-
-
-player_name_label = (
-    "text-white text-center align-middle text-xs md:texts-sm "
-    "font-medium overflow-hidden leading-tight "
-    "tracking-tighter line-clamp-1 truncate"
-)
-
-player_points_div = (
-    "col-span-1 row-span-1 w-full max-h-[20px] flex justify-center "
-    "content-center items-center bg-slate-400/60"
-)
-
-player_points_label = (
-    "text-zinc-900 text-center align-top text-xs md:texts-sm "
-    "font-medium truncate overflow-hidden leading-tight "
-    "tracking-tighter"
 )
 
 
@@ -118,16 +88,19 @@ def standard_player_card(player, home: bool):
             with ui.element("div").classes(
                 "col-span-1 row-span-1 grid grid-col-1 grid-rows-2 w-full max-h-[40px]"
             ):
-                with ui.element("div").classes(
-                    card_common_style + card_width + " bg-" + card_color
-                ):
-                    ui.label(player.name).classes(player_name_label)
+                ui.label(player.name).classes(
+                    player_label + " bg-" + card_color + " text-white rounded-t-sm"
+                ).style(
+                    "overflow:hidden;white-space: nowrap;text-overflow: "
+                    "ellipsis;display: block;"
+                )
 
-                with ui.element("div").classes(player_points_div):
-                    ui.label(player.actual_points).classes(player_points_label)
+                ui.label(player.actual_points).classes(
+                    player_label + " bg-slate-400/60 text-zinc-900 rounded-b-sm"
+                )
 
 
-def manager_summary(manager_name, points, home: bool):
+def manager_summary(home: bool):
     if home:
         bg_color = " from-sky-500 via-sky-300 to-cyan-400 lg:mr-6"
     else:
@@ -143,7 +116,7 @@ def manager_summary(manager_name, points, home: bool):
                 "w-full h-[50px] flex flex-row content-center rounded-t-xl "
                 "bg-slate-50/30"
             ):
-                ui.label(manager_name).classes(
+                manager_name = ui.label().classes(
                     "text-center w-full text-lg lg:text-2xl text-stone-100 font-medium"
                 )
 
@@ -151,27 +124,34 @@ def manager_summary(manager_name, points, home: bool):
                 "w-full h-[100px]  flex flex-row content-center bg-slate-50/30 "
                 "rounded-b-xl"
             ):
-                ui.label(points).classes(
+                total_points = ui.label().classes(
                     "text-center w-full text-stone-100 text-5xl md:text-7xl font-medium"
                 )
                 ui.label("Points").classes("text-center w-full text-stone-100")
+
+    return manager_name, total_points
 
 
 async def generate_squad(
     manager_dict,
     display_div,
     loading_div,
-    manager_summary_div,
+    summary_state,
     squad_1_display,
     squad_2_display,
     bench_1_display,
     bench_2_display,
 ):
-    squad_1 = fpl_api_getters.manager_gw_picks_api_temp(38, manager_dict["chip_1_id"])
-    squad_2 = fpl_api_getters.manager_gw_picks_api_temp(38, manager_dict["chip_2_id"])
+    squad_1 = fpl_api_getters.manager_gw_picks_api_temp(
+        38, manager_dict["chip_1_id"], fpl_api_getters.squad_dict
+    )
+    squad_2 = fpl_api_getters.manager_gw_picks_api_temp(
+        38, manager_dict["chip_2_id"], fpl_api_getters.squad_dict_2
+    )
 
     team_1, team_2 = squad_1.compare_squad(squad_2)
 
+    # Create loading spinner
     with loading_div:
         with ui.element("div") as loading_clearable_div:
             with ui.element("div").classes(
@@ -184,15 +164,15 @@ async def generate_squad(
     await asyncio.sleep(2)
     loading_clearable_div.clear()
 
-    with manager_summary_div:
-        manager_summary_div.clear()
-        manager_summary(manager_dict["chip_1"], "67", True)
+    # Update dictionary with manager names and points
+    summary_state["manager_name_1"] = manager_dict["chip_1"]
+    summary_state["manager_name_2"] = manager_dict["chip_2"]
+    summary_state["manager_1_points"] = squad_1.stats["points"]
+    summary_state["manager_2_points"] = squad_2.stats["points"]
 
-        manager_summary(manager_dict["chip_2"], "78", False)
-
+    # Create player cards for on-pitch players
     with squad_1_display:
         squad_1_display.clear()
-
         row_generator(team_1[1], True, 0)
         row_generator(team_1[2], True, 1)
         row_generator(team_1[3], True, 2)
@@ -200,17 +180,18 @@ async def generate_squad(
 
     with squad_2_display:
         squad_2_display.clear()
-        row_generator(team_1[1], False, 0)
-        row_generator(team_1[2], False, 1)
-        row_generator(team_1[3], False, 2)
-        row_generator(team_1[4], False, 3)
+        row_generator(team_2[1], False, 0)
+        row_generator(team_2[2], False, 1)
+        row_generator(team_2[3], False, 2)
+        row_generator(team_2[4], False, 3)
 
+    # Create bench player cards
     with bench_1_display:
         bench_1_display.clear()
         row_generator_bench(team_1[0], True)
 
     with bench_2_display:
         bench_2_display.clear()
-        row_generator_bench(team_1[0], False)
+        row_generator_bench(team_2[0], False)
 
     display_div.set_visibility(True)

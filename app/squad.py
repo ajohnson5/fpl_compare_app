@@ -34,7 +34,7 @@ class Squad:
         ]
         squad_2_layout = [
             squad_2.bench,
-            [self.goalies],
+            [squad_2.goalies],
         ]
 
         for position in [2, 3, 4]:

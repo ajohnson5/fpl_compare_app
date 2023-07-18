@@ -1,14 +1,10 @@
+import asyncio
+from nicegui import ui, Client
+
+from router import Router
 from common_format import display
 import home
 import about
-import asyncio
-from nicegui import ui, Client, globals
-from fastapi import FastAPI
-from router import Router
-
-# app = FastAPI()
-
-# page_creation.create(app)
 
 
 @ui.page("/")  # normal index page (e.g. the entry point of the app)
@@ -40,11 +36,9 @@ async def main(client: Client):
     border-bottom-right-radius:9999px;
 
     }
-
     .gw_select_class.q-field--outlined .q-field__control {
     padding: 0 2px;
     }
-
     .gw_select_class.q-field__after, .q-field__append {
     padding-left: 4px;
     }
@@ -71,7 +65,6 @@ async def main(client: Client):
             padding-left: 12px;
         }
     }
-
     .q-toggle__inner--truthy .q-toggle__thumb {
     left: 0.85em;
     }
@@ -132,8 +125,8 @@ async def main(client: Client):
         ],
         router,
     )
-    # this places the content which should be displayed
+
     router.frame().classes("w-full")
 
 
-ui.run()
+ui.run(uvicorn_reload_excludes="env")

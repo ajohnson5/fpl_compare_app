@@ -1,14 +1,13 @@
-from contextlib import contextmanager
-from router import Router
 from nicegui import ui
 import asyncio
+
+from router import Router
+
 
 nav_bar_hover_div = (
     "flex flex-row items-center justify-center cursor-pointer w-full "
     "h-[70px] sm:px-4 my-4 hover:bg-stone-200"
 )
-
-
 nav_bar_link_div = "w-full flex flex-row justify-center justify-center"
 nav_bar_icon_div = "flex flex-row items-center justify-center sm:justify-end h-full"
 nav_bar_label_div = (
