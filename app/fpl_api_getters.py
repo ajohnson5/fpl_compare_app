@@ -7,21 +7,21 @@ import gcsfs
 from player import Player
 from squad import Squad
 
-df_raw = pd.read_parquet(
-    "gs://fpl_dev_bucket1/2022_player_gameweek_player_gameweek_38.parquet"
-)
 
-df = df_raw[
-    [
-        "first_name",
-        "second_name",
-        "position",
-        "total_points",
-        "team_name",
-        "gameweek",
-        "id",
-    ]
+col_list = [
+    "first_name",
+    "second_name",
+    "position",
+    "total_points",
+    "team_name",
+    "gameweek",
+    "id",
 ]
+
+df = pd.read_parquet(
+    "gs://fpl_dev_bucket1/2022_player_gameweek_player_gameweek_38.parquet",
+    columns=col_list,
+)
 
 
 df.set_index(["gameweek", "id"], inplace=True)
@@ -56,7 +56,7 @@ squad_dict = {
             "event": 7,
         },
     ],
-    "entry_history": {"rank": 1},
+    "entry_history": {"rank": 1, "points": 65},
     "picks": [
         {
             "element": 81,
@@ -156,22 +156,22 @@ squad_dict_2 = {
     "active_chip": "wildcard",
     "automatic_subs": [
         {
-            "entry": 123,
-            "element_in": 586,
-            "element_out": 332,
+            "entry": 1223,
+            "element_in": 357,
+            "element_out": 312,
             "event": 4,
         },
         {
-            "entry": 123,
-            "element_in": 81,
-            "element_out": 254,
+            "entry": 1234,
+            "element_in": 356,
+            "element_out": 107,
             "event": 7,
         },
     ],
-    "entry_history": {"rank": 11},
+    "entry_history": {"rank": 11, "points": 41},
     "picks": [
         {
-            "element": 81,
+            "element": 548,
             "position": 1,
             "is_captain": False,
             "multiplier": 1,
@@ -183,79 +183,79 @@ squad_dict_2 = {
             "multiplier": 1,
         },
         {
-            "element": 285,
+            "element": 357,
             "position": 3,
             "is_captain": False,
             "multiplier": 1,
         },
         {
-            "element": 357,
+            "element": 217,
             "position": 4,
             "is_captain": False,
             "multiplier": 1,
         },
         {
-            "element": 124,
+            "element": 680,
             "position": 5,
             "is_captain": False,
             "multiplier": 1,
         },
         {
-            "element": 283,
+            "element": 335,
             "position": 6,
             "is_captain": False,
             "multiplier": 1,
         },
         {
-            "element": 333,
+            "element": 169,
             "position": 7,
             "is_captain": False,
             "multiplier": 1,
         },
         {
-            "element": 335,
+            "element": 333,
             "position": 8,
-            "is_captain": False,
-            "multiplier": 1,
+            "is_captain": True,
+            "multiplier": 2,
         },
         {
-            "element": 116,
+            "element": 318,
             "position": 9,
             "is_captain": False,
             "multiplier": 1,
         },
         {
-            "element": 319,
+            "element": 356,
             "position": 10,
             "is_captain": False,
             "multiplier": 1,
         },
         {
-            "element": 427,
+            "element": 594,
             "position": 11,
-            "is_captain": True,
-            "multiplier": 2,
+            "is_captain": False,
+            "multiplier": 1,
         },
         {
-            "element": 254,
+            "element": 113,
             "position": 12,
             "is_captain": False,
             "multiplier": 0,
         },
         {
-            "element": 332,
+            "element": 284,
             "position": 13,
             "is_captain": False,
             "multiplier": 0,
         },
         {
-            "element": 85,
+            "element": 312,
             "position": 14,
             "is_captain": False,
             "multiplier": 0,
         },
         {
-            "element": 237,
+            "element": 107,
             "position": 15,
             "is_captain": False,
             "multiplier": 0,
@@ -264,16 +264,16 @@ squad_dict_2 = {
 }
 
 
-def manager_gw_picks_api_temp(gw: int, manager_id: int):
+def manager_gw_picks_api_temp(gw: int, manager_id: int, squad_dict_):
     """Returns a list of dictionaries of all picks a manager made in a gameweek"""
     # Check for valid ID
 
     squad_list = []
 
-    subs_in = {x["element_in"] for x in squad_dict["automatic_subs"]}
-    subs_out = {x["element_out"] for x in squad_dict["automatic_subs"]}
+    subs_in = {x["element_in"] for x in squad_dict_["automatic_subs"]}
+    subs_out = {x["element_out"] for x in squad_dict_["automatic_subs"]}
 
-    for pick in squad_dict["picks"]:
+    for pick in squad_dict_["picks"]:
         id = pick["element"]
         player_series = df.loc[gw, id]
         if id in subs_in or id in subs_out:
@@ -301,8 +301,8 @@ def manager_gw_picks_api_temp(gw: int, manager_id: int):
     return Squad(
         manager_id=manager_id,
         squad_list=squad_list,
-        chip=squad_dict["active_chip"],
-        stats=squad_dict["entry_history"],
+        chip=squad_dict_["active_chip"],
+        stats=squad_dict_["entry_history"],
     )
 
 
