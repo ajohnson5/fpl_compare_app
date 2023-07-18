@@ -129,4 +129,4 @@ async def main(client: Client):
     router.frame().classes("w-full")
 
 
-ui.run(uvicorn_reload_excludes="env", port=8081)
+ui.run(uvicorn_reload_excludes="env")
