@@ -231,7 +231,6 @@ async def show_page():
 
             compare_button.on("click", manager_id_search)
             delete_chip_1.on("click", lambda x: delete_chip(chip_1))
-
             delete_chip_2.on("click", lambda x: delete_chip(chip_2))
 
             input_1.on(
