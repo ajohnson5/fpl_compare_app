@@ -221,6 +221,8 @@ async def show_page():
                         squad_2_display,
                         bench_1_display,
                         bench_2_display,
+                        transfer_div_1,
+                        transfer_div_2,
                     )
                 else:
                     ui.notify("Please enter 2 manager IDs", closeBtn="OK")
@@ -357,5 +359,17 @@ async def show_page():
                     "text-5xl sm:text-7xl text-slate-900 font-sans font-bold "
                     "w-auto text-center align-middle mb-10 "
                 )
+
+                with ui.element("div").classes(
+                    "w-full mx-2 grid grid-cols-1 lg:grid-cols-2 justify-center "
+                    "content-center gap-x-2 gap-y-4"
+                ):
+                    transfer_div_1 = ui.element("div").classes(
+                        "col-span-1 h-auto border-2 border-black"
+                    )
+
+                    transfer_div_2 = ui.element("div").classes(
+                        "col-span-1 h-auto border-2 border-black"
+                    )
 
         display_div.set_visibility(False)

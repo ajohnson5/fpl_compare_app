@@ -27,6 +27,7 @@ class Player:
         is_captain: bool,
         multiplier: int,
         auto_sub: bool,
+        transfer: int,
     ):
         self.id = id
         self.name = name
@@ -40,8 +41,7 @@ class Player:
         self.is_captain = is_captain
         self.multiplier = multiplier
         self.auto_sub = auto_sub
-
-        # self.stats = player_dict
+        self.transfer = transfer
 
     def __eq__(self, other):
         if self.id == other.id:
@@ -116,3 +116,13 @@ class Player:
                     ui.label(self.actual_points).classes(
                         player_label + " bg-slate-400/60 text-zinc-900 rounded-b-sm"
                     )
+
+    def transfer_card(self, other_player, home):
+        with ui.element("div").classes(
+            "col-span-1 h-full flex flex-row justify-center content-center items-center"
+        ):
+            self.create_card(home)
+
+            ui.icon("swap_horiz", size="50px", color="green-500")
+
+            other_player.create_card(home)

@@ -40,6 +40,31 @@ def manager_name(manager_id: int):
 example_picks = {}
 
 
+transfers = [
+    {
+        "element_in": 81,
+        "element_in_cost": 49,
+        "element_out": 123,
+        "element_out_cost": 53,
+        "event": 1,
+    },
+    {
+        "element_in": 586,
+        "element_in_cost": 50,
+        "element_out": 235,
+        "element_out_cost": 45,
+        "event": 1,
+    },
+    {
+        "element_in": 116,
+        "element_in_cost": 68,
+        "element_out": 352,
+        "element_out_cost": 70,
+        "event": 2,
+    },
+]
+
+
 squad_dict = {
     "active_chip": "wildcard",
     "automatic_subs": [
@@ -264,9 +289,48 @@ squad_dict_2 = {
 }
 
 
-def manager_gw_picks_api_temp(gw: int, manager_id: int, squad_dict_):
+def manager_gw_transfers_temp(gw: int, manager_id, transfers_list):
+    transfers_in = []
+
+    transfers_out = []
+
+    for transfer in transfers_list:
+        if transfer["event"] == 1:
+            transfers_in.append(transfer["element_in"])
+            transfers_out.append(transfer["element_out"])
+        elif transfer["event"] > 1:
+            return transfers_in, transfers_out
+
+    return transfers_in, transfers_out
+
+
+# def manager_gw_transfers(
+#     gw: int,
+#     manager_id,
+# ):
+#     url = f"https://fantasy.premierleague.com/api/entry/{manager_id}/transfers/"
+#     req = requests.get(url).json()
+
+#     if not req:
+#         return
+
+#     for transfer in reversed(req):
+#         if transfer["event"] == gw:
+#             transfer_made.append(transfer)
+#         elif transfer["event"] > gw:
+#             return transfer_made
+
+#     return transfer_made
+
+
+def manager_gw_picks_api_temp(gw: int, manager_id: int, squad_dict_, transfers_list):
     """Returns a list of dictionaries of all picks a manager made in a gameweek"""
     # Check for valid ID
+    transfer_count = 1
+
+    transfers_in, transfers_out = manager_gw_transfers_temp(
+        gw, manager_id, transfers_list
+    )
 
     squad_list = []
 
@@ -276,6 +340,12 @@ def manager_gw_picks_api_temp(gw: int, manager_id: int, squad_dict_):
     for pick in squad_dict_["picks"]:
         id = pick["element"]
         player_series = df.loc[gw, id]
+        if id in transfers_in:
+            transfer_num = transfer_count
+            transfer_count += 1
+        else:
+            transfer_num = 0
+
         if id in subs_in or id in subs_out:
             sub = True
         else:
@@ -293,6 +363,26 @@ def manager_gw_picks_api_temp(gw: int, manager_id: int, squad_dict_):
                 is_captain=pick["is_captain"],
                 multiplier=pick["multiplier"],
                 auto_sub=sub,
+                transfer=transfer_num,
+            )
+        )
+
+    for pick in transfers_out:
+        id = pick
+        player_series = df.loc[gw, id]
+        squad_list.append(
+            Player(
+                id=id,
+                name=player_series["second_name"],
+                first_name=player_series["first_name"],
+                position=16,
+                actual_position=player_series["position"],
+                points=player_series["total_points"],
+                team_name=player_series["team_name"],
+                is_captain=False,
+                multiplier=0,
+                auto_sub=False,
+                transfer=transfer_num,
             )
         )
 
@@ -457,11 +547,14 @@ async def get_mini_league_managers(league_id: int, page_num: int = 100):
                 )
 
 
-# if __name__ == "__main__":
-#     # squad_1 = manager_gw_picks_api_temp(38, 13231)
-#     # squad_2 = manager_gw_picks_api_temp(38, 1310)
+if __name__ == "__main__":
+    squad_1 = manager_gw_picks_api_temp(38, 13231, squad_dict, transfers)
+    squad_2 = manager_gw_picks_api_temp(38, 1310, squad_dict, transfers)
 
-#     # team_1, team_2 = squad_1.compare_squad(squad_2)
+    squad_1.compare_squad(squad_2)
+
+    for player in squad_1.transfers_in:
+        print(player.name)
 
 #     # for postition in team_1:
 #     #     for player in postition:
