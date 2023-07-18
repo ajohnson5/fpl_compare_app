@@ -310,8 +310,8 @@ async def show_page():
                         "https://i.ibb.co/xS9j0v0/half-pitch-complete-final-4.png"
                     ).classes("max-w-[482px] w-full"):
                         squad_1_display = ui.element("div").classes(
-                            "w-full h-full gap-y-0 bg-transparent flex flex-row "
-                            "content-start "
+                            "w-full h-full gap-y-0 bg-transparent grid-rows-4 grid "
+                            "grid-cols-1 gap-0"
                         )
                 with ui.element("div").classes(
                     "px-2 lg:pt-2 pb-2 w-full max-w-[490px]  "
@@ -323,7 +323,8 @@ async def show_page():
                         "https://i.ibb.co/xS9j0v0/half-pitch-complete-final-4.png"
                     ).classes("max-w-[482px] w-full rotate-180 lg:rotate-0"):
                         squad_2_display = ui.element("div").classes(
-                            "w-full h-full gap-y-1 flex flex-row bg-transparent"
+                            "w-full h-full gap-y-0 bg-transparent grid-rows-4 grid "
+                            "grid-cols-1 gap-0"
                         )
             with ui.element("div").classes(
                 "w-full  flex flex-row justify-center content-center gap-x-10 mb-4 "

@@ -103,6 +103,9 @@ async def main(client: Client):
             width:300px !important;   
         }
     }
+    .q-img__content>div {
+        padding:0 !important;
+    }
     </style>
     """
     )

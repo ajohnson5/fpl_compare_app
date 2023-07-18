@@ -59,10 +59,6 @@ class Player:
         return self.id is not None  # <--- added "return"
 
     def create_card(self, home):
-        if home:
-            pass
-        else:
-            pass
         with ui.element("div").classes(
             "flex flex-row  flex-1 h-full items-center justify-center content-center"
         ):

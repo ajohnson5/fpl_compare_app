@@ -7,32 +7,6 @@ from player import Player
 from squad import Squad
 
 
-def row_generator_bench(player_list: List[Player], home: str):
-    with ui.row().classes(
-        "flex flex-row  w-full h-full justify-around content-center gap-x-0 pb-1"
-    ):
-        for player in player_list:
-            player.create_card(home)
-
-
-def row_generator(player_list: List[Player], home: str, i):
-    if i == 0:
-        x = "top-0"
-    else:
-        x = f"top-{i}/4"
-    if home:
-        rotate = "left-0 " + x
-    else:
-        rotate = " rotate-180 lg:rotate-0 left-0 " + x
-
-    with ui.element("div").classes(
-        "flex flex-row absolute w-full h-1/4 justify-around content-start gap-x-0 "
-        + rotate
-    ):
-        for player in player_list:
-            player.create_card(home)
-
-
 def manager_summary(home: bool):
     if home:
         bg_color = " from-sky-500 via-sky-300 to-cyan-400 lg:mr-6"
@@ -75,6 +49,7 @@ async def generate_squad(
     bench_1_display,
     bench_2_display,
 ):
+    # Use fpl api to create squad objects for both managers
     squad_1 = fpl_api_getters.manager_gw_picks_api_temp(
         38, manager_dict["chip_1_id"], fpl_api_getters.squad_dict
     )
@@ -82,7 +57,8 @@ async def generate_squad(
         38, manager_dict["chip_2_id"], fpl_api_getters.squad_dict_2
     )
 
-    team_1, team_2 = squad_1.compare_squad(squad_2)
+    # Compare squads - creates the layout instance variable
+    squad_1.compare_squad(squad_2)
 
     # Create loading spinner
     with loading_div:
@@ -106,25 +82,19 @@ async def generate_squad(
     # Create player cards for on-pitch players
     with squad_1_display:
         squad_1_display.clear()
-        row_generator(team_1[1], "home", 0)
-        row_generator(team_1[2], "home", 1)
-        row_generator(team_1[3], "home", 2)
-        row_generator(team_1[4], "home", 3)
+        squad_1.create_team_display("home")
 
     with squad_2_display:
         squad_2_display.clear()
-        row_generator(team_2[1], "away", 0)
-        row_generator(team_2[2], "away", 1)
-        row_generator(team_2[3], "away", 2)
-        row_generator(team_2[4], "away", 3)
+        squad_2.create_team_display("away")
 
     # Create bench player cards
     with bench_1_display:
         bench_1_display.clear()
-        row_generator_bench(team_1[0], "home")
+        squad_1.create_bench_display("home")
 
     with bench_2_display:
         bench_2_display.clear()
-        row_generator_bench(team_2[0], "away")
+        squad_1.create_bench_display("away")
 
     display_div.set_visibility(True)
