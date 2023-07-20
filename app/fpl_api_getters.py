@@ -19,7 +19,7 @@ col_list = [
 ]
 
 df = pd.read_parquet(
-    "gs://fpl_dev_bucket/2022/player_gameweek/player_gameweek_38.parquet",
+    "gs://fpl_dev_bucket1/2022_player_gameweek_player_gameweek_38.parquet",
     columns=col_list,
 )
 
