@@ -372,7 +372,7 @@ async def show_page():
                         ):
                             with ui.expansion("", value=True).classes(
                                 "bg-slate-50/50 rounded-xl"
-                            ).props(
+                            ).classes("expansion-element").props(
                                 'header-class="bg-transparent text-white text-center "'
                                 'header-class= "text-2xl rounded-xl h-[80px]"'
                             ).props(
@@ -402,7 +402,7 @@ async def show_page():
                         ):
                             with ui.expansion("", value=True).classes(
                                 "bg-slate-50/50 rounded-xl grid grid-cols-1"
-                            ).props(
+                            ).classes("expansion-element").props(
                                 'header-class="bg-transparent text-white text-center "'
                                 'header-class="text-2xl rounded-xl h-[80px]"'
                             ).props(

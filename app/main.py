@@ -106,14 +106,14 @@ async def main(client: Client):
     .q-img__content>div {
         padding:0 !important;
     }
-    .q-item__section--side>.q-icon {
+    .expansion-element .q-item__section--side>.q-icon{
     font-size: 60px;
     }
-    .q-item__section--main~.q-item__section--side {
+    .expansion-element .q-item__section--main~.q-item__section--side {
     align-items: center;
     width: 100%;
     }
-    .q-item__section--main {
+    .expansion-element .q-item__section--main {
     width: 0px;
     min-width: 0;
     max-width: 0%;
@@ -125,19 +125,19 @@ async def main(client: Client):
     }
 
     @media only screen and (min-width: 400px) {
-        .player-card-height{
+        .player-card-height {
             height:90px !important;
         }       
     }
 
     @media only screen and (min-width: 415px) {
-        .player-card-height{
+        .player-card-height {
             height:95px !important;
         }       
     }
 
     @media only screen and (min-width: 490px) {
-        .player-card-height{
+        .player-card-height {
             height:100px !important;
         }
     </style>
