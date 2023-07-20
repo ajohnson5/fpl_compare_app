@@ -106,6 +106,40 @@ async def main(client: Client):
     .q-img__content>div {
         padding:0 !important;
     }
+    .expansion-element .q-item__section--side>.q-icon{
+    font-size: 60px;
+    }
+    .expansion-element .q-item__section--main~.q-item__section--side {
+    align-items: center;
+    width: 100%;
+    }
+    .expansion-element .q-item__section--main {
+    width: 0px;
+    min-width: 0;
+    max-width: 0%;
+    }
+
+
+    .player-card-height {
+        height:80px !important;
+    }
+
+    @media only screen and (min-width: 400px) {
+        .player-card-height {
+            height:90px !important;
+        }       
+    }
+
+    @media only screen and (min-width: 415px) {
+        .player-card-height {
+            height:95px !important;
+        }       
+    }
+
+    @media only screen and (min-width: 490px) {
+        .player-card-height {
+            height:100px !important;
+        }
     </style>
     """
     )

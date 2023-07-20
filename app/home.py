@@ -221,6 +221,8 @@ async def show_page():
                         squad_2_display,
                         bench_1_display,
                         bench_2_display,
+                        transfer_div_1,
+                        transfer_div_2,
                     )
                 else:
                     ui.notify("Please enter 2 manager IDs", closeBtn="OK")
@@ -313,6 +315,7 @@ async def show_page():
                             "w-full h-full gap-y-0 bg-transparent grid-rows-4 grid "
                             "grid-cols-1 gap-0"
                         )
+
                 with ui.element("div").classes(
                     "px-2 lg:pt-2 pb-2 w-full max-w-[490px]  "
                     "lg:bg-gradient-to-b lg:from-green-400 lg:via-emerald-400 "
@@ -335,8 +338,8 @@ async def show_page():
                     "from-sky-500 via-sky-300 to-cyan-400 drop-shadow-xl "
                 ):
                     bench_1_display = ui.element("div").classes(
-                        "w-full max-w-[490px] h-[100px] flex flex-row justify-evenly "
-                        "bg-slate-50/50 content-center rounded-xl"
+                        "w-full max-w-[490px] h-full flex flex-row justify-evenly "
+                        "bg-slate-50/50 content-center rounded-xl pb-1"
                     )
 
                 with ui.element("div").classes(
@@ -344,18 +347,82 @@ async def show_page():
                     "from-red-500 via-red-400 to-rose-400 drop-shadow-xl"
                 ):
                     bench_2_display = ui.element("div").classes(
-                        "w-full  max-w-[490px] h-[100px] flex flex-row justify-evenly "
-                        "bg-slate-50/50 content-center rounded-xl opac"
+                        "w-full  max-w-[490px] h-full flex flex-row justify-evenly "
+                        "bg-slate-50/50 content-center rounded-xl pb-1"
                     )
 
             with ui.element("div").classes(
-                "w-full h-screen bg-stone-100 flex row-flex justify-center "
+                "w-full h-auto bg-stone-100 flex row-flex justify-center "
                 "content-start"
             ):
                 ui.label().classes("w-11/12 h-2 bg-slate-900")
                 ui.label("Transfers.").classes(
-                    "text-5xl sm:text-7xl text-slate-900 font-sans font-bold "
+                    "text-6xl sm:text-7xl text-slate-900 font-sans font-bold "
                     "w-auto text-center align-middle mb-10 "
                 )
+
+                with ui.element("div").classes(
+                    "mx-[4px] w-full gap-x-10 gap-y-4 flex flex-row justify-center "
+                    "content-center mb-4 "
+                ):
+                    with ui.element("div").classes("w-full max-w-[490px] h-auto "):
+                        with ui.element("div").classes(
+                            "bg-gradient-to-r from-sky-500 via-sky-300 to-cyan-400 p-2 "
+                            "rounded-2xl w-full mx-auto"
+                        ):
+                            with ui.expansion("", value=True).classes(
+                                "bg-slate-50/50 rounded-xl"
+                            ).classes("expansion-element").props(
+                                'header-class="bg-transparent text-white text-center "'
+                                'header-class= "text-2xl rounded-xl h-[80px]"'
+                            ).props(
+                                'expand-icon-class="text-white"'
+                            ).props(
+                                'expand-icon="keyboard_double_arrow_down"'
+                            ):
+                                with ui.element("div").classes(
+                                    "col-span-1 flex flex-row justify-between"
+                                ):
+                                    ui.label("Transfers In").classes(
+                                        "w-1/2 text-center align-middle text-white "
+                                        "text-2xl font-medium font-sans"
+                                    )
+                                    ui.label("Transfers Out").classes(
+                                        "w-1/2 text-center align-middle text-white "
+                                        "text-2xl font-medium font-sans "
+                                    )
+                                transfer_div_1 = ui.element("div").classes(
+                                    "col-span-1 h-auto pb-2"
+                                )
+
+                    with ui.element("div").classes("w-full max-w-[490px]  h-auto "):
+                        with ui.element("div").classes(
+                            "bg-gradient-to-r from-red-500 via-red-400 to-rose-400 p-2 "
+                            "rounded-2xl w-full mx-auto"
+                        ):
+                            with ui.expansion("", value=True).classes(
+                                "bg-slate-50/50 rounded-xl grid grid-cols-1"
+                            ).classes("expansion-element").props(
+                                'header-class="bg-transparent text-white text-center "'
+                                'header-class="text-2xl rounded-xl h-[80px]"'
+                            ).props(
+                                'expand-icon-class="text-white"'
+                            ).props(
+                                'expand-icon="keyboard_double_arrow_down"'
+                            ):
+                                with ui.element("div").classes(
+                                    "col-span-1 flex flex-row justify-between"
+                                ):
+                                    ui.label("Transfers In").classes(
+                                        "w-1/2 text-center align-middle text-white "
+                                        "text-2xl font-medium font-sans"
+                                    )
+                                    ui.label("Transfers Out").classes(
+                                        "w-1/2 text-center align-middle text-white "
+                                        "text-2xl font-medium font-sans "
+                                    )
+                                transfer_div_2 = ui.element("div").classes(
+                                    "col-span-1 h-auto pb-2"
+                                )
 
         display_div.set_visibility(False)

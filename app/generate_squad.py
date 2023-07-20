@@ -48,13 +48,21 @@ async def generate_squad(
     squad_2_display,
     bench_1_display,
     bench_2_display,
+    transfer_div_1,
+    transfer_div_2,
 ):
     # Use fpl api to create squad objects for both managers
     squad_1 = fpl_api_getters.manager_gw_picks_api_temp(
-        38, manager_dict["chip_1_id"], fpl_api_getters.squad_dict
+        38,
+        manager_dict["chip_1_id"],
+        fpl_api_getters.squad_dict,
+        fpl_api_getters.transfers,
     )
     squad_2 = fpl_api_getters.manager_gw_picks_api_temp(
-        38, manager_dict["chip_2_id"], fpl_api_getters.squad_dict_2
+        38,
+        manager_dict["chip_2_id"],
+        fpl_api_getters.squad_dict_2,
+        fpl_api_getters.transfers,
     )
 
     # Compare squads - creates the layout instance variable
@@ -95,6 +103,16 @@ async def generate_squad(
 
     with bench_2_display:
         bench_2_display.clear()
-        squad_1.create_bench_display("away")
+        squad_2.create_bench_display("away")
+
+    with transfer_div_1:
+        transfer_div_1.clear()
+        squad_1.create_transfer_display("home")
+
+    with transfer_div_2:
+        transfer_div_2.clear()
+        squad_2.create_transfer_display("away")
+
+    # manager_1_transfers = manager_gw_transfers_temp()
 
     display_div.set_visibility(True)
