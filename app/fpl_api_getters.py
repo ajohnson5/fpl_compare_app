@@ -360,13 +360,13 @@ def manager_gw_transfers_temp(gw: int, manager_id, transfers_list):
 def manager_gw_picks_api_temp(gw: int, manager_id: int, squad_dict_, transfers_list):
     """Returns a list of dictionaries of all picks a manager made in a gameweek"""
     # Check for valid ID
-    transfer_count = 1
 
     transfers_in, transfers_out = manager_gw_transfers_temp(
         gw, manager_id, transfers_list
     )
 
     squad_list = []
+    transfers_out_list = []
 
     subs_in = {x["element_in"] for x in squad_dict_["automatic_subs"]}
     subs_out = {x["element_out"] for x in squad_dict_["automatic_subs"]}
@@ -375,10 +375,9 @@ def manager_gw_picks_api_temp(gw: int, manager_id: int, squad_dict_, transfers_l
         id = pick["element"]
         player_series = df.loc[gw, id]
         if id in transfers_in:
-            transfer_num = transfer_count
-            transfer_count += 1
+            transfer_num = transfers_in.index(id)
         else:
-            transfer_num = 0
+            transfer_num = -1
 
         if id in subs_in or id in subs_out:
             sub = True
@@ -404,7 +403,7 @@ def manager_gw_picks_api_temp(gw: int, manager_id: int, squad_dict_, transfers_l
     for pick in transfers_out:
         id = pick
         player_series = df.loc[gw, id]
-        squad_list.append(
+        transfers_out_list.append(
             Player(
                 id=id,
                 name=player_series["second_name"],
@@ -416,7 +415,7 @@ def manager_gw_picks_api_temp(gw: int, manager_id: int, squad_dict_, transfers_l
                 is_captain=False,
                 multiplier=0,
                 auto_sub=False,
-                transfer=transfer_num,
+                transfer=-1,
             )
         )
 
@@ -427,6 +426,7 @@ def manager_gw_picks_api_temp(gw: int, manager_id: int, squad_dict_, transfers_l
         squad_list=squad_list,
         chip=squad_dict_["active_chip"],
         stats=squad_dict_["entry_history"],
+        transfers_out=transfers_out_list,
     )
 
 
@@ -589,6 +589,12 @@ if __name__ == "__main__":
 
     for player in squad_1.transfers_in:
         print(player.name)
+
+    print("####################")
+
+    for player in squad_1.transfers_out:
+        print(player.name)
+
 
 #     # for postition in team_1:
 #     #     for player in postition:

@@ -7,12 +7,22 @@ from nicegui import ui
 class Squad:
     team_rotate = {"home": "", "away": "rotate-180 lg:rotate-0"}
 
-    def __init__(self, manager_id: int, squad_list: list[Player], chip, stats: dict):
+    def __init__(
+        self,
+        manager_id: int,
+        squad_list: list[Player],
+        chip,
+        stats: dict,
+        transfers_out: list[Player],
+    ):
         self.manager_id = manager_id
         self.start_xi = squad_list[:11]
         self.bench = sorted(squad_list[11:15], key=lambda x: x.actual_position)
-        self.transfers_in = [player for player in squad_list if player.transfer > 0]
-        self.transfers_out = [player for player in squad_list[15:]]
+        self.transfers_in = sorted(
+            [player for player in squad_list if player.transfer >= 0],
+            key=lambda x: x.transfer,
+        )
+        self.transfers_out = transfers_out
         self.chip = chip
         self.stats = stats
 
