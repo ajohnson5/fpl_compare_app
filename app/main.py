@@ -118,6 +118,28 @@ async def main(client: Client):
     min-width: 0;
     max-width: 0%;
     }
+
+
+    .player-card-height {
+        height:80px !important;
+    }
+
+    @media only screen and (min-width: 400px) {
+        .player-card-height{
+            height:90px !important;
+        }       
+    }
+
+    @media only screen and (min-width: 415px) {
+        .player-card-height{
+            height:95px !important;
+        }       
+    }
+
+    @media only screen and (min-width: 490px) {
+        .player-card-height{
+            height:100px !important;
+        }
     </style>
     """
     )
