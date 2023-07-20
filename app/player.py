@@ -84,10 +84,12 @@ class Player:
                         if self.auto_sub:
                             if self.starting:
                                 ui.icon(
-                                    "add_circle", color=Player.team_color[home], size="14px"
+                                    "add_circle",
+                                    color=Player.team_color[home],
+                                    size="14px",
                                 ).classes(
-                                    "h-[10px] w-[10px] absolute top-0.5 left-0 bg-white "
-                                    "rounded-full"
+                                    "h-[10px] w-[10px] absolute top-0.5 left-0 "
+                                    "bg-white rounded-full"
                                 )
                             else:
                                 ui.icon(
@@ -95,8 +97,8 @@ class Player:
                                     color=Player.team_color[home],
                                     size="14px",
                                 ).classes(
-                                    "h-[10px] w-[10px] absolute top-0.5 left-0 bg-white "
-                                    "rounded-full"
+                                    "h-[10px] w-[10px] absolute top-0.5 left-0 "
+                                    "bg-white rounded-full"
                                 )
 
                 with ui.element("div").classes(
@@ -119,7 +121,8 @@ class Player:
 
     def transfer_card(self, other_player, home):
         with ui.element("div").classes(
-            "col-span-1 h-full flex flex-row justify-center content-center items-center"
+            "col-span-1 h-full flex flex-row justify-center content-center "
+            "items-center mt-2"
         ):
             self.create_card(home, True)
 

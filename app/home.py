@@ -361,13 +361,13 @@ async def show_page():
                 )
 
                 with ui.element("div").classes(
-                    "w-full mx-2 mb-4 grid grid-cols-1 lg:grid-cols-2 justify-center "
-                    "content-center gap-x-2 gap-y-4"
+                    "mx-[4px] w-full gap-x-10 gap-y-4 flex flex-row justify-center "
+                    "content-center mb-4 "
                 ):
-                    with ui.element("div").classes("col-span-1 h-auto "):
+                    with ui.element("div").classes("w-full max-w-[490px] h-auto "):
                         with ui.element("div").classes(
                             "bg-gradient-to-r from-sky-500 via-sky-300 to-cyan-400 p-2 "
-                            "rounded-2xl max-w-[490px] mx-auto"
+                            "rounded-2xl w-full mx-auto"
                         ):
                             with ui.expansion("", value=True).classes(
                                 "bg-slate-50/50 rounded-xl"
@@ -394,10 +394,10 @@ async def show_page():
                                     "col-span-1 h-auto pb-2"
                                 )
 
-                    with ui.element("div").classes("col-span-1 h-auto "):
+                    with ui.element("div").classes("w-full max-w-[490px]  h-auto "):
                         with ui.element("div").classes(
                             "bg-gradient-to-r from-red-500 via-red-400 to-rose-400 p-2 "
-                            "rounded-2xl max-w-[490px] mx-auto"
+                            "rounded-2xl w-full mx-auto"
                         ):
                             with ui.expansion("", value=True).classes(
                                 "bg-slate-50/50 rounded-xl grid grid-cols-1"
