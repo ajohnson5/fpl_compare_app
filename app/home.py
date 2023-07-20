@@ -357,7 +357,7 @@ async def show_page():
             ):
                 ui.label().classes("w-11/12 h-2 bg-slate-900")
                 ui.label("Transfers.").classes(
-                    "text-5xl sm:text-7xl text-slate-900 font-sans font-bold "
+                    "text-6xl sm:text-7xl text-slate-900 font-sans font-bold "
                     "w-auto text-center align-middle mb-10 "
                 )
 
