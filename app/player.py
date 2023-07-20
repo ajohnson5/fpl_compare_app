@@ -62,7 +62,10 @@ class Player:
         with ui.element("div").classes(
             "flex flex-row  flex-1 h-full items-center justify-center content-center"
         ):
-            with ui.element("div").classes("flex flex-col h-full w-[60px]"):
+            with ui.element("div").classes(
+                "flex flex-col h-full w-[60px] "
+                "hover:cursor-pointer hover:bg-stone-50/30 rounded-sm"
+            ):
                 with ui.element("div").classes("grow relative p-1"):
                     ui.image("https://i.ibb.co/zsQThP3/ARS-2223-HK-PL-S1.webp").classes(
                         "border-1 border-black w-full h-full"
