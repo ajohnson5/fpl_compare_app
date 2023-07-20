@@ -123,6 +123,6 @@ class Player:
         ):
             self.create_card(home)
 
-            ui.icon("swap_horiz", size="50px", color="green-500")
+            ui.icon("swap_horiz", size="50px", color="stone-100")
 
             other_player.create_card(home)

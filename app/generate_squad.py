@@ -110,7 +110,7 @@ async def generate_squad(
         squad_1.create_transfer_display("home")
 
     with transfer_div_2:
-        transfer_div_2.clear
+        transfer_div_2.clear()
         squad_2.create_transfer_display("away")
 
     # manager_1_transfers = manager_gw_transfers_temp()

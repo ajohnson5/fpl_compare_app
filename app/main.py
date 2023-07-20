@@ -106,6 +106,18 @@ async def main(client: Client):
     .q-img__content>div {
         padding:0 !important;
     }
+    .q-item__section--side>.q-icon {
+    font-size: 60px;
+    }
+    .q-item__section--main~.q-item__section--side {
+    align-items: center;
+    width: 100%;
+    }
+    .q-item__section--main {
+    width: 0px;
+    min-width: 0;
+    max-width: 0%;
+    }
     </style>
     """
     )
