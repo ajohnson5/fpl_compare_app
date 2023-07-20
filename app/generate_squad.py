@@ -9,9 +9,9 @@ from squad import Squad
 
 def manager_summary(home: bool):
     if home:
-        bg_color = " from-sky-500 via-sky-300 to-cyan-400 lg:mr-6"
+        bg_color = " from-sky-500 via-sky-300 to-cyan-400"
     else:
-        bg_color = " from-red-500 via-red-400 to-rose-400 lg:ml-6"
+        bg_color = " from-red-500 via-red-400 to-rose-400"
     with ui.element("div").classes(
         " p-1 bg-gradient-to-r rounded-2xl drop-shadow-xl" + bg_color
     ):

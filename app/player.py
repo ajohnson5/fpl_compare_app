@@ -2,7 +2,7 @@ from nicegui import ui
 
 player_label = (
     "w-full h-1/2 text-center align-middle "
-    "text-xs md:text-sm font-medium tracking-tighter leading-tight "
+    "text-xs font-medium tracking-tighter leading-tight "
 )
 card_width = " w-[60px]"
 # shirt_width = " w-[35px] sm:w-[40px] "
@@ -99,7 +99,7 @@ class Player:
                                     "bg-white rounded-full"
                                 )
 
-                with ui.element("div").classes("w-full h-[27px] sm:h-[35px]"):
+                with ui.element("div").classes("w-full h-[30%]"):
                     ui.label(self.name).classes(
                         player_label
                         + " bg-"

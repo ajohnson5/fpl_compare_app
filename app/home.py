@@ -258,8 +258,8 @@ async def show_page():
             )
 
             with ui.element("div").classes(
-                "w-full h-auto flex flex-row justify-evenly content-center mx-2 "
-                "lg:gap-x-0 mb-4 gap-y-2"
+                "w-full h-auto flex flex-row justify-center content-center mx-2 "
+                "gap-x-10 lg:gap-x-[270px] mb-4 gap-y-2"
             ):
                 manager_name_1, manager_points_1 = manager_summary(True)
                 manager_name_2, manager_points_2 = manager_summary(False)
