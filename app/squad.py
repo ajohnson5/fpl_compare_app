@@ -75,20 +75,20 @@ class Squad:
     def create_team_display(self, home):
         for position in self.layout:
             with ui.element("div").classes(
-                "row-span-1 flex flex-row justify-around content-center "
-                + Squad.team_rotate[home]
+                "row-span-1 flex flex-row justify-around content-center h-full "
+                "max-h-[100px] " + Squad.team_rotate[home]
             ):
                 for player in position:
                     player.create_card(home)
 
     def create_bench_display(self, home):
         with ui.element("div").classes(
-            "flex flex-row w-full h-full justify-around content-center gap-x-0 pb-1"
-        ):
+            "flex flex-row w-full justify-around content-center gap-x-0"
+        ).classes("player-card-height"):
             for player in self.bench:
                 player.create_card(home)
 
     def create_transfer_display(self, home):
-        with ui.element("div").classes("grid grid-cols-1 w-full"):
+        with ui.element("div").classes("w-full"):
             for transfer in zip(self.transfers_in, self.transfers_out):
                 transfer[0].transfer_card(transfer[1], home)

@@ -315,6 +315,7 @@ async def show_page():
                             "w-full h-full gap-y-0 bg-transparent grid-rows-4 grid "
                             "grid-cols-1 gap-0"
                         )
+
                 with ui.element("div").classes(
                     "px-2 lg:pt-2 pb-2 w-full max-w-[490px]  "
                     "lg:bg-gradient-to-b lg:from-green-400 lg:via-emerald-400 "
@@ -337,8 +338,8 @@ async def show_page():
                     "from-sky-500 via-sky-300 to-cyan-400 drop-shadow-xl "
                 ):
                     bench_1_display = ui.element("div").classes(
-                        "w-full max-w-[490px] h-[100px] flex flex-row justify-evenly "
-                        "bg-slate-50/50 content-center rounded-xl"
+                        "w-full max-w-[490px] h-full flex flex-row justify-evenly "
+                        "bg-slate-50/50 content-center rounded-xl pb-1"
                     )
 
                 with ui.element("div").classes(
@@ -346,8 +347,8 @@ async def show_page():
                     "from-red-500 via-red-400 to-rose-400 drop-shadow-xl"
                 ):
                     bench_2_display = ui.element("div").classes(
-                        "w-full  max-w-[490px] h-[100px] flex flex-row justify-evenly "
-                        "bg-slate-50/50 content-center rounded-xl opac"
+                        "w-full  max-w-[490px] h-full flex flex-row justify-evenly "
+                        "bg-slate-50/50 content-center rounded-xl pb-1"
                     )
 
             with ui.element("div").classes(
@@ -356,7 +357,7 @@ async def show_page():
             ):
                 ui.label().classes("w-11/12 h-2 bg-slate-900")
                 ui.label("Transfers.").classes(
-                    "text-5xl sm:text-7xl text-slate-900 font-sans font-bold "
+                    "text-6xl sm:text-7xl text-slate-900 font-sans font-bold "
                     "w-auto text-center align-middle mb-10 "
                 )
 
@@ -371,7 +372,7 @@ async def show_page():
                         ):
                             with ui.expansion("", value=True).classes(
                                 "bg-slate-50/50 rounded-xl"
-                            ).props(
+                            ).classes("expansion-element").props(
                                 'header-class="bg-transparent text-white text-center "'
                                 'header-class= "text-2xl rounded-xl h-[80px]"'
                             ).props(
@@ -401,7 +402,7 @@ async def show_page():
                         ):
                             with ui.expansion("", value=True).classes(
                                 "bg-slate-50/50 rounded-xl grid grid-cols-1"
-                            ).props(
+                            ).classes("expansion-element").props(
                                 'header-class="bg-transparent text-white text-center "'
                                 'header-class="text-2xl rounded-xl h-[80px]"'
                             ).props(
