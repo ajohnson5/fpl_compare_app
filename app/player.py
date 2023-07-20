@@ -58,7 +58,7 @@ class Player:
     def __bool__(self):
         return self.id is not None  # <--- added "return"
 
-    def create_card(self, home):
+    def create_card(self, home, transfer=False):
         with ui.element("div").classes(
             "flex flex-row  flex-1 h-full items-center justify-center content-center"
         ):
@@ -80,24 +80,24 @@ class Player:
                             ui.icon("copyright", size="14px").classes(
                                 "absolute top-0.5 right-0"
                             )
-
-                    if self.auto_sub:
-                        if self.starting:
-                            ui.icon(
-                                "add_circle", color=Player.team_color[home], size="14px"
-                            ).classes(
-                                "h-[10px] w-[10px] absolute top-0.5 left-0 bg-white "
-                                "rounded-full"
-                            )
-                        else:
-                            ui.icon(
-                                "do_not_disturb_on",
-                                color=Player.team_color[home],
-                                size="14px",
-                            ).classes(
-                                "h-[10px] w-[10px] absolute top-0.5 left-0 bg-white "
-                                "rounded-full"
-                            )
+                    if not transfer:
+                        if self.auto_sub:
+                            if self.starting:
+                                ui.icon(
+                                    "add_circle", color=Player.team_color[home], size="14px"
+                                ).classes(
+                                    "h-[10px] w-[10px] absolute top-0.5 left-0 bg-white "
+                                    "rounded-full"
+                                )
+                            else:
+                                ui.icon(
+                                    "do_not_disturb_on",
+                                    color=Player.team_color[home],
+                                    size="14px",
+                                ).classes(
+                                    "h-[10px] w-[10px] absolute top-0.5 left-0 bg-white "
+                                    "rounded-full"
+                                )
 
                 with ui.element("div").classes(
                     "col-span-1 row-span-1 grid grid-col-1 grid-rows-2 w-full "
@@ -121,8 +121,8 @@ class Player:
         with ui.element("div").classes(
             "col-span-1 h-full flex flex-row justify-center content-center items-center"
         ):
-            self.create_card(home)
+            self.create_card(home, True)
 
             ui.icon("swap_horiz", size="50px", color="stone-100")
 
-            other_player.create_card(home)
+            other_player.create_card(home, True)
