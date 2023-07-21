@@ -17,9 +17,8 @@ def manager_chip(home: bool):
         "w-[210px] h-[40px] rounded-lg outline outline-offset-4 relative" + chip_bg
     ) as chip:
         gw_chip_label = ui.label().classes(
-            "w-[22px] h-[22px] rounded-full "
-            "bg-slate-600 text-white absolute -top-[13px] -left-[10px] text-center "
-            "font-semibold align-middle"
+            "w-[22px] h-[22px] rounded-full bg-slate-600 text-white absolute "
+            "-top-[13px] -left-[10px] text-center font-semibold align-middle"
         )
         with ui.row().classes(
             "w-full h-full flex flex-row justify-between content-center items-center"
@@ -176,6 +175,115 @@ def transfer_layout():
 
 
 async def show_page():
+    ##########################################################################
+    ##########################################################################
+    ####################### UI / Search Functions  ###########################
+    ##########################################################################
+    ##########################################################################
+
+    chip_state = {
+        "chip_1": None,
+        "chip_2": None,
+        "chip_1_id": None,
+        "chip_2_id": None,
+        "chip_1_gw": None,
+        "chip_2_gw": None,
+    }
+
+    async def search_league(league_id):
+        if not league_id:
+            with league_id_input.add_slot("prepend"):
+                with ui.icon("error", color="red-500"):
+                    ui.tooltip("Please enter a League ID").classes("bg-red-500")
+                league_id_input.update()
+            return
+
+        manager_select.clear()
+
+        manager_select.set_value(value=None)
+
+        managers = await fpl_api_getters.get_mini_league_managers(int(league_id))
+
+        managers = {
+            12313: "Ujedinjeni Urci",
+            2131: "Badger Oblong Quasi",
+            3763: "Bad Team On Paper",
+        }
+
+        if managers:
+            with league_id_input.add_slot("prepend"):
+                ui.icon("check_circle", color="green-500")
+                manager_select.style("width:50%;")
+                league_id_input.style("width:50%;")
+                league_id_input.update()
+        else:
+            with league_id_input.add_slot("prepend"):
+                with ui.icon("error", color="red-500"):
+                    ui.tooltip("Invalid League ID").classes("bg-red-500")
+                league_id_input.update()
+            return
+
+        manager_select.options = managers
+        manager_select.update()
+
+    def add_chip(manager_id, gameweek_select):
+        if manager_id and gameweek_select:
+            if not chip_state["chip_1"]:
+                manager_name = fpl_api_getters.manager_name(manager_id)
+                if manager_name:
+                    chip_state["chip_1_id"] = int(manager_id)
+                    chip_state["chip_1"] = manager_name
+                    chip_state["chip_1_gw"] = gameweek_select
+                    chip_1.style("visibility:visible")
+                    manager_id_input.set_value("")
+
+                else:
+                    ui.notify("Manager does not exist", closeBtn="OK")
+            elif not chip_state["chip_2"]:
+                manager_name = fpl_api_getters.manager_name(manager_id)
+                if manager_name:
+                    chip_state["chip_2_id"] = int(manager_id)
+                    chip_state["chip_2"] = manager_name
+                    chip_state["chip_2_gw"] = gameweek_select
+                    chip_2.style("visibility:visible")
+                    manager_id_input.set_value("")
+                else:
+                    ui.notify("Manager does not exist", closeBtn="OK")
+        else:
+            pass
+
+    def delete_chip(chip):
+        if chip == chip_1:
+            chip_state["chip_1"] = None
+        else:
+            chip_state["chip_2"] = None
+
+        chip.style("visibility:hidden")
+
+    async def load_display():
+        if chip_state["chip_1"] and chip_state["chip_2"]:
+            await generate_squad(
+                chip_state,
+                display_div,
+                landing_div,
+                manager_1_display,
+                manager_2_display,
+                squad_1_display,
+                squad_2_display,
+                bench_1_display,
+                bench_2_display,
+                transfer_1_display,
+                transfer_2_display,
+            )
+        else:
+            ui.notify("Please enter 2 manager IDs", closeBtn="OK")
+
+    ##########################################################################
+    ##########################################################################
+    ########################## Start of Web Page  ############################
+    ##########################################################################
+    ##########################################################################
+
     with ui.element("div").classes("flex flex-row"):
         with ui.element("div").classes(
             (
@@ -195,6 +303,7 @@ async def show_page():
                     .classes("text-5xl sm:text-6xl font-sans font-bold mt-2")
                     .props('push color="white" :ripple="{ center: true }"')
                 )
+
                 ui.label("Squads.").classes(
                     "text-5xl sm:text-6xl text-zinc-900 font-sans font-bold h-auto "
                     "w-auto text-center align-middle"
@@ -216,96 +325,6 @@ async def show_page():
                     gameweek_select,
                 ) = combined_search()
 
-                league_id_input.bind_visibility_from(search_toggle, "value")
-                manager_select.bind_visibility_from(search_toggle, "value")
-
-                async def search_league(league_id):
-                    if not league_id:
-                        with league_id_input.add_slot("prepend"):
-                            with ui.icon("error", color="red-500"):
-                                ui.tooltip("Please enter a League ID").classes(
-                                    "bg-red-500"
-                                )
-                            league_id_input.update()
-                        return
-
-                    manager_select.clear()
-
-                    manager_select.set_value(value=None)
-
-                    managers = await fpl_api_getters.get_mini_league_managers(
-                        int(league_id)
-                    )
-
-                    managers = {
-                        12313: "Ujedinjeni Urci",
-                        2131: "Badger Oblong Quasi",
-                        3763: "Bad Team On Paper",
-                    }
-
-                    if managers:
-                        with league_id_input.add_slot("prepend"):
-                            ui.icon("check_circle", color="green-500")
-                            manager_select.style("width:50%;")
-                            league_id_input.style("width:50%;")
-                            league_id_input.update()
-                    else:
-                        with league_id_input.add_slot("prepend"):
-                            with ui.icon("error", color="red-500"):
-                                ui.tooltip("Invalid League ID").classes("bg-red-500")
-                            league_id_input.update()
-                        return
-
-                    manager_select.options = managers
-                    manager_select.update()
-
-                league_id_input.on(
-                    "keydown.enter", lambda: search_league(league_id_input.value)
-                )
-
-                chip_state = {
-                    "chip_1": None,
-                    "chip_2": None,
-                    "chip_1_id": None,
-                    "chip_2_id": None,
-                    "chip_1_gw": None,
-                    "chip_2_gw": None,
-                }
-
-                def add_chip(manager_id, gameweek_select):
-                    if manager_id and gameweek_select:
-                        if not chip_state["chip_1"]:
-                            manager_name = fpl_api_getters.manager_name(manager_id)
-                            if manager_name:
-                                chip_state["chip_1_id"] = int(manager_id)
-                                chip_state["chip_1"] = manager_name
-                                chip_state["chip_1_gw"] = gameweek_select
-                                chip_1.style("visibility:visible")
-                                manager_id_input.set_value("")
-
-                            else:
-                                ui.notify("Manager does not exist", closeBtn="OK")
-                        elif not chip_state["chip_2"]:
-                            manager_name = fpl_api_getters.manager_name(manager_id)
-                            if manager_name:
-                                chip_state["chip_2_id"] = int(manager_id)
-                                chip_state["chip_2"] = manager_name
-                                chip_state["chip_2_gw"] = gameweek_select
-                                chip_2.style("visibility:visible")
-                                manager_id_input.set_value("")
-                            else:
-                                ui.notify("Manager does not exist", closeBtn="OK")
-                    else:
-                        pass
-
-                def delete_chip(chip):
-                    if chip == chip_1:
-                        chip_state["chip_1"] = None
-                    else:
-                        chip_state["chip_2"] = None
-
-                    chip.style("visibility:hidden")
-
                 with ui.element("div").classes(
                     "w-full flex flex-row justify-center content-start gap-x-4 gap-y-6 "
                     "pt-6"
@@ -323,33 +342,22 @@ async def show_page():
                         gw_chip_label_2,
                     ) = manager_chip(False)
 
-                    gw_chip_label_1.bind_text_from(chip_state, "chip_1_gw")
-                    gw_chip_label_2.bind_text_from(chip_state, "chip_2_gw")
-
-                    manager_name_1.bind_text_from(chip_state, "chip_1")
-                    manager_name_2.bind_text_from(chip_state, "chip_2")
-
-            async def load_display():
-                if chip_state["chip_1"] and chip_state["chip_2"]:
-                    await generate_squad(
-                        chip_state,
-                        display_div,
-                        landing_div,
-                        manager_1_display,
-                        manager_2_display,
-                        squad_1_display,
-                        squad_2_display,
-                        bench_1_display,
-                        bench_2_display,
-                        transfer_1_display,
-                        transfer_2_display,
-                    )
-                else:
-                    ui.notify("Please enter 2 manager IDs", closeBtn="OK")
-
             ui.element("div").classes(
                 "h-1/6 w-full flex flex-row content-start justify-center"
             )
+
+            league_id_input.bind_visibility_from(search_toggle, "value")
+            manager_select.bind_visibility_from(search_toggle, "value")
+
+            league_id_input.on(
+                "keydown.enter", lambda: search_league(league_id_input.value)
+            )
+
+            gw_chip_label_1.bind_text_from(chip_state, "chip_1_gw")
+            gw_chip_label_2.bind_text_from(chip_state, "chip_2_gw")
+
+            manager_name_1.bind_text_from(chip_state, "chip_1")
+            manager_name_2.bind_text_from(chip_state, "chip_2")
 
             compare_button.on("click", load_display)
 
