@@ -1,9 +1,6 @@
 from nicegui import ui
 import asyncio
 
-from router import Router
-
-
 nav_bar_hover_div = (
     "flex flex-row items-center justify-center cursor-pointer w-full "
     "h-[70px] sm:px-4 my-4 hover:bg-stone-200"

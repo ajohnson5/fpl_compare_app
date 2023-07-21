@@ -1,69 +1,6 @@
 from nicegui import ui
 
 
-def input_with_select():
-    with ui.element("div").classes(
-        "flex flex-row gap-x-0 w-full content-center justify-center w-full "
-        "min-w-[300px] max-w-[400px]"
-    ):
-        input = (
-            ui.input("Manager ID")
-            .classes("input_class")
-            .props(
-                (
-                    'clearable outlined mask="############" inputmode="numeric" '
-                    'bg-color="white"'
-                )
-            )
-        )
-
-        with input.add_slot("prepend"):
-            ui.icon("search")
-
-        select = (
-            ui.select([1, 2, 3], value=1, label="GW")
-            .classes("gw_select_class")
-            .props('outlined bg-color="white" behavior="menu"')
-        )
-
-    return input, select
-
-
-def league_search():
-    with ui.element("div").classes(
-        "flex flex-row gap-x-0 w-full content-center justify-center w-full "
-        "max-w-[400px]"
-    ) as league_search_div:
-        input = (
-            ui.input("League ID")
-            .classes("input_class")
-            .props(
-                ('outlined mask="############" inputmode="numeric" bg-color="white"')
-            )
-        )
-
-        with input.add_slot("prepend"):
-            ui.icon("leaderboard")
-
-        select = (
-            ui.select(
-                options=[],
-                label="Manager",
-                with_input=True,
-            )
-            .classes("manager_select_class")
-            .props('outlined bg-color="white" behavior="menu"')
-        )
-
-        gw_select = (
-            ui.select([1, 2, 3], value=1, label="GW")
-            .classes("gw_select_class")
-            .props('outlined bg-color="white" behavior="menu"')
-        )
-
-    return input, select, gw_select, league_search_div
-
-
 def combined_search():
     with ui.element("div").classes(
         "flex flex-row gap-x-0 w-full content-center justify-center w-full "
@@ -127,3 +64,31 @@ def combined_search():
             )
 
     return manager_id_input, league_id_input, manager_select, gameweek_select
+
+
+def manager_chip(home: bool):
+    if home:
+        chip_bg = " bg-sky-500 outline-sky-500"
+    else:
+        chip_bg = " bg-red-500 outline-red-500"
+
+    with ui.element("div").classes(
+        "w-[210px] h-[40px] rounded-lg outline outline-offset-4 relative" + chip_bg
+    ) as chip:
+        gw_chip_label = ui.label().classes(
+            "w-[22px] h-[22px] rounded-full bg-slate-600 text-white absolute "
+            "-top-[13px] -left-[10px] text-center font-semibold align-middle"
+        )
+        with ui.row().classes(
+            "w-full h-full flex flex-row justify-between content-center items-center"
+        ):
+            manager_name = ui.label().classes(
+                "text-white pl-2 max-w-[150px] h-[20px] font-semibold text-md"
+            )
+            delete_chip = ui.icon("cancel", size="25px").classes(
+                "cursor-pointer pr-2 text-slate-50 hover:text-slate-400"
+            )
+
+    chip.style("visibility:hidden")
+
+    return chip, manager_name, delete_chip, gw_chip_label
