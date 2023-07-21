@@ -2,7 +2,13 @@ from nicegui import ui
 import asyncio
 from typing import List
 
-import fpl_api_getters
+from fpl_api import (
+    get_manager_gw_transfers,
+    get_manager_gw_picks,
+    squad_dict,
+    squad_dict_2,
+    transfers,
+)
 from player import Player
 from squad import Squad
 
@@ -21,19 +27,19 @@ async def generate_squad(
     transfer_div_2,
 ):
     # Use fpl api to create squad objects for both managers
-    squad_1 = fpl_api_getters.manager_gw_picks_api_temp(
+    squad_1 = get_manager_gw_picks(
         38,
         manager_dict["chip_1_id"],
         manager_dict["chip_1"],
-        fpl_api_getters.squad_dict,
-        fpl_api_getters.transfers,
+        squad_dict,
+        transfers,
     )
-    squad_2 = fpl_api_getters.manager_gw_picks_api_temp(
+    squad_2 = get_manager_gw_picks(
         38,
         manager_dict["chip_2_id"],
         manager_dict["chip_2"],
-        fpl_api_getters.squad_dict_2,
-        fpl_api_getters.transfers,
+        squad_dict_2,
+        transfers,
     )
 
     # Compare squads - creates the layout instance variable
