@@ -4,7 +4,34 @@ import asyncio
 import fpl_api_getters
 from player import Player
 from custom_components import input_with_select, league_search
-from generate_squad import generate_squad, manager_summary
+from generate_squad import generate_squad
+
+
+def individual_manager_summary(home: bool):
+    if home:
+        bg_color = " from-sky-500 via-sky-300 to-cyan-400"
+    else:
+        bg_color = " from-red-500 via-red-400 to-rose-400"
+    with ui.element("div").classes(
+        " p-1 bg-gradient-to-r rounded-2xl drop-shadow-xl" + bg_color
+    ):
+        manager_display = ui.element("div").classes(
+            " w-[150px] md:w-[250px] flex flex-row justify-center "
+            "content-start gap-y-1"
+        )
+
+    return manager_display
+
+
+def manager_summary():
+    with ui.element("div").classes(
+        "w-full h-auto flex flex-row justify-center content-center mx-2 "
+        "gap-x-6 lg:gap-x-[270px] mb-4 gap-y-2"
+    ):
+        manager_1_display = individual_manager_summary(True)
+        manager_2_display = individual_manager_summary(False)
+
+        return manager_1_display, manager_2_display
 
 
 def manager_chip(manager_name: str, home: bool):
@@ -216,7 +243,8 @@ async def show_page():
                         chip_state,
                         display_div,
                         landing_div,
-                        summary_state,
+                        manager_1_display,
+                        manager_2_display,
                         squad_1_display,
                         squad_2_display,
                         bench_1_display,
@@ -257,23 +285,8 @@ async def show_page():
                 "w-auto text-center align-middle mb-6 mt-1"
             )
 
-            with ui.element("div").classes(
-                "w-full h-auto flex flex-row justify-center content-center mx-2 "
-                "gap-x-10 lg:gap-x-[270px] mb-4 gap-y-2"
-            ):
-                manager_name_1, manager_points_1 = manager_summary(True)
-                manager_name_2, manager_points_2 = manager_summary(False)
-
-            summary_state = {
-                "manager_name_1": "",
-                "manager_1_points": 0,
-                "manager_name_2": "",
-                "manager_2_points": 0,
-            }
-            manager_name_1.bind_text_from(summary_state, "manager_name_1")
-            manager_name_2.bind_text_from(summary_state, "manager_name_2")
-            manager_points_1.bind_text_from(summary_state, "manager_1_points")
-            manager_points_2.bind_text_from(summary_state, "manager_2_points")
+            # Create manager summary sections
+            manager_1_display, manager_2_display = manager_summary()
 
             with ui.element("div").classes(
                 "flex flex-row justify-center  gap-x-4 gap-y-2 mb-2"

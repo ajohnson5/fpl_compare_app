@@ -357,7 +357,9 @@ def manager_gw_transfers_temp(gw: int, manager_id, transfers_list):
 #     return transfer_made
 
 
-def manager_gw_picks_api_temp(gw: int, manager_id: int, squad_dict_, transfers_list):
+def manager_gw_picks_api_temp(
+    gw: int, manager_id: int, manager_name: str, squad_dict_, transfers_list
+):
     """Returns a list of dictionaries of all picks a manager made in a gameweek"""
     # Check for valid ID
 
@@ -423,6 +425,7 @@ def manager_gw_picks_api_temp(gw: int, manager_id: int, squad_dict_, transfers_l
 
     return Squad(
         manager_id=manager_id,
+        manager_name=manager_name,
         squad_list=squad_list,
         chip=squad_dict_["active_chip"],
         stats=squad_dict_["entry_history"],

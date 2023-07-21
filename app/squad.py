@@ -10,12 +10,14 @@ class Squad:
     def __init__(
         self,
         manager_id: int,
+        manager_name: str,
         squad_list: list[Player],
         chip,
         stats: dict,
         transfers_out: list[Player],
     ):
         self.manager_id = manager_id
+        self.manager_name = manager_name
         self.start_xi = squad_list[:11]
         self.bench = sorted(squad_list[11:15], key=lambda x: x.actual_position)
         self.transfers_in = sorted(
@@ -71,6 +73,26 @@ class Squad:
 
     def get_common_players_position(self, squad_1_position, squad_2_position):
         return list(set(squad_1_position).intersection(squad_2_position))
+
+    def create_manager_display(
+        self,
+    ):
+        with ui.element("div").classes(
+            "w-full h-[50px] flex flex-row content-center rounded-t-xl "
+            "bg-slate-50/30"
+        ):
+            ui.label(self.manager_name).classes(
+                "text-center w-full text-lg lg:text-2xl text-stone-100 font-medium"
+            )
+
+        with ui.element("div").classes(
+            "w-full h-[100px]  flex flex-row content-center bg-slate-50/30 "
+            "rounded-b-xl"
+        ):
+            ui.label(self.stats["points"]).classes(
+                "text-center w-full text-stone-100 text-5xl md:text-7xl font-medium"
+            )
+            ui.label("Points").classes("text-center w-full text-stone-100")
 
     def create_team_display(self, home):
         for position in self.layout:
