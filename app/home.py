@@ -286,10 +286,8 @@ async def show_page():
 
     with ui.element("div").classes("flex flex-row"):
         with ui.element("div").classes(
-            (
-                "flex flex-row justify-center items-center content-center h-screen "
-                "w-screen bg-transparent"
-            )
+            "flex flex-row justify-center items-center content-center h-screen "
+            "w-screen bg-transparent"
         ) as landing_div:
             ui.element("div").classes("h-1/5 w-full")
 
