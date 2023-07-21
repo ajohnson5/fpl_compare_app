@@ -34,6 +34,24 @@ def manager_summary():
         return manager_1_display, manager_2_display
 
 
+def player_icon_key():
+    with ui.element("div").classes(
+        "flex flex-row justify-center  gap-x-4 gap-y-2 mb-2"
+    ):
+        with ui.element("div").classes("flex flex-row  content-center items-center "):
+            ui.icon("copyright", color="zinc-900", size="sm")
+            ui.label("Captain").classes("ml-1")
+        with ui.element("div").classes("flex flex-row  content-center items-center "):
+            ui.icon("local_fire_department", color="zinc-900", size="sm")
+            ui.label("Triple Captain").classes("ml-1")
+        with ui.element("div").classes("flex flex-row  content-center items-center"):
+            ui.icon("add_circle", color="zinc-900", size="sm")
+            ui.label("Auto sub in").classes("ml-1")
+        with ui.element("div").classes("flex flex-row  content-center items-center"):
+            ui.icon("do_not_disturb_on", color="zinc-900", size="sm")
+            ui.label("Auto sub out").classes("ml-1 ")
+
+
 def manager_chip(manager_name: str, home: bool):
     if home:
         chip_bg = " bg-sky-500 outline-sky-500"
@@ -272,6 +290,12 @@ async def show_page():
                 lambda x: add_chip(manager_select_input.value, gw_select_2.value),
             )
 
+        ##########################################################################
+        ##########################################################################
+        ####################### Start of display page ############################
+        ##########################################################################
+        ##########################################################################
+
         with ui.element("div").classes(
             (
                 "flex flex-row justify-center content-center min-h-screen "
@@ -288,29 +312,7 @@ async def show_page():
             # Create manager summary sections
             manager_1_display, manager_2_display = manager_summary()
 
-            with ui.element("div").classes(
-                "flex flex-row justify-center  gap-x-4 gap-y-2 mb-2"
-            ):
-                with ui.element("div").classes(
-                    "flex flex-row  content-center items-center "
-                ):
-                    ui.icon("copyright", color="zinc-900", size="sm")
-                    ui.label("Captain").classes("ml-1")
-                with ui.element("div").classes(
-                    "flex flex-row  content-center items-center "
-                ):
-                    ui.icon("local_fire_department", color="zinc-900", size="sm")
-                    ui.label("Triple Captain").classes("ml-1")
-                with ui.element("div").classes(
-                    "flex flex-row  content-center items-center"
-                ):
-                    ui.icon("add_circle", color="zinc-900", size="sm")
-                    ui.label("Auto sub in").classes("ml-1")
-                with ui.element("div").classes(
-                    "flex flex-row  content-center items-center"
-                ):
-                    ui.icon("do_not_disturb_on", color="zinc-900", size="sm")
-                    ui.label("Auto sub out").classes("ml-1 ")
+            player_icon_key()
 
             with ui.element("div").classes(
                 "mx-[4px] w-full gap-x-10 flex flex-row justify-center content-center "
