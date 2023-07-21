@@ -35,9 +35,6 @@ def get_manager_name(manager_id: int):
         return
 
 
-example_picks = {}
-
-
 def get_manager_gw_transfers(
     gw: int,
     manager_id,
