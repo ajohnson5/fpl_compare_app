@@ -7,6 +7,35 @@ from custom_components import input_with_select, league_search
 from generate_squad import generate_squad
 
 
+def manager_chip(manager_name: str, home: bool):
+    if home:
+        chip_bg = " bg-sky-500 outline-sky-500"
+    else:
+        chip_bg = " bg-red-500 outline-red-500"
+
+    with ui.element("div").classes(
+        "w-[210px] h-[40px] rounded-lg outline outline-offset-4 relative" + chip_bg
+    ) as chip:
+        gw_chip_label = ui.label("21").classes(
+            "w-[22px] h-[22px] rounded-full "
+            "bg-slate-600 text-white absolute -top-[13px] -left-[10px] text-center "
+            "font-semibold align-middle"
+        )
+        with ui.row().classes(
+            "w-full h-full flex flex-row justify-between content-center items-center"
+        ):
+            manager_name = ui.label(manager_name).classes(
+                "text-white pl-2 max-w-[150px] h-[20px] font-semibold text-md"
+            )
+            delete_chip = ui.icon("cancel", size="25px").classes(
+                "cursor-pointer pr-2 text-slate-50 hover:text-slate-400"
+            )
+
+    chip.style("visibility:hidden")
+
+    return chip, manager_name, delete_chip, gw_chip_label
+
+
 def individual_manager_summary(home: bool):
     if home:
         bg_color = " from-sky-500 via-sky-300 to-cyan-400"
@@ -52,33 +81,98 @@ def player_icon_key():
             ui.label("Auto sub out").classes("ml-1 ")
 
 
-def manager_chip(manager_name: str, home: bool):
-    if home:
-        chip_bg = " bg-sky-500 outline-sky-500"
-    else:
-        chip_bg = " bg-red-500 outline-red-500"
-
+def pitch_layout():
     with ui.element("div").classes(
-        "w-[210px] h-[40px] rounded-lg outline outline-offset-4 relative" + chip_bg
-    ) as chip:
-        gw_chip_label = ui.label("21").classes(
-            "w-[22px] h-[22px] rounded-full "
-            "bg-slate-600 text-white absolute -top-[13px] -left-[10px] text-center "
-            "font-semibold align-middle"
-        )
-        with ui.row().classes(
-            "w-full h-full flex flex-row justify-between content-center items-center"
+        "mx-[4px] w-full gap-x-10 flex flex-row justify-center content-center mb-2"
+    ):
+        with ui.element("div").classes(
+            "px-2 pt-2 lg:pb-2 w-full max-w-[490px] rounded-t-xl lg:rounded-b-xl "
+            "bg-gradient-to-b from-green-400 via-emerald-400 to-emerald-500"
         ):
-            manager_name = ui.label(manager_name).classes(
-                "text-white pl-2 max-w-[150px] h-[20px] font-semibold text-md"
-            )
-            delete_chip = ui.icon("cancel", size="25px").classes(
-                "cursor-pointer pr-2 text-slate-50 hover:text-slate-400"
+            with ui.image(
+                "https://i.ibb.co/xS9j0v0/half-pitch-complete-final-4.png"
+            ).classes("max-w-[482px] w-full"):
+                squad_1_display = ui.element("div").classes(
+                    "w-full h-full bg-transparent grid-rows-4 grid grid-cols-1 gap-0"
+                )
+
+        with ui.element("div").classes(
+            "px-2 lg:pt-2 pb-2 w-full max-w-[490px] rounded-b-xl lg:rounded-t-xl "
+            "bg-gradient-to-b from-emerald-500 via-emerald-400 to-green-400 "
+            "lg:bg-gradient-to-t"
+        ):
+            with ui.image(
+                "https://i.ibb.co/xS9j0v0/half-pitch-complete-final-4.png"
+            ).classes("max-w-[482px] w-full rotate-180 lg:rotate-0"):
+                squad_2_display = ui.element("div").classes(
+                    "w-full h-full bg-transparent grid-rows-4 grid grid-cols-1 gap-0"
+                )
+
+    return squad_1_display, squad_2_display
+
+
+def bench_layout():
+    with ui.element("div").classes(
+        "w-full  flex flex-row justify-center content-center gap-x-10 mb-4 "
+        "mx-2 gap-y-2"
+    ):
+        with ui.element("div").classes(
+            "w-full max-w-[490px] p-1 bg-gradient-to-r rounded-2xl "
+            "from-sky-500 via-sky-300 to-cyan-400 drop-shadow-xl "
+        ):
+            bench_1_display = ui.element("div").classes(
+                "w-full max-w-[490px] h-full flex flex-row justify-evenly "
+                "bg-slate-50/50 content-center rounded-xl pb-1"
             )
 
-    chip.style("visibility:hidden")
+        with ui.element("div").classes(
+            "w-full max-w-[490px] p-1 bg-gradient-to-r rounded-2xl "
+            "from-red-500 via-red-400 to-rose-400 drop-shadow-xl"
+        ):
+            bench_2_display = ui.element("div").classes(
+                "w-full  max-w-[490px] h-full flex flex-row justify-evenly "
+                "bg-slate-50/50 content-center rounded-xl pb-1"
+            )
+    return bench_1_display, bench_2_display
 
-    return chip, manager_name, delete_chip, gw_chip_label
+
+def transfer_expansion():
+    with ui.expansion("", value=True).classes("bg-slate-50/50 rounded-xl").classes(
+        "expansion-element"
+    ).props(
+        'header-class="text-white text-center text-2xl rounded-xl h-[80px]"'
+        'expand-icon-class="text-white" expand-icon="keyboard_double_arrow_down"'
+    ):
+        with ui.element("div").classes("col-span-1 flex flex-row justify-between"):
+            ui.label("Transfers In").classes(
+                "w-1/2 text-center text-white text-2xl font-medium font-sans"
+            )
+            ui.label("Transfers Out").classes(
+                "w-1/2 text-center text-white text-2xl font-medium font-sans"
+            )
+        transfer_display = ui.element("div").classes("col-span-1 h-auto pb-2")
+    return transfer_display
+
+
+def transfer_layout():
+    with ui.element("div").classes(
+        "mx-[4px] w-full gap-x-10 gap-y-4 flex flex-row justify-center "
+        "content-center mb-4 "
+    ):
+        with ui.element("div").classes("w-full max-w-[490px] h-auto "):
+            with ui.element("div").classes(
+                "bg-gradient-to-r from-sky-500 via-sky-300 to-cyan-400 p-2 "
+                "rounded-2xl w-full mx-auto"
+            ):
+                transfer_1_display = transfer_expansion()
+
+        with ui.element("div").classes("w-full max-w-[490px]  h-auto "):
+            with ui.element("div").classes(
+                "bg-gradient-to-r from-red-500 via-red-400 to-rose-400 p-2 "
+                "rounded-2xl w-full mx-auto"
+            ):
+                transfer_2_display = transfer_expansion()
+    return transfer_1_display, transfer_2_display
 
 
 async def show_page():
@@ -267,8 +361,8 @@ async def show_page():
                         squad_2_display,
                         bench_1_display,
                         bench_2_display,
-                        transfer_div_1,
-                        transfer_div_2,
+                        transfer_1_display,
+                        transfer_2_display,
                     )
                 else:
                     ui.notify("Please enter 2 manager IDs", closeBtn="OK")
@@ -297,13 +391,11 @@ async def show_page():
         ##########################################################################
 
         with ui.element("div").classes(
-            (
-                "flex flex-row justify-center content-center min-h-screen "
-                " w-full bg-stone-100 "
-                " gap-y-0 overflow-hidden gap-x-10 relative"
-            )
+            "flex flex-row justify-center content-center w-full min-h-screen "
+            "bg-stone-100 gap-y-0 overflow-hidden gap-x-10 relative"
         ) as display_div:
             ui.label().classes("w-11/12 h-2 bg-slate-900")
+
             ui.label("Squads.").classes(
                 "text-6xl sm:text-7xl text-slate-900 font-sans font-bold h-auto "
                 "w-auto text-center align-middle mb-6 mt-1"
@@ -312,132 +404,26 @@ async def show_page():
             # Create manager summary sections
             manager_1_display, manager_2_display = manager_summary()
 
+            # Create player icon key - captain, automatic subs, etc
             player_icon_key()
 
-            with ui.element("div").classes(
-                "mx-[4px] w-full gap-x-10 flex flex-row justify-center content-center "
-                " mb-2"
-            ):
-                with ui.element("div").classes(
-                    "px-2 pt-2 lg:pb-2 w-full max-w-[490px] "
-                    "bg-gradient-to-b from-green-400 via-emerald-400 to-emerald-500"
-                    " rounded-t-xl lg:rounded-b-xl"
-                ):
-                    with ui.image(
-                        "https://i.ibb.co/xS9j0v0/half-pitch-complete-final-4.png"
-                    ).classes("max-w-[482px] w-full"):
-                        squad_1_display = ui.element("div").classes(
-                            "w-full h-full gap-y-0 bg-transparent grid-rows-4 grid "
-                            "grid-cols-1 gap-0"
-                        )
+            # Create pitch and general structure for manager's starting XI
+            squad_1_display, squad_2_display = pitch_layout()
 
-                with ui.element("div").classes(
-                    "px-2 lg:pt-2 pb-2 w-full max-w-[490px]  "
-                    "lg:bg-gradient-to-b lg:from-green-400 lg:via-emerald-400 "
-                    "lg:to-emerald-500 rounded-b-xl lg:rounded-t-xl "
-                    "bg-gradient-to-b from-emerald-500 via-emerald-400 to-green-400"
-                ):
-                    with ui.image(
-                        "https://i.ibb.co/xS9j0v0/half-pitch-complete-final-4.png"
-                    ).classes("max-w-[482px] w-full rotate-180 lg:rotate-0"):
-                        squad_2_display = ui.element("div").classes(
-                            "w-full h-full gap-y-0 bg-transparent grid-rows-4 grid "
-                            "grid-cols-1 gap-0"
-                        )
-            with ui.element("div").classes(
-                "w-full  flex flex-row justify-center content-center gap-x-10 mb-4 "
-                "mx-2 gap-y-2"
-            ):
-                with ui.element("div").classes(
-                    "w-full max-w-[490px] p-1 bg-gradient-to-r rounded-2xl "
-                    "from-sky-500 via-sky-300 to-cyan-400 drop-shadow-xl "
-                ):
-                    bench_1_display = ui.element("div").classes(
-                        "w-full max-w-[490px] h-full flex flex-row justify-evenly "
-                        "bg-slate-50/50 content-center rounded-xl pb-1"
-                    )
-
-                with ui.element("div").classes(
-                    "w-full max-w-[490px] p-1 bg-gradient-to-r rounded-2xl "
-                    "from-red-500 via-red-400 to-rose-400 drop-shadow-xl"
-                ):
-                    bench_2_display = ui.element("div").classes(
-                        "w-full  max-w-[490px] h-full flex flex-row justify-evenly "
-                        "bg-slate-50/50 content-center rounded-xl pb-1"
-                    )
+            # Create bench layout for both managers
+            bench_1_display, bench_2_display = bench_layout()
 
             with ui.element("div").classes(
                 "w-full h-auto bg-stone-100 flex row-flex justify-center "
                 "content-start"
             ):
                 ui.label().classes("w-11/12 h-2 bg-slate-900")
+
                 ui.label("Transfers.").classes(
                     "text-6xl sm:text-7xl text-slate-900 font-sans font-bold "
                     "w-auto text-center align-middle mb-10 "
                 )
 
-                with ui.element("div").classes(
-                    "mx-[4px] w-full gap-x-10 gap-y-4 flex flex-row justify-center "
-                    "content-center mb-4 "
-                ):
-                    with ui.element("div").classes("w-full max-w-[490px] h-auto "):
-                        with ui.element("div").classes(
-                            "bg-gradient-to-r from-sky-500 via-sky-300 to-cyan-400 p-2 "
-                            "rounded-2xl w-full mx-auto"
-                        ):
-                            with ui.expansion("", value=True).classes(
-                                "bg-slate-50/50 rounded-xl"
-                            ).classes("expansion-element").props(
-                                'header-class="bg-transparent text-white text-center "'
-                                'header-class= "text-2xl rounded-xl h-[80px]"'
-                            ).props(
-                                'expand-icon-class="text-white"'
-                            ).props(
-                                'expand-icon="keyboard_double_arrow_down"'
-                            ):
-                                with ui.element("div").classes(
-                                    "col-span-1 flex flex-row justify-between"
-                                ):
-                                    ui.label("Transfers In").classes(
-                                        "w-1/2 text-center align-middle text-white "
-                                        "text-2xl font-medium font-sans"
-                                    )
-                                    ui.label("Transfers Out").classes(
-                                        "w-1/2 text-center align-middle text-white "
-                                        "text-2xl font-medium font-sans "
-                                    )
-                                transfer_div_1 = ui.element("div").classes(
-                                    "col-span-1 h-auto pb-2"
-                                )
-
-                    with ui.element("div").classes("w-full max-w-[490px]  h-auto "):
-                        with ui.element("div").classes(
-                            "bg-gradient-to-r from-red-500 via-red-400 to-rose-400 p-2 "
-                            "rounded-2xl w-full mx-auto"
-                        ):
-                            with ui.expansion("", value=True).classes(
-                                "bg-slate-50/50 rounded-xl grid grid-cols-1"
-                            ).classes("expansion-element").props(
-                                'header-class="bg-transparent text-white text-center "'
-                                'header-class="text-2xl rounded-xl h-[80px]"'
-                            ).props(
-                                'expand-icon-class="text-white"'
-                            ).props(
-                                'expand-icon="keyboard_double_arrow_down"'
-                            ):
-                                with ui.element("div").classes(
-                                    "col-span-1 flex flex-row justify-between"
-                                ):
-                                    ui.label("Transfers In").classes(
-                                        "w-1/2 text-center align-middle text-white "
-                                        "text-2xl font-medium font-sans"
-                                    )
-                                    ui.label("Transfers Out").classes(
-                                        "w-1/2 text-center align-middle text-white "
-                                        "text-2xl font-medium font-sans "
-                                    )
-                                transfer_div_2 = ui.element("div").classes(
-                                    "col-span-1 h-auto pb-2"
-                                )
+                transfer_1_display, transfer_2_display = transfer_layout()
 
         display_div.set_visibility(False)
