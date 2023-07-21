@@ -7,7 +7,7 @@ from custom_components import combined_search
 from generate_squad import generate_squad
 
 
-def manager_chip(manager_name: str, home: bool):
+def manager_chip(home: bool):
     if home:
         chip_bg = " bg-sky-500 outline-sky-500"
     else:
@@ -16,7 +16,7 @@ def manager_chip(manager_name: str, home: bool):
     with ui.element("div").classes(
         "w-[210px] h-[40px] rounded-lg outline outline-offset-4 relative" + chip_bg
     ) as chip:
-        gw_chip_label = ui.label("21").classes(
+        gw_chip_label = ui.label().classes(
             "w-[22px] h-[22px] rounded-full "
             "bg-slate-600 text-white absolute -top-[13px] -left-[10px] text-center "
             "font-semibold align-middle"
@@ -24,7 +24,7 @@ def manager_chip(manager_name: str, home: bool):
         with ui.row().classes(
             "w-full h-full flex flex-row justify-between content-center items-center"
         ):
-            manager_name = ui.label(manager_name).classes(
+            manager_name = ui.label().classes(
                 "text-white pl-2 max-w-[150px] h-[20px] font-semibold text-md"
             )
             delete_chip = ui.icon("cancel", size="25px").classes(
@@ -247,7 +247,6 @@ async def show_page():
                         with league_id_input.add_slot("prepend"):
                             ui.icon("check_circle", color="green-500")
                             manager_select.style("width:50%;")
-                            manager_select.update()
                             league_id_input.style("width:50%;")
                             league_id_input.update()
                     else:
@@ -316,13 +315,13 @@ async def show_page():
                         manager_name_1,
                         delete_chip_1,
                         gw_chip_label_1,
-                    ) = manager_chip("WHU Tang Clan", True)
+                    ) = manager_chip(True)
                     (
                         chip_2,
                         manager_name_2,
                         delete_chip_2,
                         gw_chip_label_2,
-                    ) = manager_chip("Ruislip Rejects", False)
+                    ) = manager_chip(False)
 
                     gw_chip_label_1.bind_text_from(chip_state, "chip_1_gw")
                     gw_chip_label_2.bind_text_from(chip_state, "chip_2_gw")
