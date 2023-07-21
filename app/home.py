@@ -3,7 +3,7 @@ import asyncio
 
 import fpl_api_getters
 from player import Player
-from custom_components import input_with_select, league_search
+from custom_components import combined_search
 from generate_squad import generate_squad
 
 
@@ -183,8 +183,7 @@ async def show_page():
                 "w-screen bg-transparent"
             )
         ) as landing_div:
-            with ui.element("div").classes("h-1/5 w-full flex flex-row"):
-                ui.label()
+            ui.element("div").classes("h-1/5 w-full")
 
             with ui.element("div").classes(
                 "h-1/4 w-full flex flex-row justify-center content-end items-center "
@@ -206,49 +205,33 @@ async def show_page():
                 .classes("absolute top-[85vh] right-[5px]")
                 .props('size="70px" checked-icon="leaderboard" unchecked-icon="person"')
             )
+
             with ui.element("div").classes(
                 "h-1/4 w-full flex flex-row content-start justify-center relative mx-2"
             ):
-                input_1, gw_select_1 = input_with_select()
-
-                input_1.classes("flex-grow min-w-[100px]")
-                gw_select_1.classes("w-[60px] sm:w-[80px]")
-
                 (
-                    league_input,
-                    manager_select_input,
-                    gw_select_2,
-                    league_search_div,
-                ) = league_search()
+                    manager_id_input,
+                    league_id_input,
+                    manager_select,
+                    gameweek_select,
+                ) = combined_search()
 
-                gw_select_2.classes("w-[60px] sm:w-[80px]")
-                manager_select_input.style(
-                    "width:0;transition: 0.5s;"
-                    "transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1); "
-                )
-                league_input.classes("flex-grow shrink").style(
-                    "transition: 0.5s;"
-                    "transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);"
-                )
-
-                league_search_div.classes("absolute top-0 z-100")
-                gw_select_2.bind_visibility_from(search_toggle, "value")
-                league_input.bind_visibility_from(search_toggle, "value")
-                manager_select_input.bind_visibility_from(search_toggle, "value")
+                league_id_input.bind_visibility_from(search_toggle, "value")
+                manager_select.bind_visibility_from(search_toggle, "value")
 
                 async def search_league(league_id):
                     if not league_id:
-                        with league_input.add_slot("prepend"):
+                        with league_id_input.add_slot("prepend"):
                             with ui.icon("error", color="red-500"):
                                 ui.tooltip("Please enter a League ID").classes(
                                     "bg-red-500"
                                 )
-                            league_input.update()
+                            league_id_input.update()
                         return
 
-                    manager_select_input.clear()
+                    manager_select.clear()
 
-                    manager_select_input.set_value(value=None)
+                    manager_select.set_value(value=None)
 
                     managers = await fpl_api_getters.get_mini_league_managers(
                         int(league_id)
@@ -261,27 +244,25 @@ async def show_page():
                     }
 
                     if managers:
-                        with league_input.add_slot("prepend"):
+                        with league_id_input.add_slot("prepend"):
                             ui.icon("check_circle", color="green-500")
-                            manager_select_input.style("width:50%;")
-                            manager_select_input.update()
-                            league_input.style("width:30%;")
-                            league_input.update()
+                            manager_select.style("width:50%;")
+                            manager_select.update()
+                            league_id_input.style("width:50%;")
+                            league_id_input.update()
                     else:
-                        with league_input.add_slot("prepend"):
+                        with league_id_input.add_slot("prepend"):
                             with ui.icon("error", color="red-500"):
                                 ui.tooltip("Invalid League ID").classes("bg-red-500")
-                            league_input.update()
+                            league_id_input.update()
                         return
 
-                    manager_select_input.options = managers
-                    manager_select_input.update()
+                    manager_select.options = managers
+                    manager_select.update()
 
-                league_input.on(
-                    "keydown.enter", lambda: search_league(league_input.value)
+                league_id_input.on(
+                    "keydown.enter", lambda: search_league(league_id_input.value)
                 )
-
-                gw_select_1.bind_value(gw_select_2, "value")
 
                 chip_state = {
                     "chip_1": None,
@@ -292,16 +273,16 @@ async def show_page():
                     "chip_2_gw": None,
                 }
 
-                def add_chip(manager_id, gw_select_1):
-                    if manager_id and gw_select_1:
+                def add_chip(manager_id, gameweek_select):
+                    if manager_id and gameweek_select:
                         if not chip_state["chip_1"]:
                             manager_name = fpl_api_getters.manager_name(manager_id)
                             if manager_name:
                                 chip_state["chip_1_id"] = int(manager_id)
                                 chip_state["chip_1"] = manager_name
-                                chip_state["chip_1_gw"] = gw_select_1
+                                chip_state["chip_1_gw"] = gameweek_select
                                 chip_1.style("visibility:visible")
-                                input_1.set_value("")
+                                manager_id_input.set_value("")
 
                             else:
                                 ui.notify("Manager does not exist", closeBtn="OK")
@@ -310,9 +291,9 @@ async def show_page():
                             if manager_name:
                                 chip_state["chip_2_id"] = int(manager_id)
                                 chip_state["chip_2"] = manager_name
-                                chip_state["chip_2_gw"] = gw_select_1
+                                chip_state["chip_2_gw"] = gameweek_select
                                 chip_2.style("visibility:visible")
-                                input_1.set_value("")
+                                manager_id_input.set_value("")
                             else:
                                 ui.notify("Manager does not exist", closeBtn="OK")
                     else:
@@ -349,7 +330,7 @@ async def show_page():
                     manager_name_1.bind_text_from(chip_state, "chip_1")
                     manager_name_2.bind_text_from(chip_state, "chip_2")
 
-            async def manager_id_search():
+            async def load_display():
                 if chip_state["chip_1"] and chip_state["chip_2"]:
                     await generate_squad(
                         chip_state,
@@ -371,17 +352,19 @@ async def show_page():
                 "h-1/6 w-full flex flex-row content-start justify-center"
             )
 
-            compare_button.on("click", manager_id_search)
+            compare_button.on("click", load_display)
+
             delete_chip_1.on("click", lambda x: delete_chip(chip_1))
             delete_chip_2.on("click", lambda x: delete_chip(chip_2))
 
-            input_1.on(
-                "keydown.enter", lambda x: add_chip(input_1.value, gw_select_1.value)
+            manager_id_input.on(
+                "keydown.enter",
+                lambda x: add_chip(manager_id_input.value, gameweek_select.value),
             )
 
-            manager_select_input.on(
+            manager_select.on(
                 "update:model-value",
-                lambda x: add_chip(manager_select_input.value, gw_select_2.value),
+                lambda x: add_chip(manager_select.value, gameweek_select.value),
             )
 
         ##########################################################################
@@ -392,7 +375,7 @@ async def show_page():
 
         with ui.element("div").classes(
             "flex flex-row justify-center content-center w-full min-h-screen "
-            "bg-stone-100 gap-y-0 overflow-hidden gap-x-10 relative"
+            "bg-stone-100 relative"
         ) as display_div:
             ui.label().classes("w-11/12 h-2 bg-slate-900")
 
@@ -424,6 +407,7 @@ async def show_page():
                     "w-auto text-center align-middle mb-10 "
                 )
 
+                # Create transfer layout for transfers managers' made
                 transfer_1_display, transfer_2_display = transfer_layout()
 
         display_div.set_visibility(False)
