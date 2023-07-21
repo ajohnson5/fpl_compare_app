@@ -1,7 +1,7 @@
 from nicegui import ui
 import asyncio
 
-import fpl_api_getters
+from fpl_api import get_manager_name, get_league_managers
 from generate_squad import generate_squad
 from layout_components import (
     combined_search,
@@ -42,7 +42,7 @@ async def show_page():
 
         manager_select.set_value(value=None)
 
-        managers = await fpl_api_getters.get_mini_league_managers(int(league_id))
+        managers = await get_league_managers(int(league_id))
 
         managers = {
             12313: "Ujedinjeni Urci",
@@ -69,7 +69,7 @@ async def show_page():
     def add_chip(manager_id, gameweek_select):
         if manager_id and gameweek_select:
             if not chip_state["chip_1"]:
-                manager_name = fpl_api_getters.manager_name(manager_id)
+                manager_name = get_manager_name(manager_id)
                 if manager_name:
                     chip_state["chip_1_id"] = int(manager_id)
                     chip_state["chip_1"] = manager_name
@@ -80,7 +80,7 @@ async def show_page():
                 else:
                     ui.notify("Manager does not exist", closeBtn="OK")
             elif not chip_state["chip_2"]:
-                manager_name = fpl_api_getters.manager_name(manager_id)
+                manager_name = get_manager_name(manager_id)
                 if manager_name:
                     chip_state["chip_2_id"] = int(manager_id)
                     chip_state["chip_2"] = manager_name
