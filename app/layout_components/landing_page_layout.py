@@ -68,27 +68,45 @@ def combined_search():
 
 def manager_chip(home: bool):
     if home:
-        chip_bg = " bg-sky-500 outline-sky-500"
+        chip_bg = " from-sky-500 via-sky-300 to-cyan-400"
     else:
-        chip_bg = " bg-red-500 outline-red-500"
+        chip_bg = " from-red-500 via-red-400 to-rose-400"
 
-    with ui.element("div").classes(
-        "w-[210px] h-[40px] rounded-lg outline outline-offset-4 relative" + chip_bg
-    ) as chip:
-        gw_chip_label = ui.label().classes(
-            "w-[22px] h-[22px] rounded-full bg-slate-600 text-white absolute "
-            "-top-[13px] -left-[10px] text-center font-semibold align-middle"
-        )
-        with ui.row().classes(
-            "w-full h-full flex flex-row justify-between content-center items-center"
+    with ui.element("div").classes("p-1 bg-white  rounded-xl drop-shadow-xl ") as chip:
+        with ui.element("div").classes(
+            "w-[210px] h-[40px] rounded-lg  relative  bg-gradient-to-r " + chip_bg
         ):
-            manager_name = ui.label().classes(
-                "text-white pl-2 max-w-[150px] h-[20px] font-semibold text-md"
+            gw_chip_label = ui.label().classes(
+                "w-[22px] h-[22px] rounded-full bg-zinc-900 text-stone-100 absolute "
+                "-top-[11px] -left-[12px] text-center font-semibold align-middle"
             )
-            delete_chip = ui.icon("cancel", size="25px").classes(
-                "cursor-pointer pr-2 text-slate-50 hover:text-slate-400"
-            )
+            with ui.row().classes(
+                "w-full h-full flex flex-row justify-between content-center "
+                "items-center"
+            ):
+                manager_name = ui.label().classes(
+                    "text-stone-100 pl-2 max-w-[150px] h-[20px] font-semibold text-md"
+                )
+                delete_chip = ui.icon("cancel", size="25px").classes(
+                    "cursor-pointer pr-2 text-stone-100 hover:text-zinc-900"
+                )
 
     chip.style("visibility:hidden")
 
     return chip, manager_name, delete_chip, gw_chip_label
+
+
+def compare_button_func():
+    button = ui.html(
+        """
+    <button class="pushable">
+        <span class="shadow"></span>
+        <span class="edge"></span>
+        <span class="front">
+            Compare
+        </span>
+    </button>
+    """
+    )
+
+    return button

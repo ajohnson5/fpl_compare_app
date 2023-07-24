@@ -11,6 +11,7 @@ from layout_components import (
     bench_layout,
     transfer_layout,
     player_icon_key,
+    compare_button_func,
 )
 
 
@@ -135,16 +136,11 @@ async def show_page():
                 "h-1/4 w-full flex flex-row justify-center content-end items-center "
                 "pb-6 gap-x-2"
             ):
-                compare_button = (
-                    ui.button("Compare", color="white")
-                    .classes("compare_button_class")
-                    .classes("text-5xl sm:text-6xl font-sans font-bold mt-2")
-                    .props('push color="white" :ripple="{ center: true }"')
-                )
+                compare_button = compare_button_func()
 
                 ui.label("Squads.").classes(
-                    "text-5xl sm:text-6xl text-zinc-900 font-sans font-bold h-auto "
-                    "w-auto text-center align-middle"
+                    "text-5xl sm:text-6xl text-stone-100 font-sans font-bold h-auto "
+                    "w-auto text-center align-middle mb-3"
                 )
 
             search_toggle = (
@@ -230,13 +226,16 @@ async def show_page():
 
         with ui.element("div").classes(
             "flex flex-row justify-center content-center w-full min-h-screen "
-            "bg-stone-100 relative"
+            "bg-white relative bottom-bottom-1 border-sky-400"
         ) as display_div:
-            ui.label().classes("w-11/12 h-2 bg-slate-900")
+            ui.label().classes("w-[calc(50vw_+_40px)] absolute top-0 left-0").style(
+                "border-top: 50px solid #e0f2fe;border-right:80px solid transparent;"
+                "background-color: transparent"
+            )
 
             ui.label("Squads.").classes(
-                "text-6xl sm:text-7xl text-slate-900 font-sans font-bold h-auto "
-                "w-auto text-center align-middle mb-6 mt-1"
+                "text-6xl sm:text-7xl text-zinc-900 font-sans font-bold h-auto "
+                "w-auto text-center align-middle mb-6 mt-[60px]"
             )
 
             # Create manager summary sections
@@ -251,18 +250,7 @@ async def show_page():
             # Create bench layout for both managers
             bench_1_display, bench_2_display = bench_layout()
 
-            with ui.element("div").classes(
-                "w-full h-auto bg-stone-100 flex row-flex justify-center "
-                "content-start"
-            ):
-                ui.label().classes("w-11/12 h-2 bg-slate-900")
-
-                ui.label("Transfers.").classes(
-                    "text-6xl sm:text-7xl text-slate-900 font-sans font-bold "
-                    "w-auto text-center align-middle mb-10 "
-                )
-
-                # Create transfer layout for transfers managers' made
-                transfer_1_display, transfer_2_display = transfer_layout()
+            # Create transfer layout for transfers managers' made
+            transfer_1_display, transfer_2_display = transfer_layout()
 
         display_div.set_visibility(False)
