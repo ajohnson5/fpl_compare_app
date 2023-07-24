@@ -133,7 +133,7 @@ async def show_page():
             ui.element("div").classes("h-1/5 w-full")
 
             with ui.element("div").classes(
-                "h-auto w-full flex flex-row justify-center content-end items-center "
+                "h-1/4 w-full flex flex-row justify-center content-end items-center "
                 "pb-6 gap-x-2"
             ):
                 compare_button = compare_button_func()
