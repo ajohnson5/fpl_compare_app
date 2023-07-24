@@ -232,7 +232,7 @@ async def show_page():
             "flex flex-row justify-center content-center w-full min-h-screen "
             "bg-stone-100 relative"
         ) as display_div:
-            ui.label().classes("w-11/12 h-2 bg-slate-900")
+            # ui.label().classes("w-11/12 h-2 bg-slate-900")
 
             ui.label("Squads.").classes(
                 "text-6xl sm:text-7xl text-slate-900 font-sans font-bold h-auto "
