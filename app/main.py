@@ -85,7 +85,7 @@ async def main(client: Client):
         margin-right:1px;
     }
     .compare_button_class.text-white {
-    color: #0ea5e9 !important;
+    color: transparent;
     }
 
     .compare_button_class.q-btn{
@@ -140,6 +140,102 @@ async def main(client: Client):
         .player-card-height {
             height:100px !important;
         }
+    }
+    .pushable {
+        position: relative;
+        border: none;
+        background: transparent;
+        padding: 0;
+        cursor: pointer;
+        outline-offset: 4px;
+        transition: filter 250ms;
+    }
+    .shadow {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 15px;
+        border-bottom-right-radius: 0.375rem; 
+        border-bottom-left-radius: 0.375rem; 
+        background: hsl(0deg 0% 0% / 0.25);
+        will-change: transform;
+        transform: translateY(2px);
+        transition:
+        transform
+        600ms
+        cubic-bezier(.3, .7, .4, 1);
+    }
+    .edge {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 10px;
+        border-bottom-right-radius: 0.375rem; 
+        border-bottom-left-radius: 0.375rem; 
+        background: linear-gradient(
+        to left,
+        #a8a29e 0%,
+        #d6d3d1 8%,
+        #d6d3d1 92%,
+        #a8a29e 100%
+        );
+    }
+    .front {
+        display: block;
+        position: relative;
+        padding: 0px 10px 5px 10px;
+        border-radius: 6px;
+        font-size: 3rem;
+        font-weight: 700;
+        will-change: transform;
+        transform: translateY(-4px);
+        transition:
+        transform
+        600ms
+        cubic-bezier(.3, .7, .4, 1);
+        background-color: white;
+        mix-blend-mode: lighten;
+        color:#0ea5e9;
+        font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 
+        "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, 
+        "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    }
+    .pushable:hover {
+        filter: brightness(110%);
+    }
+    .pushable:hover .front {
+        transform: translateY(-6px);
+        transition:
+        transform
+        250ms
+        cubic-bezier(.3, .7, .4, 1.5);
+    }
+    .pushable:active .front {
+        transform: translateY(-2px);
+        transition: transform 34ms;
+    }
+    .pushable:hover .shadow {
+        transform: translateY(4px);
+        transition:
+        transform
+        250ms
+        cubic-bezier(.3, .7, .4, 1.5);
+    }
+    .pushable:active .shadow {
+        transform: translateY(1px);
+        transition: transform 34ms;
+    }
+    .pushable:focus:not(:focus-visible) {
+        outline: none;
+    }
+
+    @media only screen and (min-width: 640px) {
+        .front{
+            font-size: 3.75rem;
+        }
+    }
     </style>
     """
     )

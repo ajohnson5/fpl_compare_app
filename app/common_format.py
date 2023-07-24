@@ -16,7 +16,7 @@ nav_bar_label_div = (
 def nav_bar(nav_links: list, router):
     with ui.element("div").classes("w-screen h-[100px] absolute top-0 left-0"):
         logo = ui.image(
-            "https://i.ibb.co/Kzfxsyc/FPLCOMPARE-grey-ball-3-ver2-slate-1.png"
+            "https://i.ibb.co/zZV67bx/FPLCOMPARE-stone-100-logo-27-07.png"
         ).classes("w-[175px] absolute top-8 left-6 hover:cursor-pointer")
         logo.on("click", lambda: router.open(nav_links[0][0]))
 
@@ -37,14 +37,26 @@ def nav_bar(nav_links: list, router):
         async def menu_open_func():
             menu_state["state"] = not menu_state["state"]
             if menu_state["state"]:
-                burger_1.style("transform: translate(0px, 0px) rotate(0deg)")
+                burger_1.style(
+                    "transform: translate(0px, 0px) rotate(0deg);"
+                    "background-color:#fafaf9;"
+                )
                 burger_2.style("opacity:1;transform: translate(0px, 10px)")
-                burger_3.style("transform: translate(0px, 20px) rotate(0deg)")
+                burger_3.style(
+                    "transform: translate(0px, 20px) rotate(0deg);"
+                    "background-color:#fafaf9;"
+                )
                 await overflow_on()
             else:
-                burger_1.style("transform: translate(0px, 10px) rotate(45deg);")
+                burger_1.style(
+                    "transform: translate(0px, 10px) rotate(45deg);"
+                    "background-color:#18181b;"
+                )
                 burger_2.style("opacity:0; transform: translate(0px, 10px)")
-                burger_3.style("transform: translate(0px, 10px) rotate(-45deg);")
+                burger_3.style(
+                    "transform: translate(0px, 10px) rotate(-45deg);"
+                    "background-color:#18181b;"
+                )
                 await overflow_off()
 
         def nav_bar_link(page_link, page_name, router):
@@ -65,13 +77,13 @@ def nav_bar(nav_links: list, router):
             "hover:cursor-pointer block"
         ) as burger_menu:
             burger_1 = ui.label().classes(
-                "absolute w-[40px] h-1 bg-zinc-900 block transform transition "
+                "absolute w-[40px] h-1 bg-stone-100 block transform transition "
                 "duration-500 ease-in-out"
             )
             burger_2 = (
                 ui.label()
                 .classes(
-                    "absolute w-[40px] h-1 bg-zinc-900 block transform transition "
+                    "absolute w-[40px] h-1 bg-stone-100 block transform transition "
                     "duration-500 ease-in-out "
                 )
                 .style("transform: translate(0px, 10px)")
@@ -79,7 +91,7 @@ def nav_bar(nav_links: list, router):
             burger_3 = (
                 ui.label()
                 .classes(
-                    "absolute w-[40px] h-1 bg-zinc-900 block transform transition "
+                    "absolute w-[40px] h-1 bg-stone-100 block transform transition "
                     "duration-500 ease-in-out"
                 )
                 .style("transform: translate(0px, 20px)")
@@ -106,7 +118,10 @@ def nav_bar(nav_links: list, router):
 
 def display(nav_links: list, router):
     ui.element("div").classes(
-        ("h-screen w-screen bg-stone-100 absolute top-0 left-0 -z-10")
+        (
+            "h-screen w-screen bg-gradient-to-b from-sky-500 via-sky-300 to-sky-100 "
+            "absolute top-0 left-0 -z-10"
+        )
     )
     nav_bar(nav_links, router)
     return
