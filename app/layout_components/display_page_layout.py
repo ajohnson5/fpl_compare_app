@@ -48,7 +48,7 @@ def player_icon_key():
 
 def pitch_layout():
     with ui.element("div").classes(
-        "mx-[4px] w-full gap-x-10 flex flex-row justify-center content-center mb-2"
+        "mx-[4px] w-full gap-x-10 flex flex-row justify-center content-center mb-4"
     ):
         with ui.element("div").classes(
             "px-2 pt-2 lg:pb-2 w-full max-w-[490px] rounded-t-xl lg:rounded-b-xl "
@@ -78,8 +78,8 @@ def pitch_layout():
 
 def bench_layout():
     with ui.element("div").classes(
-        "w-full  flex flex-row justify-center content-center gap-x-10 mb-8 "
-        "mx-2 gap-y-2"
+        "w-full  flex flex-row justify-center content-center gap-x-10 mb-4 "
+        "mx-2 gap-y-4"
     ):
         with ui.element("div").classes(
             "w-full max-w-[490px] p-1 bg-gradient-to-r rounded-2xl "

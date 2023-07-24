@@ -99,7 +99,7 @@ def nav_bar(nav_links: list, router):
 
         with ui.element("div").style(
             "height: 100vh;width: 0;position: fixed; "
-            "z-index: 1;top: 0;right: 0;background-color:white; overflow: hidden; "
+            "z-index: 20;top: 0;right: 0;background-color:white; overflow: hidden; "
             "transition: 0.5s;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1); "
             "padding-top: 100px;text-align:center;filter: "
             "drop-shadow(0 20px 13px rgb(0 0 0 / 0.03)) "
