@@ -14,7 +14,6 @@ class Squad:
         squad_list: list[Player],
         chip,
         stats: dict,
-        transfers_out: list[Player],
     ):
         self.manager_id = manager_id
         self.manager_name = manager_name
@@ -24,7 +23,7 @@ class Squad:
             [player for player in squad_list if player.transfer >= 0],
             key=lambda x: x.transfer,
         )
-        self.transfers_out = transfers_out
+        self.transfers_out = squad_list[15:]
         self.chip = chip
         self.stats = stats
 

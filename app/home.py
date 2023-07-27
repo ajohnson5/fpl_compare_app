@@ -216,7 +216,7 @@ async def show_page():
             delete_chip_2.on("click", lambda x: delete_chip(chip_2))
 
             # Load Display page when Compare button pressed
-            compare_button.on("click", load_display)
+            compare_button.on("click", load_display, throttle=1.0)
 
         ##########################################################################
         ##########################################################################

@@ -3,28 +3,39 @@ import pandas as pd
 import aiohttp
 import asyncio
 import gcsfs
+from google.cloud import firestore
 
 from .mock_data import transfers, squad_dict, squad_dict_2
-
 from player import Player
 from squad import Squad
 
-col_list = [
-    "first_name",
-    "second_name",
-    "position",
-    "total_points",
-    "team_name",
-    "gameweek",
-    "id",
-]
+# col_list = [
+#     "first_name",
+#     "second_name",
+#     "position",
+#     "total_points",
+#     "team_name",
+#     "gameweek",
+#     "id",
+# ]
 
-df = pd.read_parquet(
-    "gs://fpl_dev_bucket1/2022_player_gameweek_player_gameweek_38.parquet",
-    columns=col_list,
-)
+# df = pd.read_parquet(
+#     "gs://fpl_dev_bucket1/2022_player_gameweek_player_gameweek_38.parquet",
+#     columns=col_list,
+# )
 
-df.set_index(["gameweek", "id"], inplace=True)
+# df.set_index(["gameweek", "id"], inplace=True)
+
+
+db = firestore.AsyncClient()
+
+
+async def load_player_data():
+    db = firestore.AsyncClient()
+
+    docs = db.collection("players").stream()
+
+    {x.id: x.to_dict() for x in docs}
 
 
 def get_manager_name(manager_id: int):
@@ -52,25 +63,64 @@ def get_manager_gw_transfers(gw: int, manager_id, transfers_list):
     return transfers_in, transfers_out
 
 
-def get_manager_gw_picks(
+async def get_firestore_request(db, pick_dict):
+    doc_ref = db.collection("players").document(str(pick_dict["id"]))
+    doc = await doc_ref.get()
+    return pick_dict | doc.to_dict()
+
+
+async def get_gather_picks(db, base_squad):
+    picks = []
+    tasks = []
+    for pick in base_squad:
+        tasks.append(asyncio.ensure_future(get_firestore_request(db, pick)))
+
+    squad_tasks = await asyncio.gather(*tasks)
+    for pick in squad_tasks:
+        picks.append(pick)
+
+    return picks
+
+
+async def get_manager_gw_picks(
     gw: int, manager_id: int, manager_name: str, squad_dict_, transfers_list
 ):
     """Returns a list of dictionaries of all picks a manager made in a gameweek"""
     # Check for valid ID
 
+    squad_list = []
+
     transfers_in, transfers_out = get_manager_gw_transfers(
         gw, manager_id, transfers_list
     )
 
-    squad_list = []
-    transfers_out_list = []
-
     subs_in = {x["element_in"] for x in squad_dict_["automatic_subs"]}
     subs_out = {x["element_out"] for x in squad_dict_["automatic_subs"]}
 
-    for pick in squad_dict_["picks"]:
-        id = pick["element"]
-        player_series = df.loc[gw, id]
+    transfers_out_dict = [
+        {
+            "id": x,
+            "squad_position": 16,
+            "is_captain": False,
+            "multiplier": 0,
+        }
+        for x in transfers_out
+    ]
+    picks = [
+        {
+            "id": pick["element"],
+            "squad_position": pick["position"],
+            "is_captain": pick["is_captain"],
+            "multiplier": pick["multiplier"],
+        }
+        for pick in squad_dict_["picks"]
+    ] + transfers_out_dict
+
+    picks_complete = await get_gather_picks(db, picks)
+
+    for pick in picks_complete:
+        id = pick["id"]
+
         if id in transfers_in:
             transfer_num = transfers_in.index(id)
         else:
@@ -84,35 +134,16 @@ def get_manager_gw_picks(
         squad_list.append(
             Player(
                 id=id,
-                name=player_series["second_name"],
-                first_name=player_series["first_name"],
-                position=pick["position"],
-                actual_position=player_series["position"],
-                points=player_series["total_points"],
-                team_name=player_series["team_name"],
+                name=pick["second_name"],
+                first_name=pick["first_name"],
+                squad_position=pick["squad_position"],
+                actual_position=pick["position"],
+                points=pick["gameweeks"][f"gameweek_{gw}"]["points"],
+                team_name=pick["team_name"],
                 is_captain=pick["is_captain"],
                 multiplier=pick["multiplier"],
                 auto_sub=sub,
                 transfer=transfer_num,
-            )
-        )
-
-    for pick in transfers_out:
-        id = pick
-        player_series = df.loc[gw, id]
-        transfers_out_list.append(
-            Player(
-                id=id,
-                name=player_series["second_name"],
-                first_name=player_series["first_name"],
-                position=16,
-                actual_position=player_series["position"],
-                points=player_series["total_points"],
-                team_name=player_series["team_name"],
-                is_captain=False,
-                multiplier=0,
-                auto_sub=False,
-                transfer=-1,
             )
         )
 
@@ -122,7 +153,6 @@ def get_manager_gw_picks(
         squad_list=squad_list,
         chip=squad_dict_["active_chip"],
         stats=squad_dict_["entry_history"],
-        transfers_out=transfers_out_list,
     )
 
 
@@ -216,18 +246,3 @@ async def get_league_managers(league_id: int, page_num: int = 100):
                 return await get_large_mini_league_managers_async(
                     session, league_id, page_num
                 )
-
-
-if __name__ == "__main__":
-    squad_1 = get_manager_gw_picks(38, 13231, squad_dict, transfers)
-    squad_2 = get_manager_gw_picks(38, 1310, squad_dict_2, transfers)
-
-    squad_1.compare_squad(squad_2)
-
-    for player in squad_1.transfers_in:
-        print(player.name)
-
-    print("####################")
-
-    for player in squad_1.transfers_out:
-        print(player.name)

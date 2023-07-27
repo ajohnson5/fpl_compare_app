@@ -3,7 +3,6 @@ import asyncio
 from typing import List
 
 from fpl_api import (
-    get_manager_gw_transfers,
     get_manager_gw_picks,
     squad_dict,
     squad_dict_2,
@@ -26,25 +25,6 @@ async def generate_squad(
     transfer_div_1,
     transfer_div_2,
 ):
-    # Use fpl api to create squad objects for both managers
-    squad_1 = get_manager_gw_picks(
-        38,
-        manager_dict["chip_1_id"],
-        manager_dict["chip_1"],
-        squad_dict,
-        transfers,
-    )
-    squad_2 = get_manager_gw_picks(
-        38,
-        manager_dict["chip_2_id"],
-        manager_dict["chip_2"],
-        squad_dict_2,
-        transfers,
-    )
-
-    # Compare squads - creates the layout instance variable
-    squad_1.compare_squad(squad_2)
-
     # Create loading spinner
     with loading_div:
         with ui.element("div") as loading_clearable_div:
@@ -55,8 +35,26 @@ async def generate_squad(
                 )
             ):
                 ui.spinner(size="xl", thickness=10.0)
-    await asyncio.sleep(2)
-    loading_clearable_div.clear()
+    await asyncio.sleep(1.0)
+
+    # Use fpl api to create squad objects for both managers
+    squad_1 = await get_manager_gw_picks(
+        30,
+        manager_dict["chip_1_id"],
+        manager_dict["chip_1"],
+        squad_dict,
+        transfers,
+    )
+    squad_2 = await get_manager_gw_picks(
+        30,
+        manager_dict["chip_2_id"],
+        manager_dict["chip_2"],
+        squad_dict_2,
+        transfers,
+    )
+
+    # Compare squads - creates the layout instance variable
+    squad_1.compare_squad(squad_2)
 
     # Create manager summary cards
     with manager_1_display:
@@ -93,4 +91,5 @@ async def generate_squad(
         transfer_div_2.clear()
         squad_2.create_transfer_display("away")
 
+    loading_clearable_div.clear()
     display_div.set_visibility(True)

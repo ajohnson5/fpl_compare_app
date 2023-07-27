@@ -20,7 +20,7 @@ class Player:
         id: int,
         name: str,
         first_name: str,
-        position: int,
+        squad_position: int,
         actual_position: int,
         points: int,
         team_name: str,
@@ -32,9 +32,9 @@ class Player:
         self.id = id
         self.name = name
         self.first_name = first_name
-        self.position = position
+        self.position = squad_position
         self.actual_position = actual_position
-        self.starting = position <= 11
+        self.starting = squad_position <= 11
         self.points = points
         self.actual_points = points * multiplier if multiplier else points
         self.team_name = team_name
