@@ -6,3 +6,5 @@ env
 .ruff_cache
 backend/
 app/test.py
+tmp*/
+.env
