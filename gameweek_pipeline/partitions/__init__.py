@@ -1,0 +1,1 @@
+from .gameweek_partitions import gameweek_partitions_def
