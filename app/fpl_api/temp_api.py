@@ -3,7 +3,9 @@ import pandas as pd
 import aiohttp
 import asyncio
 import gcsfs
-from google.cloud import firestore
+import firebase_admin
+from firebase_admin import firestore_async
+from firebase_admin import firestore
 
 from .mock_data import transfers, squad_dict, squad_dict_2
 from player import Player
@@ -27,11 +29,12 @@ from squad import Squad
 # df.set_index(["gameweek", "id"], inplace=True)
 
 
-db = firestore.AsyncClient()
+firebase_admin.initialize_app()
+db = firestore_async.client()
 
 
 async def load_player_data():
-    db = firestore.AsyncClient()
+    db = firestore_async.client()
 
     docs = db.collection("players").stream()
 
