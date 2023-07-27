@@ -2,13 +2,13 @@ from dagster import asset
 import requests
 import random
 import asyncio
-
 import firebase_admin
 from firebase_admin import firestore_async
 from firebase_admin import firestore
 
 
 from gameweek_pipeline.partitions import gameweek_partitions_def
+
 
 teams = {
     1: "Arsenal",
@@ -32,11 +32,6 @@ teams = {
     19: "West Ham",
     20: "Wolves",
 }
-app = firebase_admin.initialize_app()
-db = firestore.client()
-
-
-db_async = firestore_async.client()
 
 
 # Batch function takes ~8 seconds
@@ -75,9 +70,12 @@ async def load_players_async(data, db):
     partitions_def=gameweek_partitions_def,
 )
 def players(context) -> None:
+    firebase_admin.initialize_app()
+    client = firestore.client()
+
     players = get_players(context.partition_key)
 
-    load_players_batch(players, db)
+    load_players_batch(players, client)
 
     return None
 
@@ -94,7 +92,7 @@ def generate_gw_live_data():
         "elements": [],
         "explain": [],
     }
-    for i in range(1, 606):
+    for i in range(1, 700):
         endpoint["elements"].append(
             {
                 "id": i,
