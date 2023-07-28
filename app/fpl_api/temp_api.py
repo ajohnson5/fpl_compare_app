@@ -137,8 +137,9 @@ async def get_manager_gw_picks(
         squad_list.append(
             Player(
                 id=id,
-                name=pick["second_name"],
+                second_name=pick["second_name"],
                 first_name=pick["first_name"],
+                web_name=pick["web_name"],
                 squad_position=pick["squad_position"],
                 actual_position=pick["position"],
                 points=pick["gameweeks"][f"gameweek_{gw}"]["points"],

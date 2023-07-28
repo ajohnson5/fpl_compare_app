@@ -18,8 +18,9 @@ class Player:
     def __init__(
         self,
         id: int,
-        name: str,
+        second_name: str,
         first_name: str,
+        web_name: str,
         squad_position: int,
         actual_position: int,
         total_points: int,
@@ -33,8 +34,9 @@ class Player:
         transfer: int,
     ):
         self.id = id
-        self.name = name
+        self.second_name = second_name
         self.first_name = first_name
+        self.web_name = web_name
         self.position = squad_position
         self.actual_position = actual_position
         self.starting = squad_position <= 11
@@ -68,7 +70,7 @@ class Player:
         self,
     ):
         with ui.dialog() as dialog, ui.card().classes("relative w-72 h-48"):
-            ui.label(f"{self.first_name} {self.name}").classes(
+            ui.label(f"{self.first_name} {self.second_name}").classes(
                 "w-full h-auto text-center text-lg text-zinc-900 font-medium font-sans "
                 "align-middle"
             )
@@ -77,10 +79,10 @@ class Player:
             with ui.element("div").classes("w-full h-auto flex flex-row"):
                 with ui.element("div").classes("w-1/2 h-auto p-2"):
                     ui.label("Total Points").classes(
-                        "text-center align-middle text-md pb-2"
+                        "text-start align-middle text-md pb-2"
                     )
-                    ui.label("Bonus Points").classes("text-center align-middle pb-2")
-                    ui.label("Minutes").classes("text-center align-middle")
+                    ui.label("Bonus Points").classes("text-start align-middle pb-2")
+                    ui.label("Minutes").classes("text-start align-middle")
 
                 with ui.element("div").classes("w-1/2 p-2"):
                     ui.label(self.total_points).classes("text-center align-middle pb-2")
@@ -106,12 +108,21 @@ class Player:
                 "align-middle"
             )
             ui.separator()
-            # Transfer point cost = 2 for 1st transfer and 0 otherwise (self.transfer)
-            # evaluates to 0 apart from the first transfer
-            ui.label(f"Transfer Point Cost: {(int(self.transfer <1))*2}")
-            ui.label("Transfer Cost: ")
-            ui.label("Transfer Revenue: ")
-            ui.label(f"Point Profit: {self.actual_points - other_player.actual_points}")
+
+            with ui.element("div").classes("w-full h-auto flex flex-row"):
+                with ui.element("div").classes("w-1/2 h-auto p-2"):
+                    ui.label("Transfer Cost").classes(
+                        "text-start align-middle text-md pb-2"
+                    )
+                    ui.label("Transfer Revenue").classes("text-start align-middle pb-2")
+                    ui.label("Point Profit").classes("text-start align-middle")
+
+                with ui.element("div").classes("w-1/2 p-2"):
+                    ui.label(0).classes("text-center align-middle pb-2")
+                    ui.label(1).classes("text-center align-middle pb-2")
+                    ui.label(self.actual_points - other_player.actual_points).classes(
+                        "text-center align-middle"
+                    )
 
             close_icon = ui.icon("close", size="32px").classes(
                 "absolute top-2 right-2 text-zinc-900 hover:bg-zinc-300 "
@@ -168,7 +179,7 @@ class Player:
                                 )
 
                 with ui.element("div").classes("w-full h-[30%]"):
-                    ui.label(self.name).classes(
+                    ui.label(self.web_name).classes(
                         player_label
                         + " bg-"
                         + Player.team_color[home]
