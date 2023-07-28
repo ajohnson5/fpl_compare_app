@@ -1,8 +1,8 @@
 from nicegui import ui
 
 player_label = (
-    "w-full h-1/2 text-center align-middle "
-    "text-xs font-medium tracking-tighter leading-tight "
+    "w-full h-1/2 text-center align-bottom "
+    "text-xs font-medium tracking-tighter leading-none sm:leading-normal "
 )
 card_width = " w-[60px]"
 # shirt_width = " w-[35px] sm:w-[40px] "
