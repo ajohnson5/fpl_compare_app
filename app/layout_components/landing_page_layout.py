@@ -33,8 +33,11 @@ def combined_search():
                         'outlined mask="#########" inputmode="numeric" bg-color="white"'
                     )
                 ).style(
-                    "transition: 0.5s;transition-timing-function:"
-                    "cubic-bezier(0.4, 0, 0.2, 1);"
+                    "transition: 0.5s;"
+                    "transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1); "
+                    "-webkit-transition:  0.5s cubic-bezier(0.4, 0, 0.2, 1); "
+                    "-moz-transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1); "
+                    "-o-transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1); "
                 )
 
                 with league_id_input.add_slot("prepend"):
@@ -52,6 +55,9 @@ def combined_search():
                     .style(
                         "width:0;transition: 0.5s;"
                         "transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1); "
+                        "-webkit-transition:  0.5s cubic-bezier(0.4, 0, 0.2, 1); "
+                        "-moz-transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1); "
+                        "-o-transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1); "
                     )
                 )
 
