@@ -63,8 +63,6 @@ def get_manager_gw_transfers(gw: int, manager_id, transfers_list):
         elif transfer["event"] > gw:
             return transfers_in, transfers_out
 
-    print(zip(transfers_in, transfers_out))
-
     return transfers_in, transfers_out
 
 
