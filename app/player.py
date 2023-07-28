@@ -1,9 +1,6 @@
 from nicegui import ui
 
-player_label = (
-    "w-full h-1/2 text-center align-bottom "
-    "text-xs font-medium tracking-tighter leading-none sm:leading-normal "
-)
+player_label = "w-full h-1/2 justify-center content-center items-center flex flex-row "
 card_width = " w-[60px]"
 # shirt_width = " w-[35px] sm:w-[40px] "
 shirt_image_div = (
@@ -178,20 +175,25 @@ class Player:
                                     "bg-white rounded-full"
                                 )
 
-                with ui.element("div").classes("w-full h-[30%]"):
-                    ui.label(self.web_name).classes(
-                        player_label
-                        + " bg-"
-                        + Player.team_color[home]
-                        + " text-white rounded-t-sm"
-                    ).style(
-                        "overflow:hidden;white-space: nowrap;text-overflow: "
-                        "ellipsis;display: block;"
-                    )
+                with ui.element("div").classes("w-full h-[35%]"):
+                    with ui.element("div").classes(
+                        player_label + " rounded-t-sm bg-" + Player.team_color[home]
+                    ):
+                        ui.label(self.web_name).classes(
+                            "h-auto w-full text-center font-medium tracking-tighter "
+                            "text-white text-xs leading-none "
+                        ).style(
+                            "overflow:hidden;white-space: nowrap;text-overflow: "
+                            "ellipsis;display: block; "
+                        )
 
-                    ui.label(self.actual_points).classes(
-                        player_label + " bg-slate-400/60 text-zinc-900 rounded-b-sm"
-                    )
+                    with ui.element("div").classes(
+                        player_label + " rounded-t-sm bg-slate-400/60 rounded-b-sm"
+                    ):
+                        ui.label(self.actual_points).classes(
+                            "h-auto text-center text-xs font-medium tracking-tighter "
+                            "text-zinc-900 leading-none"
+                        )
 
     def transfer_card(self, other_player, home):
         with ui.element("div").classes(
