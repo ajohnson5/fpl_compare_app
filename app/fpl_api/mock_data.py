@@ -1,63 +1,76 @@
-transfers = [
-    {
-        "element_in": 17,
-        "element_in_cost": 49,
-        "element_out": 28,
-        "element_out_cost": 53,
-        "event": 1,
-    },
-    {
-        "element_in": 90,
-        "element_in_cost": 50,
-        "element_out": 235,
-        "element_out_cost": 45,
-        "event": 1,
-    },
-    {
-        "element_in": 170,
-        "element_in_cost": 50,
-        "element_out": 257,
-        "element_out_cost": 45,
-        "event": 1,
-    },
-    {
-        "element_in": 221,
-        "element_in_cost": 50,
-        "element_out": 64,
-        "element_out_cost": 45,
-        "event": 1,
-    },
-    {
-        "element_in": 327,
-        "element_in_cost": 50,
-        "element_out": 98,
-        "element_out_cost": 45,
-        "event": 1,
-    },
-    {
-        "element_in": 337,
-        "element_in_cost": 50,
-        "element_out": 189,
-        "element_out_cost": 45,
-        "event": 1,
-    },
-    {
-        "element_in": 546,
-        "element_in_cost": 50,
-        "element_out": 321,
-        "element_out_cost": 45,
-        "event": 1,
-    },
-    {
-        "element_in": 327,
-        "element_in_cost": 68,
-        "element_out": 352,
-        "element_out_cost": 70,
-        "event": 2,
-    },
-]
+from random import randint
+import random
+
+# transfers = [
+#     {
+#         "element_in": 17,
+#         "element_in_cost": 49,
+#         "element_out": 28,
+#         "element_out_cost": 53,
+#         "event": 1,
+#     },
+#     {
+#         "element_in": 90,
+#         "element_in_cost": 50,
+#         "element_out": 235,
+#         "element_out_cost": 45,
+#         "event": 1,
+#     },
+#     {
+#         "element_in": 170,
+#         "element_in_cost": 50,
+#         "element_out": 257,
+#         "element_out_cost": 45,
+#         "event": 1,
+#     },
+#     {
+#         "element_in": 221,
+#         "element_in_cost": 50,
+#         "element_out": 64,
+#         "element_out_cost": 45,
+#         "event": 1,
+#     },
+#     {
+#         "element_in": 593,
+#         "element_in_cost": 50,
+#         "element_out": 98,
+#         "element_out_cost": 45,
+#         "event": 1,
+#     },
+
+# ]
 
 
+# transfers_2 =  [
+#     {
+#         "element_in": 337,
+#         "element_in_cost": 50,
+#         "element_out": 189,
+#         "element_out_cost": 45,
+#         "event": 1,
+#     },
+#     {
+#         "element_in": 327,
+#         "element_in_cost": 50,
+#         "element_out": 12,
+#         "element_out_cost": 45,
+#         "event": 1,
+#     },
+#     {
+#         "element_in": 157,
+#         "element_in_cost": 68,
+#         "element_out": 352,
+#         "element_out_cost": 70,
+#         "event": 2,
+#     },
+# ]
+
+
+# List of player ID's
+squad_list_1 = [17, 313, 90, 96, 129, 137, 146, 170, 221, 331, 464, 546, 512, 499, 593]
+squad_list_2 = [116, 157, 182, 194, 216, 224, 248, 137, 337, 237, 327, 546, 48, 27, 523]
+
+# Dictionary replicating fpl api endpoint manager gameweek picks
 squad_dict = {
     "active_chip": "wildcard",
     "automatic_subs": [
@@ -280,3 +293,41 @@ squad_dict_2 = {
         },
     ],
 }
+
+
+class TransferMock:
+    gameweeks = range(1, 39)
+
+    def __init__(self, squad_list: list):
+        self.transfers = self.make_mock_data(squad_list)
+
+    def make_mock_transfer(self, id_in: int, id_out: int, gameweek: int) -> dict:
+        return {
+            "element_in": id_in,
+            "element_in_cost": randint(40, 140),
+            "element_out": id_out,
+            "element_out_cost": randint(40, 140),
+            "event": gameweek,
+        }
+
+    def make_mock_data(self, squad_list: list):
+        transfers_made = []
+        potential_transfers_out = [x for x in range(1, 605) if x not in squad_list]
+
+        for gameweek in TransferMock.gameweeks:
+            num_transfers = randint(0, 6)
+
+            transfers_in = random.sample(squad_list, num_transfers)
+
+            transfers_out = random.sample(potential_transfers_out, num_transfers)
+
+            for id_in, id_out in zip(transfers_in, transfers_out):
+                transfers_made.append(self.make_mock_transfer(id_in, id_out, gameweek))
+
+        return transfers_made
+
+
+# Transfer pick mock data for managers over the whole season
+transfers_1 = TransferMock(squad_list_1).transfers
+
+transfers_2 = TransferMock(squad_list_2).transfers

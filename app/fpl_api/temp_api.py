@@ -7,7 +7,7 @@ import firebase_admin
 from firebase_admin import firestore_async
 from firebase_admin import firestore
 
-from .mock_data import transfers, squad_dict, squad_dict_2
+from .mock_data import transfers_1, transfers_2, squad_dict, squad_dict_2
 from player import Player
 from squad import Squad
 
@@ -57,10 +57,10 @@ def get_manager_gw_transfers(gw: int, manager_id, transfers_list):
     transfers_out = []
 
     for transfer in transfers_list:
-        if transfer["event"] == 1:
+        if transfer["event"] == gw:
             transfers_in.append(transfer["element_in"])
             transfers_out.append(transfer["element_out"])
-        elif transfer["event"] > 1:
+        elif transfer["event"] > gw:
             return transfers_in, transfers_out
 
     return transfers_in, transfers_out
