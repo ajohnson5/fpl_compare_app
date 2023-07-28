@@ -22,7 +22,10 @@ class Player:
         first_name: str,
         squad_position: int,
         actual_position: int,
+        total_points: int,
         points: int,
+        bonus_points: int,
+        minutes: int,
         team_name: str,
         is_captain: bool,
         multiplier: int,
@@ -35,8 +38,11 @@ class Player:
         self.position = squad_position
         self.actual_position = actual_position
         self.starting = squad_position <= 11
+        self.total_points = total_points
         self.points = points
         self.actual_points = points * multiplier if multiplier else points
+        self.bonus_points = bonus_points
+        self.minutes = minutes
         self.team_name = team_name
         self.is_captain = is_captain
         self.multiplier = multiplier
@@ -63,10 +69,28 @@ class Player:
     ):
         with ui.dialog() as dialog, ui.card().classes("relative w-72 h-48"):
             ui.label(f"{self.first_name} {self.name}").classes(
-                "w-full text-center text-lg text-zinc-900 font-medium font-sans "
+                "w-full h-auto text-center text-lg text-zinc-900 font-medium font-sans "
                 "align-middle"
             )
             ui.separator()
+
+            with ui.element("div").classes("w-full h-auto flex flex-row"):
+                with ui.element("div").classes("w-1/2 h-auto p-2"):
+                    ui.label("Total Points").classes(
+                        "text-center align-middle text-md pb-2"
+                    )
+                    ui.label("Bonus Points").classes("text-center align-middle pb-2")
+                    ui.label("Minutes").classes("text-center align-middle")
+
+                with ui.element("div").classes("w-1/2 p-2"):
+                    ui.label(self.total_points).classes("text-center align-middle pb-2")
+                    ui.label(self.bonus_points).classes("text-center align-middle pb-2")
+                    ui.label(self.minutes).classes("text-center align-middle")
+
+            # ui.label(f"Total Points: {self.total_points}")
+            # ui.label(f"Bonus Points: {self.bonus_points}")
+            # ui.label(f"Minutes Played: {self.minutes}")
+
             close_icon = ui.icon("close", size="32px").classes(
                 "absolute top-2 right-2 text-zinc-900 hover:bg-zinc-300 rounded-full "
                 "hover:cursor-pointer"
