@@ -4,4 +4,4 @@ from .temp_api import (
     get_manager_gw_picks,
     get_league_managers,
 )
-from .mock_data import squad_dict, squad_dict_2, transfers
+from .mock_data import squad_dict, squad_dict_2, transfers_1, transfers_2

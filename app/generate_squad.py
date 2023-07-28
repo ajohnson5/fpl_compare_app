@@ -6,7 +6,8 @@ from fpl_api import (
     get_manager_gw_picks,
     squad_dict,
     squad_dict_2,
-    transfers,
+    transfers_1,
+    transfers_2,
 )
 from player import Player
 from squad import Squad
@@ -39,18 +40,18 @@ async def generate_squad(
 
     # Use fpl api to create squad objects for both managers
     squad_1 = await get_manager_gw_picks(
-        30,
+        manager_dict["chip_1_gw"],
         manager_dict["chip_1_id"],
         manager_dict["chip_1"],
         squad_dict,
-        transfers,
+        transfers_1,
     )
     squad_2 = await get_manager_gw_picks(
-        30,
+        manager_dict["chip_2_gw"],
         manager_dict["chip_2_id"],
         manager_dict["chip_2"],
         squad_dict_2,
-        transfers,
+        transfers_2,
     )
 
     # Compare squads - creates the layout instance variable
