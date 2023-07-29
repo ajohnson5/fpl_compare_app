@@ -135,7 +135,7 @@ class Player:
         ):
             with ui.element("div").classes(
                 "flex flex-col h-full w-[60px] "
-                "hover:cursor-pointer hover:bg-stone-50/30 rounded-sm"
+                "hover:cursor-pointer hover:bg-stone-50/30 rounded-sm transition-colors"
             ) as player_card_clickable:
                 dialog = self.create_player_dialog()
                 player_card_clickable.on("click", dialog.open)
