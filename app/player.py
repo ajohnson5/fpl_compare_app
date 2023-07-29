@@ -115,8 +115,12 @@ class Player:
                     ui.label("Point Profit").classes("text-start align-middle")
 
                 with ui.element("div").classes("w-1/2 p-2"):
-                    ui.label(0).classes("text-center align-middle pb-2")
-                    ui.label(1).classes("text-center align-middle pb-2")
+                    ui.label(self.transfer["element_in_cost"]).classes(
+                        "text-center align-middle pb-2"
+                    )
+                    ui.label(self.transfer["element_out_cost"]).classes(
+                        "text-center align-middle pb-2"
+                    )
                     ui.label(self.actual_points - other_player.actual_points).classes(
                         "text-center align-middle"
                     )

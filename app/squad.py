@@ -20,8 +20,8 @@ class Squad:
         self.start_xi = squad_list[:11]
         self.bench = sorted(squad_list[11:15], key=lambda x: x.actual_position)
         self.transfers_in = sorted(
-            [player for player in squad_list if player.transfer >= 0],
-            key=lambda x: x.transfer,
+            [player for player in squad_list if isinstance(player.transfer, dict)],
+            key=lambda x: x.transfer["transfer_order"],
         )
         self.transfers_out = squad_list[15:]
         self.chip = chip
@@ -111,5 +111,19 @@ class Squad:
 
     def create_transfer_display(self, home):
         with ui.element("div").classes("w-full"):
-            for transfer in zip(self.transfers_in, self.transfers_out):
-                transfer[0].transfer_card(transfer[1], home)
+            if self.transfers_in:
+                with ui.element("div").classes(
+                    "col-span-1 flex flex-row justify-between"
+                ):
+                    ui.label("Transfers In").classes(
+                        "w-1/2 text-center text-white text-2xl font-medium font-sans"
+                    )
+                    ui.label("Transfers Out").classes(
+                        "w-1/2 text-center text-white text-2xl font-medium font-sans"
+                    )
+                for transfer in zip(self.transfers_in, self.transfers_out):
+                    transfer[0].transfer_card(transfer[1], home)
+            else:
+                ui.label("No Transfers Made").classes(
+                    "w-full text-center text-2xl font-medium text-white mt-2"
+                )

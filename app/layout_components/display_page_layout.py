@@ -108,13 +108,6 @@ def transfer_expansion():
         'header-class="text-white text-center text-2xl rounded-xl h-[80px]"'
         'expand-icon-class="text-white" expand-icon="keyboard_double_arrow_down"'
     ):
-        with ui.element("div").classes("col-span-1 flex flex-row justify-between"):
-            ui.label("Transfers In").classes(
-                "w-1/2 text-center text-white text-2xl font-medium font-sans"
-            )
-            ui.label("Transfers Out").classes(
-                "w-1/2 text-center text-white text-2xl font-medium font-sans"
-            )
         transfer_display = ui.element("div").classes("col-span-1 h-auto pb-2")
     return transfer_display
 

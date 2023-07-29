@@ -52,16 +52,22 @@ def get_manager_name(manager_id: int):
 
 
 def get_manager_gw_transfers(gw: int, manager_id, transfers_list):
-    transfers_in = []
+    transfers_in = {}
 
     transfers_out = []
 
     for transfer in transfers_list:
+        counter = 0
         if transfer["event"] == gw:
-            transfers_in.append(transfer["element_in"])
+            transfers_in[transfer["element_in"]] = {
+                "element_in_cost": transfer["element_in_cost"],
+                "element_out_cost": transfer["element_out_cost"],
+                "transfer_order": counter,
+            }
             transfers_out.append(transfer["element_out"])
         elif transfer["event"] > gw:
             return transfers_in, transfers_out
+        counter += 1
 
     return transfers_in, transfers_out
 
@@ -125,9 +131,9 @@ async def get_manager_gw_picks(
         id = pick["id"]
 
         if id in transfers_in:
-            transfer_num = transfers_in.index(id)
+            transfer = transfers_in[id]
         else:
-            transfer_num = -1
+            transfer = -1
 
         if id in subs_in or id in subs_out:
             sub = True
@@ -150,7 +156,7 @@ async def get_manager_gw_picks(
                 is_captain=pick["is_captain"],
                 multiplier=pick["multiplier"],
                 auto_sub=sub,
-                transfer=transfer_num,
+                transfer=transfer,
             )
         )
 
