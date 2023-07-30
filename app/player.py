@@ -150,13 +150,17 @@ class Player:
 
                     if self.is_captain:
                         if self.multiplier == 3:
-                            ui.icon("local_fire_department", size="10px").classes(
-                                "h-[14px] w-[14px] absolute top-0.5 right-0 "
+                            ui.icon(
+                                "local_fire_department", size="10px", color="stone-100"
+                            ).classes(
+                                "h-[13px] w-[13px] absolute top-0.5 right-0 "
                                 "rounded-full bg-" + Player.team_color[home]
                             )
 
                         else:
-                            ui.icon("copyright", size="14px").classes(
+                            ui.icon(
+                                "copyright", size="14px", color="stone-100"
+                            ).classes(
                                 "h-[10px] w-[10px] absolute top-0.5 right-0 "
                                 "rounded-full bg-" + Player.team_color[home]
                             )
