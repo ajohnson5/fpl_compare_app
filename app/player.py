@@ -150,13 +150,19 @@ class Player:
 
                     if self.is_captain:
                         if self.multiplier == 3:
-                            ui.icon("local_fire_department").classes(
-                                "absolute top-0.5 -right-1"
+                            ui.icon(
+                                "local_fire_department", size="10px", color="stone-100"
+                            ).classes(
+                                "h-[13px] w-[13px] absolute top-0.5 right-0 "
+                                "rounded-full bg-" + Player.team_color[home]
                             )
 
                         else:
-                            ui.icon("copyright", size="14px").classes(
-                                "absolute top-0.5 -right-1"
+                            ui.icon(
+                                "copyright", size="14px", color="stone-100"
+                            ).classes(
+                                "h-[10px] w-[10px] absolute top-0.5 right-0 "
+                                "rounded-full bg-" + Player.team_color[home]
                             )
                     if not transfer:
                         if self.auto_sub:
@@ -166,7 +172,7 @@ class Player:
                                     color=Player.team_color[home],
                                     size="14px",
                                 ).classes(
-                                    "h-[10px] w-[10px] absolute top-0.5 -left-1 "
+                                    "h-[10px] w-[10px] absolute top-0.5 left-0 "
                                     "bg-white rounded-full"
                                 )
                             else:
@@ -175,7 +181,7 @@ class Player:
                                     color=Player.team_color[home],
                                     size="14px",
                                 ).classes(
-                                    "h-[10px] w-[10px] absolute top-0.5 -left-1 "
+                                    "h-[10px] w-[10px] absolute top-0.5 left-0 "
                                     "bg-white rounded-full"
                                 )
 
@@ -211,8 +217,8 @@ class Player:
                 transfer_icon_clickable = ui.icon(
                     "info", size="30px", color=Player.team_color[home]
                 ).classes(
-                    "hover:cursor-pointer hover:scale-125 bg-stone-100 rounded-full "
-                    "transition"
+                    "hover:cursor-pointer hover:scale-125 rounded-full "
+                    "transition bg-stone-100 w-[10px] h-[20px]"
                 )
                 transfer_icon_clickable.on("click", dialog.open)
                 ui.icon("swap_horiz", size="40px", color="stone-100").classes("")
