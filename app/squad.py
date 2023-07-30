@@ -20,8 +20,8 @@ class Squad:
         self.start_xi = squad_list[:11]
         self.bench = sorted(squad_list[11:15], key=lambda x: x.actual_position)
         self.transfers_in = sorted(
-            [player for player in squad_list if player.transfer >= 0],
-            key=lambda x: x.transfer,
+            [player for player in squad_list if isinstance(player.transfer, dict)],
+            key=lambda x: x.transfer["transfer_order"],
         )
         self.transfers_out = squad_list[15:]
         self.chip = chip
@@ -73,23 +73,47 @@ class Squad:
     def get_common_players_position(self, squad_1_position, squad_2_position):
         return list(set(squad_1_position).intersection(squad_2_position))
 
-    def create_manager_display(
-        self,
-    ):
+    def create_manager_display(self, gameweek):
         with ui.element("div").classes(
-            "w-full h-[50px] flex flex-row content-center rounded-t-xl "
-            "bg-slate-50/30"
+            "w-full h-[40px] flex flex-row content-center rounded-t-xl justify-center "
+            "bg-slate-50/30 relative"
         ):
             ui.label(self.manager_name).classes(
-                "text-center w-full text-lg lg:text-2xl text-stone-100 font-medium"
+                "text-center w-full text-lg lg:text-2xl text-stone-100 font-medium "
+                "leading-none"
             )
 
+        with ui.element("div").classes("w-full flex flex-row gap-x-0"):
+            with ui.column().classes("grow flex flex-row gap-y-0"):
+                ui.element("div").classes("h-1/2 w-full ").style(
+                    "border-top: 10px solid rgb(248 250 252);border-left: 0px solid "
+                    "transparent;border-right: 5px solid transparent; opacity:0.3;"
+                )
+                ui.element("div").classes("h-1/2 w-full ").style(
+                    "border-bottom: 10px solid rgb(248 250 252);border-left: 0px solid "
+                    "transparent;border-right: 5px solid transparent; opacity:0.3;"
+                )
+
+            ui.label(f"Gameweek {gameweek}").classes(
+                "text-center w-auto font-medium rounded-full text-stone-100"
+            )
+
+            with ui.column().classes("grow flex flex-row gap-y-0"):
+                ui.element("div").classes("h-1/2 w-full ").style(
+                    "border-top: 10px solid rgb(248 250 252);border-left: 5px solid "
+                    "transparent;border-right: 0px solid transparent; opacity:0.3;"
+                )
+                ui.element("div").classes("h-1/2 w-full ").style(
+                    "border-bottom: 10px solid rgb(248 250 252);border-left: 5px solid "
+                    "transparent;border-right: 0px solid transparent; opacity:0.3;"
+                )
+
         with ui.element("div").classes(
-            "w-full h-[100px]  flex flex-row content-center bg-slate-50/30 "
-            "rounded-b-xl"
+            "w-full h-full  flex flex-row content-center bg-slate-50/30 rounded-b-xl"
         ):
             ui.label(self.stats["points"]).classes(
-                "text-center w-full text-stone-100 text-5xl md:text-7xl font-medium"
+                "text-center w-full text-stone-100 text-5xl md:text-7xl font-medium "
+                "mt-1"
             )
             ui.label("Points").classes("text-center w-full text-stone-100")
 
@@ -111,5 +135,23 @@ class Squad:
 
     def create_transfer_display(self, home):
         with ui.element("div").classes("w-full"):
-            for transfer in zip(self.transfers_in, self.transfers_out):
-                transfer[0].transfer_card(transfer[1], home)
+            if self.transfers_in:
+                with ui.element("div").classes(
+                    "col-span-1 flex flex-row justify-around"
+                ):
+                    ui.label("Transfers In").classes(
+                        " text-center text-stone-100 text-2xl font-medium "
+                        "font-sans grow"
+                    )
+
+                    ui.label().classes("w-[50px]")
+                    ui.label("Transfers Out").classes(
+                        " text-center text-stone-100 text-2xl font-medium "
+                        "font-sans grow"
+                    )
+                for transfer in zip(self.transfers_in, self.transfers_out):
+                    transfer[0].transfer_card(transfer[1], home)
+            else:
+                ui.label("No Transfers Made").classes(
+                    "w-full text-center text-2xl font-medium text-stone-100 mt-2"
+                )

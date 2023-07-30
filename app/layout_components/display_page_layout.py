@@ -11,7 +11,7 @@ def individual_manager_summary(home: bool):
     ):
         manager_display = ui.element("div").classes(
             " w-[150px] md:w-[250px] flex flex-row justify-center "
-            "content-start gap-y-1"
+            "content-start gap-y-0"
         )
 
     return manager_display
@@ -22,8 +22,8 @@ def manager_summary_layout():
         "w-full h-auto flex flex-row justify-center content-center mx-2 "
         "gap-x-6 lg:gap-x-[270px] mb-4 gap-y-2"
     ):
-        manager_1_display = individual_manager_summary(True)
-        manager_2_display = individual_manager_summary(False)
+        manager_1_display = individual_manager_summary(home=True)
+        manager_2_display = individual_manager_summary(home=False)
 
         return manager_1_display, manager_2_display
 
@@ -32,18 +32,21 @@ def player_icon_key():
     with ui.element("div").classes(
         "flex flex-row justify-center  gap-x-4 gap-y-2 mb-2"
     ):
-        with ui.element("div").classes("flex flex-row  content-center items-center "):
+        with ui.element("div").classes("flex flex-row content-center items-center"):
             ui.icon("copyright", color="zinc-900", size="sm")
             ui.label("Captain").classes("ml-1")
-        with ui.element("div").classes("flex flex-row  content-center items-center "):
+        with ui.element("div").classes("flex flex-row content-center items-center"):
             ui.icon("local_fire_department", color="zinc-900", size="sm")
             ui.label("Triple Captain").classes("ml-1")
-        with ui.element("div").classes("flex flex-row  content-center items-center"):
+        with ui.element("div").classes("flex flex-row content-center items-center"):
             ui.icon("add_circle", color="zinc-900", size="sm")
             ui.label("Auto sub in").classes("ml-1")
-        with ui.element("div").classes("flex flex-row  content-center items-center"):
+        with ui.element("div").classes("flex flex-row content-center items-center"):
             ui.icon("do_not_disturb_on", color="zinc-900", size="sm")
             ui.label("Auto sub out").classes("ml-1 ")
+        with ui.element("div").classes("flex flex-row content-center items-center"):
+            ui.icon("info", color="zinc-900", size="sm")
+            ui.label("Transfer Info").classes("ml-1 ")
 
 
 def pitch_layout():
@@ -108,13 +111,6 @@ def transfer_expansion():
         'header-class="text-white text-center text-2xl rounded-xl h-[80px]"'
         'expand-icon-class="text-white" expand-icon="keyboard_double_arrow_down"'
     ):
-        with ui.element("div").classes("col-span-1 flex flex-row justify-between"):
-            ui.label("Transfers In").classes(
-                "w-1/2 text-center text-white text-2xl font-medium font-sans"
-            )
-            ui.label("Transfers Out").classes(
-                "w-1/2 text-center text-white text-2xl font-medium font-sans"
-            )
         transfer_display = ui.element("div").classes("col-span-1 h-auto pb-2")
     return transfer_display
 

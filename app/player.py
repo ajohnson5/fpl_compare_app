@@ -115,8 +115,12 @@ class Player:
                     ui.label("Point Profit").classes("text-start align-middle")
 
                 with ui.element("div").classes("w-1/2 p-2"):
-                    ui.label(0).classes("text-center align-middle pb-2")
-                    ui.label(1).classes("text-center align-middle pb-2")
+                    ui.label(self.transfer["element_in_cost"]).classes(
+                        "text-center align-middle pb-2"
+                    )
+                    ui.label(self.transfer["element_out_cost"]).classes(
+                        "text-center align-middle pb-2"
+                    )
                     ui.label(self.actual_points - other_player.actual_points).classes(
                         "text-center align-middle"
                     )
@@ -135,7 +139,7 @@ class Player:
         ):
             with ui.element("div").classes(
                 "flex flex-col h-full w-[60px] "
-                "hover:cursor-pointer hover:bg-stone-50/30 rounded-sm"
+                "hover:cursor-pointer hover:bg-stone-50/30 rounded-sm transition-colors"
             ) as player_card_clickable:
                 dialog = self.create_player_dialog()
                 player_card_clickable.on("click", dialog.open)
@@ -146,13 +150,19 @@ class Player:
 
                     if self.is_captain:
                         if self.multiplier == 3:
-                            ui.icon("local_fire_department").classes(
-                                "absolute top-0.5 -right-1"
+                            ui.icon(
+                                "local_fire_department", size="10px", color="stone-100"
+                            ).classes(
+                                "h-[13px] w-[13px] absolute top-0.5 right-0 "
+                                "rounded-full bg-" + Player.team_color[home]
                             )
 
                         else:
-                            ui.icon("copyright", size="14px").classes(
-                                "absolute top-0.5 -right-1"
+                            ui.icon(
+                                "copyright", size="14px", color="stone-100"
+                            ).classes(
+                                "h-[10px] w-[10px] absolute top-0.5 right-0 "
+                                "rounded-full bg-" + Player.team_color[home]
                             )
                     if not transfer:
                         if self.auto_sub:
@@ -162,7 +172,7 @@ class Player:
                                     color=Player.team_color[home],
                                     size="14px",
                                 ).classes(
-                                    "h-[10px] w-[10px] absolute top-0.5 -left-1 "
+                                    "h-[10px] w-[10px] absolute top-0.5 left-0 "
                                     "bg-white rounded-full"
                                 )
                             else:
@@ -171,7 +181,7 @@ class Player:
                                     color=Player.team_color[home],
                                     size="14px",
                                 ).classes(
-                                    "h-[10px] w-[10px] absolute top-0.5 -left-1 "
+                                    "h-[10px] w-[10px] absolute top-0.5 left-0 "
                                     "bg-white rounded-full"
                                 )
 
@@ -207,7 +217,8 @@ class Player:
                 transfer_icon_clickable = ui.icon(
                     "info", size="30px", color=Player.team_color[home]
                 ).classes(
-                    "hover:cursor-pointer hover:scale-125 bg-stone-100 rounded-full "
+                    "hover:cursor-pointer hover:scale-125 rounded-full "
+                    "transition bg-stone-100 w-[10px] h-[20px]"
                 )
                 transfer_icon_clickable.on("click", dialog.open)
                 ui.icon("swap_horiz", size="40px", color="stone-100").classes("")

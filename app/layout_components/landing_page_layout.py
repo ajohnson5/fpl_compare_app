@@ -63,7 +63,7 @@ def combined_search():
 
         with ui.element("div").classes("w-[60px] sm:w-[80px]"):
             gameweek_select = (
-                ui.select([1, 2, 3], value=1, label="GW")
+                ui.select([x for x in range(1, 39)], value=1, label="GW")
                 .classes("gw_select_class")
                 .classes("w-full h-full")
                 .props('outlined bg-color="white" behavior="menu"')
@@ -78,28 +78,38 @@ def manager_chip(home: bool):
     else:
         chip_bg = " from-red-500 via-red-400 to-rose-400"
 
-    with ui.element("div").classes("p-1 bg-white  rounded-xl drop-shadow-xl ") as chip:
+    with ui.element("div").classes(
+        "p-1 bg-white  rounded-xl drop-shadow-xl hover:cursor-pointer"
+    ) as chip:
         with ui.element("div").classes(
-            "w-[210px] h-[40px] rounded-lg  relative  bg-gradient-to-r " + chip_bg
+            "w-[190px] h-[40px] rounded-lg relative bg-gradient-to-r " + chip_bg
         ):
-            gw_chip_label = ui.label().classes(
-                "w-[22px] h-[22px] rounded-full bg-zinc-900 text-stone-100 absolute "
-                "-top-[11px] -left-[12px] text-center font-semibold align-middle"
-            )
             with ui.row().classes(
-                "w-full h-full flex flex-row justify-between content-center "
-                "items-center"
+                "w-full h-full flex flex-row justify-start content-center "
+                "items-center divide-x-4 divide-white gap-x-0"
             ):
-                manager_name = ui.label().classes(
-                    "text-stone-100 pl-2 max-w-[150px] h-[20px] font-semibold text-md"
+                gw_chip_label = ui.label().classes(
+                    "text-stone-100 w-1/5 min-w-[35px] font-semibold text-lg "
+                    "text-center "
                 )
-                delete_chip = ui.icon("cancel", size="25px").classes(
-                    "cursor-pointer pr-2 text-stone-100 hover:text-zinc-900"
-                )
+                with ui.element("div").classes(
+                    "h-full flex flex-row justify-start content-center grow"
+                ):
+                    manager_name = (
+                        ui.label()
+                        .classes(
+                            "text-stone-100 w-[140px] font-semibold text-md "
+                            "text-center pl-1"
+                        )
+                        .style(
+                            "overflow:hidden;white-space: nowrap;text-overflow: "
+                            "ellipsis;display: block; "
+                        )
+                    )
 
     chip.style("visibility:hidden")
 
-    return chip, manager_name, delete_chip, gw_chip_label
+    return chip, manager_name, gw_chip_label
 
 
 def compare_button_func():

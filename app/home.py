@@ -166,13 +166,11 @@ async def show_page():
                     (
                         chip_1,
                         manager_name_1,
-                        delete_chip_1,
                         gw_chip_label_1,
                     ) = manager_chip(True)
                     (
                         chip_2,
                         manager_name_2,
-                        delete_chip_2,
                         gw_chip_label_2,
                     ) = manager_chip(False)
 
@@ -212,8 +210,8 @@ async def show_page():
             manager_name_2.bind_text_from(chip_state, "chip_2")
 
             # Delete chip values - Set visibility to false
-            delete_chip_1.on("click", lambda x: delete_chip(chip_1))
-            delete_chip_2.on("click", lambda x: delete_chip(chip_2))
+            chip_1.on("click", lambda x: delete_chip(chip_1))
+            chip_2.on("click", lambda x: delete_chip(chip_2))
 
             # Load Display page when Compare button pressed
             compare_button.on("click", load_display, throttle=1.0)
@@ -229,7 +227,7 @@ async def show_page():
             "bg-white relative bottom-bottom-1 border-sky-400"
         ) as display_div:
             ui.label().classes("w-[calc(50vw_+_40px)] absolute top-0 left-0").style(
-                "border-top: 50px solid #e0f2fe;border-right:80px solid transparent;"
+                "border-top: 50px solid #cffafe;border-right:80px solid transparent;"
                 "background-color: transparent"
             )
 
