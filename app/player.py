@@ -75,7 +75,7 @@ class Player:
 
             with ui.element("div").classes("w-full h-auto flex flex-row"):
                 with ui.element("div").classes("w-1/2 h-auto p-2"):
-                    ui.label("Total Points").classes(
+                    ui.label("Season Points").classes(
                         "text-start align-middle text-md pb-2"
                     )
                     ui.label("Bonus Points").classes("text-start align-middle pb-2")
@@ -85,10 +85,6 @@ class Player:
                     ui.label(self.total_points).classes("text-center align-middle pb-2")
                     ui.label(self.bonus_points).classes("text-center align-middle pb-2")
                     ui.label(self.minutes).classes("text-center align-middle")
-
-            # ui.label(f"Total Points: {self.total_points}")
-            # ui.label(f"Bonus Points: {self.bonus_points}")
-            # ui.label(f"Minutes Played: {self.minutes}")
 
             close_icon = ui.icon("close", size="32px").classes(
                 "absolute top-2 right-2 text-zinc-900 hover:bg-zinc-300 rounded-full "
