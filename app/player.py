@@ -211,8 +211,8 @@ class Player:
                 transfer_icon_clickable = ui.icon(
                     "info", size="30px", color=Player.team_color[home]
                 ).classes(
-                    "hover:cursor-pointer hover:scale-125 bg-stone-100 rounded-full "
-                    "transition"
+                    "hover:cursor-pointer hover:scale-125 rounded-full "
+                    "transition bg-stone-100 w-[10px] h-[20px]"
                 )
                 transfer_icon_clickable.on("click", dialog.open)
                 ui.icon("swap_horiz", size="40px", color="stone-100").classes("")

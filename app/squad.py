@@ -137,15 +137,17 @@ class Squad:
         with ui.element("div").classes("w-full"):
             if self.transfers_in:
                 with ui.element("div").classes(
-                    "col-span-1 flex flex-row justify-between"
+                    "col-span-1 flex flex-row justify-around"
                 ):
                     ui.label("Transfers In").classes(
-                        "w-1/2 text-center text-stone-100 text-2xl font-medium "
-                        "font-sans"
+                        " text-center text-stone-100 text-2xl font-medium "
+                        "font-sans grow"
                     )
+
+                    ui.label().classes("w-[50px]")
                     ui.label("Transfers Out").classes(
-                        "w-1/2 text-center text-stone-100 text-2xl font-medium "
-                        "font-sans"
+                        " text-center text-stone-100 text-2xl font-medium "
+                        "font-sans grow"
                     )
                 for transfer in zip(self.transfers_in, self.transfers_out):
                     transfer[0].transfer_card(transfer[1], home)
