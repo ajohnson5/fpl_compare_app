@@ -153,7 +153,7 @@ squad_dict = {
             "element": 464,
             "position": 11,
             "is_captain": True,
-            "multiplier": 2,
+            "multiplier": 3,
         },
         {
             "element": 546,

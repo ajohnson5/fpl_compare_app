@@ -32,18 +32,21 @@ def player_icon_key():
     with ui.element("div").classes(
         "flex flex-row justify-center  gap-x-4 gap-y-2 mb-2"
     ):
-        with ui.element("div").classes("flex flex-row  content-center items-center "):
+        with ui.element("div").classes("flex flex-row content-center items-center"):
             ui.icon("copyright", color="zinc-900", size="sm")
             ui.label("Captain").classes("ml-1")
-        with ui.element("div").classes("flex flex-row  content-center items-center "):
+        with ui.element("div").classes("flex flex-row content-center items-center"):
             ui.icon("local_fire_department", color="zinc-900", size="sm")
             ui.label("Triple Captain").classes("ml-1")
-        with ui.element("div").classes("flex flex-row  content-center items-center"):
+        with ui.element("div").classes("flex flex-row content-center items-center"):
             ui.icon("add_circle", color="zinc-900", size="sm")
             ui.label("Auto sub in").classes("ml-1")
-        with ui.element("div").classes("flex flex-row  content-center items-center"):
+        with ui.element("div").classes("flex flex-row content-center items-center"):
             ui.icon("do_not_disturb_on", color="zinc-900", size="sm")
             ui.label("Auto sub out").classes("ml-1 ")
+        with ui.element("div").classes("flex flex-row content-center items-center"):
+            ui.icon("info", color="zinc-900", size="sm")
+            ui.label("Transfer Info").classes("ml-1 ")
 
 
 def pitch_layout():
