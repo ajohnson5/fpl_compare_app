@@ -60,10 +60,10 @@ async def generate_squad(
     # Create manager summary cards
     with manager_1_display:
         manager_1_display.clear()
-        squad_1.create_manager_display()
+        squad_1.create_manager_display(manager_dict["chip_1_gw"])
     with manager_2_display:
         manager_2_display.clear()
-        squad_2.create_manager_display()
+        squad_2.create_manager_display(manager_dict["chip_2_gw"])
 
     # Create player cards for on-pitch players
     with squad_1_display:

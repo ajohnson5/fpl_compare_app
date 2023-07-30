@@ -236,6 +236,10 @@ async def main(client: Client):
             font-size: 3.75rem;
         }
     }
+
+    .q-item__section--main~.q-item__section--side {
+        padding:0 !important;
+    }
     </style>
     """
     )
