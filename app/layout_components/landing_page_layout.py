@@ -82,14 +82,15 @@ def manager_chip(home: bool):
         "p-1 bg-white  rounded-xl drop-shadow-xl hover:cursor-pointer"
     ) as chip:
         with ui.element("div").classes(
-            "w-[190px] h-[40px] rounded-lg  relative  bg-gradient-to-r " + chip_bg
+            "w-[190px] h-[40px] rounded-lg relative bg-gradient-to-r " + chip_bg
         ):
             with ui.row().classes(
                 "w-full h-full flex flex-row justify-start content-center "
                 "items-center divide-x-4 divide-white gap-x-0"
             ):
                 gw_chip_label = ui.label().classes(
-                    "text-stone-100 w-1/5  font-semibold text-lg text-center "
+                    "text-stone-100 w-1/5 min-w-[35px] font-semibold text-lg "
+                    "text-center "
                 )
                 with ui.element("div").classes(
                     "h-full flex flex-row justify-start content-center grow"
@@ -97,7 +98,8 @@ def manager_chip(home: bool):
                     manager_name = (
                         ui.label()
                         .classes(
-                            "text-stone-100  w-full font-semibold text-md text-center"
+                            "text-stone-100 w-[140px] font-semibold text-md "
+                            "text-center pl-1"
                         )
                         .style(
                             "overflow:hidden;white-space: nowrap;text-overflow: "
