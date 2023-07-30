@@ -11,7 +11,7 @@ def individual_manager_summary(home: bool):
     ):
         manager_display = ui.element("div").classes(
             " w-[150px] md:w-[250px] flex flex-row justify-center "
-            "content-start gap-y-1"
+            "content-start gap-y-0"
         )
 
     return manager_display
@@ -22,8 +22,8 @@ def manager_summary_layout():
         "w-full h-auto flex flex-row justify-center content-center mx-2 "
         "gap-x-6 lg:gap-x-[270px] mb-4 gap-y-2"
     ):
-        manager_1_display = individual_manager_summary(True)
-        manager_2_display = individual_manager_summary(False)
+        manager_1_display = individual_manager_summary(home=True)
+        manager_2_display = individual_manager_summary(home=False)
 
         return manager_1_display, manager_2_display
 

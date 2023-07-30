@@ -119,7 +119,7 @@ def nav_bar(nav_links: list, router):
 def display(nav_links: list, router):
     ui.element("div").classes(
         (
-            "h-screen w-screen bg-gradient-to-b from-sky-500 via-sky-300 to-sky-100 "
+            "h-screen w-screen bg-gradient-to-b from-sky-500 via-sky-300 to-cyan-100 "
             "absolute top-0 left-0 -z-10"
         )
     )
