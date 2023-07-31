@@ -303,8 +303,6 @@ class RandomSquadGenerator:
 
     def random_squad_ids(self, actual_random):
         self.squad_ids = []
-        for position in RandomSquadGenerator.better_player_positions:
-            print(len(position))
         if actual_random:
             for i, position in enumerate(
                 RandomSquadGenerator.max_player_position_count
