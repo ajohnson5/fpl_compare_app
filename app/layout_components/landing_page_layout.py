@@ -112,14 +112,14 @@ def manager_chip(home: bool):
     return chip, manager_name, gw_chip_label
 
 
-def compare_button_func():
+def create_button(button_label: str):
     button = ui.html(
-        """
+        f"""
     <button class="pushable">
         <span class="shadow"></span>
         <span class="edge"></span>
         <span class="front">
-            Compare
+            {button_label}
         </span>
     </button>
     """
