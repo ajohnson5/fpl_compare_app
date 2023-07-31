@@ -134,3 +134,34 @@ def transfer_layout():
             ):
                 transfer_2_display = transfer_expansion()
     return transfer_1_display, transfer_2_display
+
+
+def squad_summary():
+    with ui.element("div").classes(
+        "p-1 rounded-2xl drop-shadow-xl bg-gradient-to-r from-sky-500 via-sky-300 "
+        "to-cyan-400 m-4"
+    ):
+        squad_summary_display = ui.element("div").classes(
+            " w-[150px] md:w-[250px] flex flex-row justify-centers "
+            "content-start gap-y-0"
+        )
+
+    return squad_summary_display
+
+
+def generate_squad_pitch_layout():
+    with ui.element("div").classes(
+        "mx-2 w-full flex flex-row justify-center content-center mb-4"
+    ):
+        with ui.element("div").classes(
+            "px-2 py-2 w-full max-w-[490px] rounded-t-xl lg:rounded-b-xl "
+            "bg-gradient-to-b from-green-400 via-emerald-400 to-emerald-500"
+        ):
+            with ui.image(
+                "https://i.ibb.co/xS9j0v0/half-pitch-complete-final-4.png"
+            ).classes("max-w-[482px] w-full"):
+                squad_display = ui.element("div").classes(
+                    "w-full h-full bg-transparent grid-rows-4 grid grid-cols-1 gap-0"
+                )
+
+        return squad_display
