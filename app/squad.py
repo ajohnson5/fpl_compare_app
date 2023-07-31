@@ -232,6 +232,12 @@ def get_players_generator():
     defenders = []
     midfielders = []
     strikers = []
+
+    better_goalies = []
+    better_defenders = []
+    better_midfielders = []
+    better_strikers = []
+
     for player in req["elements"]:
         id = player["id"]
         players[id] = {
@@ -247,14 +253,26 @@ def get_players_generator():
 
         if player["element_type"] == 1:
             goalies.append(player["id"])
+            if player["now_cost"] > 45:
+                better_goalies.append(player["id"])
         if player["element_type"] == 2:
             defenders.append(player["id"])
+            if player["now_cost"] > 45:
+                better_defenders.append(player["id"])
         if player["element_type"] == 3:
             midfielders.append(player["id"])
+            if player["now_cost"] > 55:
+                better_midfielders.append(player["id"])
         if player["element_type"] == 4:
             strikers.append(player["id"])
+            if player["now_cost"] > 60:
+                better_strikers.append(player["id"])
 
-    return players, [goalies, defenders, midfielders, strikers]
+    return (
+        players,
+        [goalies, defenders, midfielders, strikers],
+        [better_goalies, better_defenders, better_midfielders, better_strikers],
+    )
 
 
 class RandomSquadGenerator:
@@ -271,7 +289,7 @@ class RandomSquadGenerator:
         [1, 5, 2, 3],
     ]
 
-    players, player_positions = get_players_generator()
+    players, player_positions, better_player_positions = get_players_generator()
 
     def __init__(
         self,
@@ -283,14 +301,28 @@ class RandomSquadGenerator:
     ):
         return random.choice(RandomSquadGenerator.formations)
 
-    def random_squad_ids(
-        self,
-    ):
+    def random_squad_ids(self, actual_random):
         self.squad_ids = []
-        for i, position in enumerate(RandomSquadGenerator.max_player_position_count):
-            self.squad_ids.append(
-                (random.sample(RandomSquadGenerator.player_positions[i], position))
-            )
+        for position in RandomSquadGenerator.better_player_positions:
+            print(len(position))
+        if actual_random:
+            for i, position in enumerate(
+                RandomSquadGenerator.max_player_position_count
+            ):
+                self.squad_ids.append(
+                    (random.sample(RandomSquadGenerator.player_positions[i], position))
+                )
+        else:
+            for i, position in enumerate(
+                RandomSquadGenerator.max_player_position_count
+            ):
+                self.squad_ids.append(
+                    (
+                        random.sample(
+                            RandomSquadGenerator.better_player_positions[i], position
+                        )
+                    )
+                )
 
     def check_player_teams(
         self,
@@ -333,13 +365,11 @@ class RandomSquadGenerator:
 
         self.squad = Squad(squad_list, self.team_cost)
 
-    def create_random_squad(
-        self,
-    ):
-        self.random_squad_ids()
+    def create_random_squad(self, actual_random: bool):
+        self.random_squad_ids(actual_random)
 
         if self.check_player_teams():
             self.generate_squad()
         else:
             print("Retry")
-            self.create_random_squad()
+            self.create_random_squad(actual_random)
