@@ -1,32 +1,15 @@
 from nicegui import ui
 import asyncio
-from typing import List
+from layout_components import create_button, generate_squad_pitch_layout, squad_summary
 
-from fpl_api import (
-    get_manager_gw_picks,
-    squad_dict,
-    squad_dict_2,
-    transfers_1,
-    transfers_2,
-)
-from player import Player
-from squad import Squad
+from squad import Squad, RandomSquadGenerator
+
+generator = RandomSquadGenerator()
 
 
 async def generate_squad(
-    manager_dict,
-    display_div,
-    loading_div,
-    manager_1_display,
-    manager_2_display,
-    squad_1_display,
-    squad_2_display,
-    bench_1_display,
-    bench_2_display,
-    transfer_div_1,
-    transfer_div_2,
+    loading_div, display_div, squad_display, squad_summary_display, random_squad_flag
 ):
-    # Create loading spinner
     with loading_div:
         with ui.element("div") as loading_clearable_div:
             with ui.element("div").classes(
@@ -38,59 +21,100 @@ async def generate_squad(
                 ui.spinner(size="xl", thickness=10.0)
     await asyncio.sleep(1.0)
 
-    # Use fpl api to create squad objects for both managers
-    squad_1 = await get_manager_gw_picks(
-        manager_dict["chip_1_gw"],
-        manager_dict["chip_1_id"],
-        manager_dict["chip_1"],
-        squad_dict,
-        transfers_1,
-    )
-    squad_2 = await get_manager_gw_picks(
-        manager_dict["chip_2_gw"],
-        manager_dict["chip_2_id"],
-        manager_dict["chip_2"],
-        squad_dict_2,
-        transfers_2,
-    )
+    generator.create_random_squad(actual_random=random_squad_flag)
 
-    # Compare squads - creates the layout instance variable
-    squad_1.compare_squad(squad_2)
+    with squad_summary_display:
+        squad_summary_display.clear()
+        generator.squad.create_squad_summary_display()
 
-    # Create manager summary cards
-    with manager_1_display:
-        manager_1_display.clear()
-        squad_1.create_manager_display(manager_dict["chip_1_gw"])
-    with manager_2_display:
-        manager_2_display.clear()
-        squad_2.create_manager_display(manager_dict["chip_2_gw"])
+    with squad_display:
+        squad_display.clear()
 
-    # Create player cards for on-pitch players
-    with squad_1_display:
-        squad_1_display.clear()
-        squad_1.create_team_display("home")
-
-    with squad_2_display:
-        squad_2_display.clear()
-        squad_2.create_team_display("away")
-
-    # Create bench player cards
-    with bench_1_display:
-        bench_1_display.clear()
-        squad_1.create_bench_display("home")
-
-    with bench_2_display:
-        bench_2_display.clear()
-        squad_2.create_bench_display("away")
-
-    # Create transfer cards
-    with transfer_div_1:
-        transfer_div_1.clear()
-        squad_1.create_transfer_display("home")
-
-    with transfer_div_2:
-        transfer_div_2.clear()
-        squad_2.create_transfer_display("away")
+        generator.squad.create_team_display()
 
     loading_clearable_div.clear()
     display_div.set_visibility(True)
+
+
+async def show_page():
+    with ui.element("div").classes("flex flex-row"):
+        with ui.element("div").classes(
+            "flex flex-row justify-center items-center content-center h-screen "
+            "w-screen bg-transparent"
+        ) as landing_div:
+            ui.element("div").classes("h-1/5 w-full")
+
+            with ui.element("div").classes(
+                "h-1/4 w-full flex flex-row justify-center content-end items-center "
+                "pb-6 gap-x-2"
+            ):
+                generate_button = create_button("Generate")
+
+                ui.label("Squads.").classes(
+                    "text-5xl sm:text-6xl text-stone-100 font-sans font-bold h-auto "
+                    "w-auto text-center align-middle mb-3"
+                )
+
+            with ui.element("div").classes(
+                "h-1/4 w-full flex flex-row content-start justify-center"
+            ):
+                random_squad_toggle = (
+                    ui.toggle(
+                        {
+                            True: "Actually Random",
+                            False: "A Real Team Please",
+                        },
+                        value=1,
+                    )
+                    .props(
+                        'rounded color="white" text-color="black" spread padding="12px"'
+                    )
+                    .classes("w-full max-w-[400px] mx-2")
+                )
+            ui.element("div").classes(
+                "h-1/6 w-full flex flex-row content-start justify-center"
+            )
+
+        ##########################################################################
+        ##########################################################################
+        ####################### Start of Display Page ############################
+        ##########################################################################
+        ##########################################################################
+
+        with ui.element("div").classes(
+            "flex flex-row justify-center content-center w-full min-h-screen "
+            "bg-white relative bottom-bottom-1 border-sky-400"
+        ) as display_div:
+            ui.label().classes("w-[calc(50vw_+_40px)] absolute top-0 left-0").style(
+                "border-top: 50px solid #cffafe;border-right:80px solid transparent;"
+                "background-color: transparent"
+            )
+
+            ui.label("Squads.").classes(
+                "text-6xl sm:text-7xl text-zinc-900 font-sans font-bold h-auto "
+                "w-full  text-center align-middle mb-6 mt-[60px]"
+            )
+
+            squad_summary_display = squad_summary()
+            squad_display = generate_squad_pitch_layout()
+
+        display_div.set_visibility(False)
+
+        ##########################################################################
+        ##########################################################################
+        ########################## Bindings / Search  ############################
+        ##########################################################################
+        ##########################################################################
+
+        # Load Display page when Compare button pressed
+        generate_button.on(
+            "click",
+            lambda x: generate_squad(
+                landing_div,
+                display_div,
+                squad_display,
+                squad_summary_display,
+                random_squad_toggle.value,
+            ),
+            throttle=1.0,
+        )

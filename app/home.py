@@ -2,7 +2,7 @@ from nicegui import ui
 import asyncio
 
 from fpl_api import get_manager_name, get_league_managers
-from generate_squad import generate_squad
+from compare_squads import compare_squads
 from layout_components import (
     combined_search,
     manager_chip,
@@ -11,7 +11,7 @@ from layout_components import (
     bench_layout,
     transfer_layout,
     player_icon_key,
-    compare_button_func,
+    create_button,
 )
 
 
@@ -103,7 +103,7 @@ async def show_page():
 
     async def load_display():
         if chip_state["chip_1"] and chip_state["chip_2"]:
-            await generate_squad(
+            await compare_squads(
                 chip_state,
                 display_div,
                 landing_div,
@@ -136,7 +136,7 @@ async def show_page():
                 "h-1/4 w-full flex flex-row justify-center content-end items-center "
                 "pb-6 gap-x-2"
             ):
-                compare_button = compare_button_func()
+                compare_button = create_button("Compare")
 
                 ui.label("Squads.").classes(
                     "text-5xl sm:text-6xl text-stone-100 font-sans font-bold h-auto "

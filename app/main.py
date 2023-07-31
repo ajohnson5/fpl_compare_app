@@ -5,6 +5,7 @@ from router import Router
 from common_format import display
 import home
 import about
+import generate_squad
 
 
 @ui.page("/")  # normal index page (e.g. the entry point of the app)
@@ -255,10 +256,15 @@ async def main(client: Client):
     async def about_page():
         await about.show_page()
 
+    @router.add("/generate")
+    async def generate_squad_page():
+        await generate_squad.show_page()
+
     display(
         [
             (home_page, "Home."),
             (about_page, "About."),
+            (generate_squad_page, "Generate"),
         ],
         router,
     )

@@ -1,6 +1,8 @@
 from random import randint
 import random
 
+import requests
+
 # transfers = [
 #     {
 #         "element_in": 17,
@@ -331,3 +333,34 @@ class TransferMock:
 transfers_1 = TransferMock(squad_list_1).transfers
 
 transfers_2 = TransferMock(squad_list_2).transfers
+
+
+formations = {
+    "352": [1, 3, 5, 2],
+    "343": [1, 3, 4, 3],
+    "451": [1, 4, 5, 1],
+    "442": [1, 4, 4, 2],
+    "433": [1, 4, 3, 3],
+    "541": [1, 5, 4, 1],
+    "532": [1, 5, 3, 2],
+    "523": [1, 5, 2, 3],
+}
+
+
+# if __name__ == "__main__":
+#     generator = RandomSquadGenerator()
+
+#     generator.create_random_squad()
+
+#     print(generator.squad_ids)
+
+#     print(generator.squad)
+#     sum = 0
+#     for position in generator.squad_ids:
+#         for player in position:
+#             print(RandomSquadGenerator.players[player]["second_name"])
+#             sum += RandomSquadGenerator.players[player]["now_cost"]
+
+#     print(generator.team_counter)
+
+#     print(sum / 10)
