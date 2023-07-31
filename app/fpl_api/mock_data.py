@@ -1,6 +1,8 @@
 from random import randint
 import random
 
+import requests
+
 # transfers = [
 #     {
 #         "element_in": 17,
@@ -325,6 +327,144 @@ class TransferMock:
                 transfers_made.append(self.make_mock_transfer(id_in, id_out, gameweek))
 
         return transfers_made
+
+
+formations = {
+    "352": [1, 3, 5, 2],
+    "343": [1, 3, 4, 3],
+    "451": [1, 4, 5, 1],
+    "442": [1, 4, 4, 2],
+    "433": [1, 4, 3, 3],
+    "541": [1, 5, 4, 1],
+    "532": [1, 5, 3, 2],
+    "523": [1, 5, 2, 3],
+}
+
+
+def get_players_generator():
+    url = "https://fantasy.premierleague.com/api/bootstrap-static/"
+    req = requests.get(url).json()
+
+    players = {}
+
+    goalies = []
+    defenders = []
+    midfielders = []
+    strikers = []
+    for player in req["elements"]:
+        id = player["id"]
+        players[id] = {
+            "first_name": player["first_name"],
+            "second_name": player["second_name"],
+            "web_name": player["web_name"],
+            "total_points": player["total_points"],
+            "team": player["team"],
+            "element_type": player["element_type"],
+            "minutes": player["minutes"],
+            "now_cost": player["now_cost"],
+        }
+
+        if player["element_type"] == 1:
+            goalies.append(player["id"])
+        if player["element_type"] == 2:
+            defenders.append(player["id"])
+        if player["element_type"] == 3:
+            midfielders.append(player["id"])
+        if player["element_type"] == 4:
+            strikers.append(player["id"])
+
+    return players, [goalies, defenders, midfielders, strikers]
+
+
+class RandomSquadGenerator:
+    max_player_position_count = [2, 5, 5, 3]
+
+    formations = [
+        [1, 3, 5, 2],
+        [1, 3, 4, 3],
+        [1, 4, 5, 1],
+        [1, 4, 4, 2],
+        [1, 4, 3, 3],
+        [1, 5, 4, 1],
+        [1, 5, 3, 2],
+        [1, 5, 2, 3],
+    ]
+
+    players, player_positions = get_players_generator()
+
+    def __init__(
+        self,
+    ):
+        self.formation = self.get_formation()
+
+    def get_formation(
+        self,
+    ):
+        return random.choice(RandomSquadGenerator.formations)
+
+    def random_squad_ids(
+        self,
+    ):
+        self.squad_ids = []
+        for i, position in enumerate(RandomSquadGenerator.max_player_position_count):
+            self.squad_ids.append(
+                (random.sample(RandomSquadGenerator.player_positions[i], position))
+            )
+
+    def check_player_teams(
+        self,
+    ):
+        self.team_counter = {i: 0 for i in range(1, 21)}
+        self.team_cost = 0
+        for position in self.squad_ids:
+            for player in position:
+                self.team_cost += RandomSquadGenerator.players[player]["now_cost"]
+                if self.team_cost > 1000:
+                    return False
+                if self.team_counter[RandomSquadGenerator.players[player]["team"]] < 3:
+                    self.team_counter[RandomSquadGenerator.players[player]["team"]] += 1
+                else:
+                    return False
+
+        return True
+
+    def generate_squad(
+        self,
+    ):
+        self.squad = []
+        for position in self.squad_ids:
+            for player in position:
+                self.squad.append(RandomSquadGenerator.players[player])
+
+    def create_random_squad(
+        self,
+    ):
+        self.random_squad_ids()
+
+        if self.check_player_teams():
+            self.generate_squad()
+        else:
+            print("Retry")
+            self.create_random_squad()
+
+
+if __name__ == "__main__":
+    generator = RandomSquadGenerator()
+
+    generator.create_random_squad()
+
+    print(generator.squad_ids)
+
+    print(generator.squad)
+    sum = 0
+    for position in generator.squad_ids:
+        for player in position:
+            print(RandomSquadGenerator.players[player]["second_name"])
+            sum += RandomSquadGenerator.players[player]["now_cost"]
+
+    print(generator.team_counter)
+
+    print(sum / 10)
 
 
 # Transfer pick mock data for managers over the whole season
