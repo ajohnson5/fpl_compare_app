@@ -369,5 +369,4 @@ class RandomSquadGenerator:
         if self.check_player_teams():
             self.generate_squad()
         else:
-            print("Retry")
             self.create_random_squad(actual_random)
