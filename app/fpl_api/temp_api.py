@@ -8,8 +8,8 @@ from firebase_admin import firestore_async
 from firebase_admin import firestore
 
 from .mock_data import transfers_1, transfers_2, squad_dict, squad_dict_2
-from player import Player
-from squad import Squad
+from player import Player, PlayerGameweek
+from squad import Squad, SquadGameweek
 
 # col_list = [
 #     "first_name",
@@ -141,13 +141,13 @@ async def get_manager_gw_picks(
             sub = False
 
         squad_list.append(
-            Player(
+            PlayerGameweek(
                 id=id,
                 second_name=pick["second_name"],
                 first_name=pick["first_name"],
                 web_name=pick["web_name"],
                 squad_position=pick["squad_position"],
-                actual_position=pick["position"],
+                position=pick["position"],
                 points=pick["gameweeks"][f"gameweek_{gw}"]["points"],
                 total_points=pick["total_points"],
                 bonus_points=pick["gameweeks"][f"gameweek_{gw}"]["bonus"],
@@ -157,10 +157,11 @@ async def get_manager_gw_picks(
                 multiplier=pick["multiplier"],
                 auto_sub=sub,
                 transfer=transfer,
+                cost=10,
             )
         )
 
-    return Squad(
+    return SquadGameweek(
         manager_id=manager_id,
         manager_name=manager_name,
         squad_list=squad_list,
