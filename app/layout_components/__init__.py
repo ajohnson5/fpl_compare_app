@@ -5,4 +5,6 @@ from .display_page_layout import (
     bench_layout,
     transfer_layout,
     player_icon_key,
+    squad_summary,
+    generate_squad_pitch_layout,
 )

@@ -126,3 +126,34 @@ def create_button(button_label: str):
     )
 
     return button
+
+
+formations = {
+    "352": [1, 3, 5, 2],
+    "343": [1, 3, 4, 3],
+    "451": [1, 4, 5, 1],
+    "442": [1, 4, 4, 2],
+    "433": [1, 4, 3, 3],
+    "541": [1, 5, 4, 1],
+    "532": [1, 5, 3, 2],
+    "523": [1, 5, 2, 3],
+}
+
+formation_index = {
+    1: "Squad",
+    2: "352",
+    3: "343",
+    4: "451",
+    5: "442",
+    6: "433",
+    7: "541",
+    8: "532",
+    9: "523",
+}
+
+
+def formation_select():
+    ui.select(
+        options=formation_index,
+        value=formation_index[1],
+    ).props("rounded outlined")
