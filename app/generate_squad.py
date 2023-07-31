@@ -8,7 +8,7 @@ generator = RandomSquadGenerator()
 
 
 async def generate_squad(
-    loading_div, display_div, squad_display, squad_summary_display
+    loading_div, display_div, squad_display, squad_summary_display, random_squad_flag
 ):
     with loading_div:
         with ui.element("div") as loading_clearable_div:
@@ -21,7 +21,7 @@ async def generate_squad(
                 ui.spinner(size="xl", thickness=10.0)
     await asyncio.sleep(1.0)
 
-    generator.create_random_squad()
+    generator.create_random_squad(actual_random=random_squad_flag)
 
     with squad_summary_display:
         squad_summary_display.clear()
@@ -58,16 +58,18 @@ async def show_page():
             with ui.element("div").classes(
                 "h-1/4 w-full flex flex-row content-start justify-center"
             ):
-                ui.toggle(
-                    {
-                        1: "Actually Random",
-                        2: "A Real Team Please",
-                    },
-                    value=1,
-                ).props(
-                    'rounded color="white" text-color="black" spread padding="12px"'
-                ).classes(
-                    "w-full max-w-[400px] mx-2"
+                random_squad_toggle = (
+                    ui.toggle(
+                        {
+                            True: "Actually Random",
+                            False: "A Real Team Please",
+                        },
+                        value=1,
+                    )
+                    .props(
+                        'rounded color="white" text-color="black" spread padding="12px"'
+                    )
+                    .classes("w-full max-w-[400px] mx-2")
                 )
             ui.element("div").classes(
                 "h-1/6 w-full flex flex-row content-start justify-center"
@@ -108,7 +110,11 @@ async def show_page():
         generate_button.on(
             "click",
             lambda x: generate_squad(
-                landing_div, display_div, squad_display, squad_summary_display
+                landing_div,
+                display_div,
+                squad_display,
+                squad_summary_display,
+                random_squad_toggle.value,
             ),
             throttle=1.0,
         )
