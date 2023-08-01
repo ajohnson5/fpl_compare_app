@@ -262,9 +262,9 @@ async def main(client: Client):
 
     display(
         [
-            (home_page, "Home."),
+            (home_page, "Compare."),
+            (generate_squad_page, "Generate."),
             (about_page, "About."),
-            (generate_squad_page, "Generate"),
         ],
         router,
     )
