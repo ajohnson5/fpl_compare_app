@@ -186,7 +186,7 @@ class SquadGameweek:
         for position in self.layout:
             with ui.element("div").classes(
                 "row-span-1 flex flex-row justify-around content-center h-full "
-                "max-h-[100px] " + Squad.team_rotate[home]
+                "max-h-[100px] " + SquadGameweek.team_rotate[home]
             ):
                 for player in position:
                     player.create_card(home)
