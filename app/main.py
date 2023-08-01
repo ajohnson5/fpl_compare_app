@@ -241,6 +241,11 @@ async def main(client: Client):
     .q-item__section--main~.q-item__section--side {
         padding:0 !important;
     }
+
+
+    .q-gutter-sm, .q-gutter-x-sm {
+        margin-left: 0px;
+    }
     </style>
     """
     )
