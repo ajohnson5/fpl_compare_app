@@ -139,14 +139,13 @@ def transfer_layout():
 def squad_summary():
     with ui.element("div").classes(
         "p-1 rounded-2xl drop-shadow-xl bg-gradient-to-r from-sky-500 via-sky-300 "
-        "to-cyan-400 m-4"
-    ):
+        "to-cyan-400"
+    ) as squad_summary_container:
         squad_summary_display = ui.element("div").classes(
-            " w-[150px] md:w-[250px] flex flex-row justify-centers "
-            "content-start gap-y-0"
+            " flex flex-row justify-centers " "content-start gap-y-0"
         )
 
-    return squad_summary_display
+    return squad_summary_container, squad_summary_display
 
 
 def generate_squad_pitch_layout():

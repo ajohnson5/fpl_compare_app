@@ -46,7 +46,7 @@ class Squad:
                     "transparent;border-right: 5px solid transparent; opacity:0.3;"
                 )
 
-            ui.label("FPLCOMPARE").classes(
+            ui.label("Click to Refresh").classes(
                 "text-center w-auto font-medium rounded-full text-stone-100"
             )
 

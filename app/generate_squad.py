@@ -82,7 +82,7 @@ async def show_page():
         ##########################################################################
 
         with ui.element("div").classes(
-            "flex flex-row justify-center content-center w-full min-h-screen "
+            "flex flex-row justify-center content-center w-full "
             "bg-white relative bottom-bottom-1 border-sky-400"
         ) as display_div:
             ui.label().classes("w-[calc(50vw_+_40px)] absolute top-0 left-0").style(
@@ -94,9 +94,30 @@ async def show_page():
                 "text-6xl sm:text-7xl text-zinc-900 font-sans font-bold h-auto "
                 "w-full  text-center align-middle mb-6 mt-[60px]"
             )
+            with ui.element("div").classes(
+                "w-full flex flex-row justify-center items-center content-center"
+            ):
+                with ui.element("div").classes(
+                    "max-w-[490px] w-full flex flex-row justify-center content-center"
+                ):
+                    squad_summary_container, squad_summary_display = squad_summary()
 
-            squad_summary_display = squad_summary()
-            squad_display = generate_squad_pitch_layout()
+                    squad_summary_container.classes(
+                        "w-full max-w-[250px] hover:cursor-pointer"
+                    )
+
+                    random_squad_radio = (
+                        ui.radio(
+                            {
+                                True: "Actually Random",
+                                False: "A Real Team Please",
+                            }
+                        )
+                        .props("inline")
+                        .classes("max-w-[350px] w-full")
+                    )
+
+                squad_display = generate_squad_pitch_layout()
 
         display_div.set_visibility(False)
 
@@ -106,8 +127,22 @@ async def show_page():
         ##########################################################################
         ##########################################################################
 
+        random_squad_radio.bind_value(random_squad_toggle, "value")
+
         # Load Display page when Compare button pressed
         generate_button.on(
+            "click",
+            lambda x: generate_squad(
+                landing_div,
+                display_div,
+                squad_display,
+                squad_summary_display,
+                random_squad_toggle.value,
+            ),
+            throttle=1.0,
+        )
+
+        squad_summary_display.on(
             "click",
             lambda x: generate_squad(
                 landing_div,

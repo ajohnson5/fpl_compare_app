@@ -241,6 +241,11 @@ async def main(client: Client):
     .q-item__section--main~.q-item__section--side {
         padding:0 !important;
     }
+
+
+    .q-gutter-sm, .q-gutter-x-sm {
+        margin-left: 0px;
+    }
     </style>
     """
     )
@@ -262,9 +267,9 @@ async def main(client: Client):
 
     display(
         [
-            (home_page, "Home."),
+            (home_page, "Compare."),
+            (generate_squad_page, "Generate."),
             (about_page, "About."),
-            (generate_squad_page, "Generate"),
         ],
         router,
     )
