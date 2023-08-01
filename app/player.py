@@ -124,7 +124,7 @@ class PlayerGameweek(Player):
     def create_player_dialog(
         self,
     ):
-        with ui.dialog() as dialog, ui.card().classes("relative w-72 h-48"):
+        with ui.dialog() as dialog, ui.card().classes("relative w-72 min-h-48"):
             ui.label(f"{self.first_name} {self.second_name}").classes(
                 "w-full h-auto text-center text-lg text-zinc-900 font-medium font-sans "
                 "align-middle"
