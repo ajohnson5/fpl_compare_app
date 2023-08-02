@@ -317,7 +317,7 @@ class TransferMock:
         potential_transfers_out = [x for x in range(1, 605) if x not in squad_list]
 
         for gameweek in TransferMock.gameweeks:
-            num_transfers = randint(0, 6)
+            num_transfers = randint(0, 11)
 
             transfers_in = random.sample(squad_list, num_transfers)
 
@@ -345,22 +345,3 @@ formations = {
     "532": [1, 5, 3, 2],
     "523": [1, 5, 2, 3],
 }
-
-
-# if __name__ == "__main__":
-#     generator = RandomSquadGenerator()
-
-#     generator.create_random_squad()
-
-#     print(generator.squad_ids)
-
-#     print(generator.squad)
-#     sum = 0
-#     for position in generator.squad_ids:
-#         for player in position:
-#             print(RandomSquadGenerator.players[player]["second_name"])
-#             sum += RandomSquadGenerator.players[player]["now_cost"]
-
-#     print(generator.team_counter)
-
-#     print(sum / 10)
