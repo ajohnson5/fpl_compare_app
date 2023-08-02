@@ -74,7 +74,7 @@ squad_list_2 = [116, 157, 182, 194, 216, 224, 248, 137, 337, 237, 327, 546, 48, 
 
 # Dictionary replicating fpl api endpoint manager gameweek picks
 squad_dict = {
-    "active_chip": "wildcard",
+    "active_chip": "bboost",
     "automatic_subs": [
         {
             "entry": 123,
@@ -186,7 +186,7 @@ squad_dict = {
 
 
 squad_dict_2 = {
-    "active_chip": "wildcard",
+    "active_chip": "",
     "automatic_subs": [
         {
             "entry": 1223,
