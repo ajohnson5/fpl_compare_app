@@ -72,6 +72,13 @@ class Squad:
 class SquadGameweek:
     team_rotate = {"home": "", "away": "rotate-180 lg:rotate-0"}
 
+    active_chips = {
+        "3xc": "Triple Captain",
+        "freehit": "Freehit",
+        "wildcard": "Wildcard",
+        "bboost": "Bench Boost",
+    }
+
     def __init__(
         self,
         manager_id: int,
@@ -159,7 +166,12 @@ class SquadGameweek:
                     "transparent;border-right: 5px solid transparent; opacity:0.3;"
                 )
 
-            ui.label(f"Gameweek {gameweek}").classes(
+            if self.chip:
+                chip_label = SquadGameweek.active_chips[self.chip]
+            else:
+                chip_label = "No Chip Active"
+
+            ui.label(chip_label).classes(
                 "text-center w-auto font-medium rounded-full text-stone-100"
             )
 
@@ -180,7 +192,9 @@ class SquadGameweek:
                 "text-center w-full text-stone-100 text-5xl md:text-7xl font-medium "
                 "mt-1"
             )
-            ui.label("Points").classes("text-center w-full text-stone-100")
+            ui.label(f"Points in Gameweek {gameweek}").classes(
+                "text-center w-full text-stone-100"
+            )
 
     def create_team_display(self, home):
         for position in self.layout:
