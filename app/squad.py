@@ -152,7 +152,7 @@ class SquadGameweek:
         ):
             ui.label(self.manager_name).classes(
                 "text-center w-full text-lg lg:text-2xl text-stone-100 font-medium "
-                "leading-none break-words"
+                "leading-none break-words lg:leading-none"
             )
 
         with ui.element("div").classes("w-full flex flex-row gap-x-0"):
