@@ -28,12 +28,12 @@ def combined_search():
                 league_id_input = (
                     ui.input("League ID")
                     .classes("input_class")
-                    .classes("w-full h-full")
+                    .classes("h-full")
                     .props(
                         'outlined mask="#########" inputmode="numeric" bg-color="white"'
                     )
                 ).style(
-                    "transition: 0.5s;"
+                    "width:100%;transition: 0.5s;"
                     "transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1); "
                     "-webkit-transition:  0.5s cubic-bezier(0.4, 0, 0.2, 1); "
                     "-moz-transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1); "
@@ -50,7 +50,7 @@ def combined_search():
                         with_input=True,
                     )
                     .classes("manager_select_class")
-                    .classes("h-full w-0")
+                    .classes("h-full")
                     .props('outlined bg-color="white" behavior="menu"')
                     .style(
                         "width:0;transition: 0.5s;"

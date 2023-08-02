@@ -11,23 +11,6 @@ from .mock_data import transfers_1, transfers_2, squad_dict, squad_dict_2
 from player import Player, PlayerGameweek
 from squad import Squad, SquadGameweek
 
-# col_list = [
-#     "first_name",
-#     "second_name",
-#     "position",
-#     "total_points",
-#     "team_name",
-#     "gameweek",
-#     "id",
-# ]
-
-# df = pd.read_parquet(
-#     "gs://fpl_dev_bucket1/2022_player_gameweek_player_gameweek_38.parquet",
-#     columns=col_list,
-# )
-
-# df.set_index(["gameweek", "id"], inplace=True)
-
 
 firebase_admin.initialize_app()
 db = firestore_async.client()
