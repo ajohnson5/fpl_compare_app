@@ -54,8 +54,8 @@ async def show_page():
         if managers:
             with league_id_input.add_slot("prepend"):
                 ui.icon("check_circle", color="green-500")
-            manager_select.style("width:150px;")
-            league_id_input.style("width:150px;")
+            manager_select.style("width:50%;")
+            league_id_input.style("width:50%;")
             league_id_input.update()
         else:
             with league_id_input.add_slot("prepend"):
