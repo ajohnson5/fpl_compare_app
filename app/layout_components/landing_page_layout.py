@@ -33,10 +33,12 @@ def combined_search():
                         'outlined mask="#########" inputmode="numeric" bg-color="white"'
                     )
                 ).style(
-                    "width:100%;transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1);"
-                    "-webkit-transition:  0.5s cubic-bezier(0.4, 0, 0.2, 1); "
-                    "-moz-transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1); "
-                    "-o-transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1); "
+                    "width:100%;transition: transform 0.5s cubic-bezier(0.4,0,0.2,1);"
+                    "-webkit-transition: transform 0.5s cubic-bezier(0.4,0,0.2,1); "
+                    "-webkit-transition: -webkit-transform 0.5s "
+                    "cubic-bezier(0.4, 0, 0.2, 1); "
+                    "-moz-transition: transform 0.5s cubic-bezier(0.4,0,0.2,1); "
+                    "-o-transition: transform 0.5s cubic-bezier(0.4, 0, 0.2,1); "
                 )
 
                 with league_id_input.add_slot("prepend"):
@@ -52,10 +54,12 @@ def combined_search():
                     .classes("h-full")
                     .props('outlined bg-color="white" behavior="menu"')
                     .style(
-                        "width:0;transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1);"
-                        "-webkit-transition:  0.5s cubic-bezier(0.4, 0, 0.2, 1); "
-                        "-moz-transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1); "
-                        "-o-transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1); "
+                        "width:0;transition:transform 0.5s cubic-bezier(0.4,0,0.2,1);"
+                        "-webkit-transition:transform 0.5s cubic-bezier(0.4 0,0.2,1);"
+                        "-webkit-transition:-webkit-transform 0.5s "
+                        "cubic-bezier(0.4,0,0.2,1);"
+                        "-moz-transition:transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);"
+                        "-o-transition:transform 0.5s cubic-bezier(0.4, 0, 0.2, 1); "
                     )
                 )
 
