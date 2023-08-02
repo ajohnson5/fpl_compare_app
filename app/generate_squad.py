@@ -67,7 +67,7 @@ async def show_page():
                         value=1,
                     )
                     .props(
-                        'rounded color="white" text-color="black" spread padding="12px"'
+                        'rounded color="white" text-color="black" spread padding="14px"'
                     )
                     .classes("w-full max-w-[400px] mx-2")
                 )
