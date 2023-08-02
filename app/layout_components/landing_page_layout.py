@@ -28,7 +28,7 @@ def combined_search():
                 league_id_input = (
                     ui.input("League ID")
                     .classes("input_class")
-                    .classes("h-full")
+                    .classes("h-full grow")
                     .props(
                         'outlined mask="#########" inputmode="numeric" bg-color="white"'
                     )
