@@ -10,7 +10,7 @@ def individual_manager_summary(home: bool):
         " p-1 bg-gradient-to-r rounded-2xl drop-shadow-xl" + bg_color
     ):
         manager_display = ui.element("div").classes(
-            " w-[150px] md:w-[250px] flex flex-row justify-center "
+            " w-[155px] md:w-[250px] flex flex-row justify-center "
             "content-start gap-y-0"
         )
 
@@ -20,7 +20,7 @@ def individual_manager_summary(home: bool):
 def manager_summary_layout():
     with ui.element("div").classes(
         "w-full h-auto flex flex-row justify-center content-center mx-2 "
-        "gap-x-6 lg:gap-x-[270px] mb-4 gap-y-2"
+        "gap-x-4 lg:gap-x-[270px] mb-4 gap-y-2"
     ):
         manager_1_display = individual_manager_summary(home=True)
         manager_2_display = individual_manager_summary(home=False)
