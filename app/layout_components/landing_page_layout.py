@@ -28,13 +28,12 @@ def combined_search():
                 league_id_input = (
                     ui.input("League ID")
                     .classes("input_class")
-                    .classes("h-full grow")
+                    .classes("h-full")
                     .props(
                         'outlined mask="#########" inputmode="numeric" bg-color="white"'
                     )
                 ).style(
-                    "width:100%;transition: 0.5s;"
-                    "transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1); "
+                    "width:100%;transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1);"
                     "-webkit-transition:  0.5s cubic-bezier(0.4, 0, 0.2, 1); "
                     "-moz-transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1); "
                     "-o-transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1); "
@@ -53,8 +52,7 @@ def combined_search():
                     .classes("h-full")
                     .props('outlined bg-color="white" behavior="menu"')
                     .style(
-                        "width:0;transition: 0.5s;"
-                        "transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1); "
+                        "width:0;transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1);"
                         "-webkit-transition:  0.5s cubic-bezier(0.4, 0, 0.2, 1); "
                         "-moz-transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1); "
                         "-o-transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1); "
