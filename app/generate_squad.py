@@ -129,7 +129,7 @@ async def show_page():
 
         random_squad_radio.bind_value(random_squad_toggle, "value")
 
-        # Load Display page when Compare button pressed
+        # Load Display page when Generate button pressed
         generate_button.on(
             "click",
             lambda x: generate_squad(
@@ -142,6 +142,7 @@ async def show_page():
             throttle=1.0,
         )
 
+        # Load Display page when Squad Summary pressed (Above pitch)
         squad_summary_display.on(
             "click",
             lambda x: generate_squad(
