@@ -4,16 +4,19 @@ import asyncio
 import firebase_admin
 from firebase_admin import firestore_async
 
-from .mock_data import transfers_1, transfers_2, squad_dict, squad_dict_2
-from player import Player, PlayerGameweek
-from squad import Squad, SquadGameweek
 
+from .mock_data import transfers_1, transfers_2, squad_dict, squad_dict_2
+from .player import PlayerGameweek
+from .squad import SquadGameweek
 
 firebase_admin.initialize_app()
 db = firestore_async.client()
 
 
 def get_manager_name(manager_id: int):
+    """
+    Returns the manager name for a given manager id - otherwise returns none
+    """
     url = f"https://fantasy.premierleague.com/api/entry/{manager_id}/"
     req = requests.get(url).json()
 
@@ -24,8 +27,13 @@ def get_manager_name(manager_id: int):
 
 
 def get_manager_gw_transfers(gw: int, manager_id, transfers_list):
-    transfers_in = {}
+    """
+    Finds the transfers for a given manager on a specifed gameweek
 
+    Returns two lists with the id's of the players transferred in
+    and players transferred out
+    """
+    transfers_in = {}
     transfers_out = []
 
     for transfer in transfers_list:
@@ -36,7 +44,15 @@ def get_manager_gw_transfers(gw: int, manager_id, transfers_list):
                 "element_out_cost": transfer["element_out_cost"],
                 "transfer_order": counter,
             }
-            transfers_out.append(transfer["element_out"])
+            transfers_out.append(
+                {
+                    "element": transfer["element_out"],
+                    "position": 16,
+                    "is_captain": False,
+                    "is_vice_captain": False,
+                    "multiplier": 0,
+                }
+            )
         elif transfer["event"] > gw:
             return transfers_in, transfers_out
         counter += 1
@@ -44,69 +60,60 @@ def get_manager_gw_transfers(gw: int, manager_id, transfers_list):
     return transfers_in, transfers_out
 
 
-async def get_firestore_request(db, pick_dict):
-    doc_ref = db.collection("players").document(str(pick_dict["id"]))
-    doc = await doc_ref.get()
+async def get_firestore_request(collection, pick_dict):
+    """
+    Retrieve player data from firestore and merge with current player dictionary
+    """
+    doc = await collection.document(str(pick_dict["element"])).get()
     return pick_dict | doc.to_dict()
 
 
 async def get_gather_picks(db, base_squad):
-    picks = []
+    """
+    Gather async firestore tasks and iterate through them returning list of pick dict
+    """
     tasks = []
     for pick in base_squad:
-        tasks.append(asyncio.ensure_future(get_firestore_request(db, pick)))
+        collection = db.collection("players")
+        tasks.append(asyncio.ensure_future(get_firestore_request(collection, pick)))
 
-    squad_tasks = await asyncio.gather(*tasks)
-    for pick in squad_tasks:
-        picks.append(pick)
-
-    return picks
+    return await asyncio.gather(*tasks)
 
 
 async def get_manager_gw_picks(
     gw: int, manager_id: int, manager_name: str, squad_dict_, transfers_list
 ):
-    """Returns a list of dictionaries of all picks a manager made in a gameweek"""
-    # Check for valid ID
+    """
+    Returns a SquadGameweek object for a managers team in a gameweek
+    """
 
     squad_list = []
-
-    transfers_in, transfers_out = get_manager_gw_transfers(
+    # Get transfers in and transfers out for specified gameweek
+    transfers_in, transfers_out_dict = get_manager_gw_transfers(
         gw, manager_id, transfers_list
     )
 
+    # Create sets of the ids for the players automatically subbed in and subbed out
     subs_in = {x["element_in"] for x in squad_dict_["automatic_subs"]}
     subs_out = {x["element_out"] for x in squad_dict_["automatic_subs"]}
 
-    transfers_out_dict = [
-        {
-            "id": x,
-            "squad_position": 16,
-            "is_captain": False,
-            "multiplier": 0,
-        }
-        for x in transfers_out
-    ]
-    picks = [
-        {
-            "id": pick["element"],
-            "squad_position": pick["position"],
-            "is_captain": pick["is_captain"],
-            "multiplier": pick["multiplier"],
-        }
-        for pick in squad_dict_["picks"]
-    ] + transfers_out_dict
-
-    picks_complete = await get_gather_picks(db, picks)
-
+    # Gather firestore request coroutines and concatenate firestore request to each
+    # player pick dict in squad_dict_["picks"] + transfers_out_dict
+    picks_complete = await get_gather_picks(
+        db, squad_dict_["picks"] + transfers_out_dict
+    )
+    # Iterate through picks and create Player objects
     for pick in picks_complete:
-        id = pick["id"]
-
+        id = pick["element"]
+        # If player id is in transfer in then set transfer var equal to the associated
+        # transfer dict
         if id in transfers_in:
             transfer = transfers_in[id]
         else:
-            transfer = -1
+            transfer = None
 
+        # If id in subs in or subs_out then set subs flag to True. Note if player
+        # starting and in one of these two sets then it must be subbed in
         if id in subs_in or id in subs_out:
             sub = True
         else:
@@ -118,8 +125,8 @@ async def get_manager_gw_picks(
                 second_name=pick["second_name"],
                 first_name=pick["first_name"],
                 web_name=pick["web_name"],
-                squad_position=pick["squad_position"],
-                position=pick["position"],
+                squad_order=pick["position"],
+                position=pick["actual_position"],
                 points=pick["gameweeks"][f"gameweek_{gw}"]["points"],
                 total_points=pick["total_points"],
                 bonus_points=pick["gameweeks"][f"gameweek_{gw}"]["bonus"],
