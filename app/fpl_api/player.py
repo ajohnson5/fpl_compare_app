@@ -87,7 +87,7 @@ class PlayerGameweek(Player):
         second_name: str,
         first_name: str,
         web_name: str,
-        squad_position: int,
+        squad_order: int,
         position: int,
         total_points: int,
         points: int,
@@ -109,8 +109,8 @@ class PlayerGameweek(Player):
             team_name,
             cost,
         )
-        self.squad_position = squad_position
-        self.starting = squad_position <= 11
+        self.squad_order = squad_order
+        self.starting = squad_order <= 11
         self.total_points = total_points
         self.points = points
         self.actual_points = points * multiplier if multiplier else points

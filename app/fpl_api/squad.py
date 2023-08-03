@@ -1,10 +1,10 @@
 from typing import Self
-
-from player import Player, PlayerGameweek
 from nicegui import ui
 import requests
 import random
 from random import randint
+
+from .player import Player, PlayerGameweek
 
 
 class Squad:

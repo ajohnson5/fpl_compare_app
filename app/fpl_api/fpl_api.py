@@ -4,8 +4,8 @@ import aiohttp
 import asyncio
 import gcsfs
 
-from player import Player
-from squad import Squad
+from .player import PlayerGameweek
+from .squad import SquadGameweek
 
 col_list = [
     "first_name",
@@ -84,7 +84,7 @@ def get_manager_gw_picks(
             sub = False
 
         squad_list.append(
-            Player(
+            PlayerGameweek(
                 id=id,
                 name=player_series["second_name"],
                 first_name=player_series["first_name"],
@@ -103,7 +103,7 @@ def get_manager_gw_picks(
         id = pick
         player_series = df.loc[gw, id]
         transfers_out_list.append(
-            Player(
+            PlayerGameweek(
                 id=id,
                 name=player_series["second_name"],
                 first_name=player_series["first_name"],
@@ -118,7 +118,7 @@ def get_manager_gw_picks(
             )
         )
 
-    return Squad(
+    return SquadGameweek(
         manager_id=manager_id,
         manager_name=manager_name,
         squad_list=squad_list,
