@@ -1,11 +1,8 @@
 import requests
-import pandas as pd
 import aiohttp
 import asyncio
-import gcsfs
 import firebase_admin
 from firebase_admin import firestore_async
-from firebase_admin import firestore
 
 from .mock_data import transfers_1, transfers_2, squad_dict, squad_dict_2
 from player import Player, PlayerGameweek
