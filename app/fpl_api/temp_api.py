@@ -47,7 +47,7 @@ def get_manager_gw_transfers(gw: int, manager_id, transfers_list):
             transfers_out.append(
                 {
                     "element": transfer["element_out"],
-                    "position": 16,
+                    "position": 16 + counter,
                     "is_captain": False,
                     "is_vice_captain": False,
                     "multiplier": 0,
@@ -66,18 +66,6 @@ async def get_firestore_request(collection, pick_dict):
     """
     doc = await collection.document(str(pick_dict["element"])).get()
     return pick_dict | doc.to_dict()
-
-
-async def get_gather_picks(db, base_squad):
-    """
-    Gather async firestore tasks and iterate through them returning list of pick dict
-    """
-    tasks = []
-    for pick in base_squad:
-        collection = db.collection("players")
-        tasks.append(asyncio.ensure_future(get_firestore_request(collection, pick)))
-
-    return await asyncio.gather(*tasks)
 
 
 async def get_manager_gw_picks(
@@ -99,11 +87,15 @@ async def get_manager_gw_picks(
 
     # Gather firestore request coroutines and concatenate firestore request to each
     # player pick dict in squad_dict_["picks"] + transfers_out_dict
-    picks_complete = await get_gather_picks(
-        db, squad_dict_["picks"] + transfers_out_dict
-    )
+    tasks = []
+    for pick in squad_dict_["picks"] + transfers_out_dict:
+        collection = db.collection("players")
+        tasks.append(asyncio.ensure_future(get_firestore_request(collection, pick)))
+
     # Iterate through picks and create Player objects
-    for pick in picks_complete:
+    # for pick in picks_complete:
+    for coro in asyncio.as_completed(tasks):
+        pick = await coro
         id = pick["element"]
         # If player id is in transfer in then set transfer var equal to the associated
         # transfer dict
@@ -139,7 +131,8 @@ async def get_manager_gw_picks(
                 cost=10,
             )
         )
-
+    # Sort squadlist based on the squad order
+    squad_list.sort(key=lambda x: x.squad_order)
     return SquadGameweek(
         manager_id=manager_id,
         manager_name=manager_name,

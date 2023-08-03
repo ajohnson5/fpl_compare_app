@@ -14,13 +14,13 @@ squad_dict = {
         {
             "entry": 123,
             "element_in": 17,
-            "element_out": 546,
+            "element_out": 123,
             "event": 4,
         },
         {
             "entry": 123,
             "element_in": 129,
-            "element_out": 512,
+            "element_out": 313,
             "event": 7,
         },
     ],
@@ -93,25 +93,25 @@ squad_dict = {
             "multiplier": 3,
         },
         {
-            "element": 546,
+            "element": 18,
             "position": 12,
             "is_captain": False,
             "multiplier": 0,
         },
         {
-            "element": 512,
+            "element": 313,
             "position": 13,
             "is_captain": False,
             "multiplier": 0,
         },
         {
-            "element": 499,
+            "element": 309,
             "position": 14,
             "is_captain": False,
             "multiplier": 0,
         },
         {
-            "element": 593,
+            "element": 123,
             "position": 15,
             "is_captain": False,
             "multiplier": 0,
@@ -126,7 +126,7 @@ squad_dict_2 = {
         {
             "entry": 1223,
             "element_in": 116,
-            "element_out": 546,
+            "element_out": 113,
             "event": 4,
         },
         {
@@ -205,7 +205,7 @@ squad_dict_2 = {
             "multiplier": 1,
         },
         {
-            "element": 546,
+            "element": 142,
             "position": 12,
             "is_captain": False,
             "multiplier": 0,
@@ -223,7 +223,7 @@ squad_dict_2 = {
             "multiplier": 0,
         },
         {
-            "element": 523,
+            "element": 113,
             "position": 15,
             "is_captain": False,
             "multiplier": 0,
@@ -249,7 +249,7 @@ class TransferMock:
 
     def make_mock_data(self, squad_list: list):
         transfers_made = []
-        potential_transfers_out = [x for x in range(1, 605) if x not in squad_list]
+        potential_transfers_out = [x for x in range(1, 400) if x not in squad_list]
 
         for gameweek in TransferMock.gameweeks:
             num_transfers = randint(0, 11)
