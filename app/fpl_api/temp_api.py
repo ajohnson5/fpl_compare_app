@@ -13,14 +13,6 @@ firebase_admin.initialize_app()
 db = firestore_async.client()
 
 
-async def load_player_data():
-    db = firestore_async.client()
-
-    docs = db.collection("players").stream()
-
-    {x.id: x.to_dict() for x in docs}
-
-
 def get_manager_name(manager_id: int):
     url = f"https://fantasy.premierleague.com/api/entry/{manager_id}/"
     req = requests.get(url).json()
