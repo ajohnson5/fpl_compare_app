@@ -1,71 +1,6 @@
 from random import randint
 import random
-
 import requests
-
-# transfers = [
-#     {
-#         "element_in": 17,
-#         "element_in_cost": 49,
-#         "element_out": 28,
-#         "element_out_cost": 53,
-#         "event": 1,
-#     },
-#     {
-#         "element_in": 90,
-#         "element_in_cost": 50,
-#         "element_out": 235,
-#         "element_out_cost": 45,
-#         "event": 1,
-#     },
-#     {
-#         "element_in": 170,
-#         "element_in_cost": 50,
-#         "element_out": 257,
-#         "element_out_cost": 45,
-#         "event": 1,
-#     },
-#     {
-#         "element_in": 221,
-#         "element_in_cost": 50,
-#         "element_out": 64,
-#         "element_out_cost": 45,
-#         "event": 1,
-#     },
-#     {
-#         "element_in": 593,
-#         "element_in_cost": 50,
-#         "element_out": 98,
-#         "element_out_cost": 45,
-#         "event": 1,
-#     },
-
-# ]
-
-
-# transfers_2 =  [
-#     {
-#         "element_in": 337,
-#         "element_in_cost": 50,
-#         "element_out": 189,
-#         "element_out_cost": 45,
-#         "event": 1,
-#     },
-#     {
-#         "element_in": 327,
-#         "element_in_cost": 50,
-#         "element_out": 12,
-#         "element_out_cost": 45,
-#         "event": 1,
-#     },
-#     {
-#         "element_in": 157,
-#         "element_in_cost": 68,
-#         "element_out": 352,
-#         "element_out_cost": 70,
-#         "event": 2,
-#     },
-# ]
 
 
 # List of player ID's
@@ -317,7 +252,7 @@ class TransferMock:
         potential_transfers_out = [x for x in range(1, 605) if x not in squad_list]
 
         for gameweek in TransferMock.gameweeks:
-            num_transfers = randint(0, 6)
+            num_transfers = randint(0, 11)
 
             transfers_in = random.sample(squad_list, num_transfers)
 
@@ -345,22 +280,3 @@ formations = {
     "532": [1, 5, 3, 2],
     "523": [1, 5, 2, 3],
 }
-
-
-# if __name__ == "__main__":
-#     generator = RandomSquadGenerator()
-
-#     generator.create_random_squad()
-
-#     print(generator.squad_ids)
-
-#     print(generator.squad)
-#     sum = 0
-#     for position in generator.squad_ids:
-#         for player in position:
-#             print(RandomSquadGenerator.players[player]["second_name"])
-#             sum += RandomSquadGenerator.players[player]["now_cost"]
-
-#     print(generator.team_counter)
-
-#     print(sum / 10)

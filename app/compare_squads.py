@@ -1,6 +1,5 @@
 from nicegui import ui
 import asyncio
-from typing import List
 
 from fpl_api import (
     get_manager_gw_picks,
@@ -9,8 +8,6 @@ from fpl_api import (
     transfers_1,
     transfers_2,
 )
-from player import Player
-from squad import Squad
 
 
 async def compare_squads(
@@ -36,7 +33,7 @@ async def compare_squads(
                 )
             ):
                 ui.spinner(size="xl", thickness=10.0)
-    await asyncio.sleep(1.0)
+    await asyncio.sleep(1)
 
     # Use fpl api to create squad objects for both managers
     squad_1 = await get_manager_gw_picks(
@@ -92,5 +89,7 @@ async def compare_squads(
         transfer_div_2.clear()
         squad_2.create_transfer_display("away")
 
+    # Clear spinner indicating the comparison is complete
     loading_clearable_div.clear()
+
     display_div.set_visibility(True)
