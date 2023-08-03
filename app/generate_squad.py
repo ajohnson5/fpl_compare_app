@@ -2,7 +2,7 @@ from nicegui import ui
 import asyncio
 from layout_components import create_button, generate_squad_pitch_layout, squad_summary
 
-from squad import Squad, RandomSquadGenerator
+from fpl_api import RandomSquadGenerator
 
 generator = RandomSquadGenerator()
 
