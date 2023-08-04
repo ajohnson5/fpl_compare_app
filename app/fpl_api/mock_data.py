@@ -239,8 +239,6 @@ class TransferMock:
         self.transfers = self.make_mock_data(squad_list)
 
     def make_mock_transfer(self, id_in: int, id_out: int, gameweek: int) -> dict:
-        if gameweek == 1:
-            print(id_in, id_out, gameweek)
         return {
             "element_in": id_in,
             "element_in_cost": randint(40, 140),
