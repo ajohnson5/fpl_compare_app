@@ -267,9 +267,7 @@ class TransferMock:
 
 
 # Transfer pick mock data for managers over the whole season
-print("####### TRASNFER 1 #########")
 transfers_1 = TransferMock(squad_list_1).transfers
-print("####### TRANSFER 2 #########")
 transfers_2 = TransferMock(squad_list_2).transfers
 
 
@@ -283,8 +281,3 @@ formations = {
     "532": [1, 5, 3, 2],
     "523": [1, 5, 2, 3],
 }
-
-
-if __name__ == "__main__":
-    squad_list_tmp = [x["element"] for x in squad_dict_2["picks"]]
-    print(squad_list_tmp)
