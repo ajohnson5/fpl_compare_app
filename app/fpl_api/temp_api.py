@@ -35,9 +35,8 @@ def get_manager_gw_transfers(gw: int, manager_id, transfers_list):
     """
     transfers_in = {}
     transfers_out = []
-
+    counter = 0
     for transfer in transfers_list:
-        counter = 0
         if transfer["event"] == gw:
             transfers_in[transfer["element_in"]] = {
                 "element_in_cost": transfer["element_in_cost"],
@@ -94,8 +93,8 @@ async def get_manager_gw_picks(
 
     # Iterate through picks and create Player objects
     # for pick in picks_complete:
-    for coro in asyncio.as_completed(tasks):
-        pick = await coro
+    for coroutine in asyncio.as_completed(tasks):
+        pick = await coroutine
         id = pick["element"]
         # If player id is in transfer in then set transfer var equal to the associated
         # transfer dict
