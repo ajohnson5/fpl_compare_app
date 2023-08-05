@@ -4,7 +4,7 @@ import requests
 
 
 # List of player ID's
-squad_list_1 = [17, 313, 90, 96, 129, 137, 146, 170, 221, 331, 464, 18, 80, 309, 123]
+squad_list_1 = [17, 313, 90, 96, 129, 137, 146, 402, 221, 331, 464, 18, 80, 309, 123]
 squad_list_2 = [116, 157, 182, 194, 216, 224, 248, 137, 337, 237, 327, 142, 48, 27, 113]
 
 # Dictionary replicating fpl api endpoint manager gameweek picks
@@ -69,7 +69,7 @@ squad_dict = {
             "multiplier": 1,
         },
         {
-            "element": 170,
+            "element": 402,
             "position": 8,
             "is_captain": False,
             "multiplier": 1,
