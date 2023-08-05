@@ -277,4 +277,4 @@ async def main(client: Client):
     router.frame().classes("w-full")
 
 
-ui.run(uvicorn_reload_excludes="env")
+ui.run(uvicorn_reload_excludes="env", title="FPL Compare")
