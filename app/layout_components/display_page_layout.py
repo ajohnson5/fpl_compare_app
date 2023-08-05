@@ -57,9 +57,9 @@ def pitch_layout():
             "px-2 pt-2 lg:pb-2 w-full max-w-[490px] rounded-t-xl lg:rounded-b-xl "
             "bg-gradient-to-b from-green-400 via-emerald-400 to-emerald-500"
         ):
-            with ui.image(
-                "https://private-user-images.githubusercontent.com/99501368/258434948-995105cb-e14f-43f7-b12b-af0efa756d3d.svg?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTEiLCJleHAiOjE2OTExNTY0NDUsIm5iZiI6MTY5MTE1NjE0NSwicGF0aCI6Ii85OTUwMTM2OC8yNTg0MzQ5NDgtOTk1MTA1Y2ItZTE0Zi00M2Y3LWIxMmItYWYwZWZhNzU2ZDNkLnN2Zz9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUFLSUFJV05KWUFYNENTVkVINTNBJTJGMjAyMzA4MDQlMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjMwODA0VDEzMzU0NVomWC1BbXotRXhwaXJlcz0zMDAmWC1BbXotU2lnbmF0dXJlPWM2YzkwZThmYzhjNjBjOTYzYThlYjk0NjNjMzVlZGQyNzgwYzQ1NTg3ZDJjMDM4NjNjNjU1NzkyNzZkMzg0NWImWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0JmFjdG9yX2lkPTAma2V5X2lkPTAmcmVwb19pZD0wIn0.JHLjomLl9dDyrD65YTnghfP592_MIhSsryf9W6A1LWg"
-            ).classes("max-w-[482px] w-full"):
+            with ui.image("https://i.ibb.co/tzFrnrf/Pitch-png-scaled.png").classes(
+                "max-w-[482px] w-full"
+            ):
                 squad_1_display = ui.element("div").classes(
                     "w-full h-full bg-transparent grid-rows-4 grid grid-cols-1 gap-0"
                 )
@@ -69,9 +69,9 @@ def pitch_layout():
             "bg-gradient-to-b from-emerald-500 via-emerald-400 to-green-400 "
             "lg:bg-gradient-to-t"
         ):
-            with ui.image(
-                "https://private-user-images.githubusercontent.com/99501368/258434948-995105cb-e14f-43f7-b12b-af0efa756d3d.svg?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTEiLCJleHAiOjE2OTExNTY0NDUsIm5iZiI6MTY5MTE1NjE0NSwicGF0aCI6Ii85OTUwMTM2OC8yNTg0MzQ5NDgtOTk1MTA1Y2ItZTE0Zi00M2Y3LWIxMmItYWYwZWZhNzU2ZDNkLnN2Zz9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUFLSUFJV05KWUFYNENTVkVINTNBJTJGMjAyMzA4MDQlMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjMwODA0VDEzMzU0NVomWC1BbXotRXhwaXJlcz0zMDAmWC1BbXotU2lnbmF0dXJlPWM2YzkwZThmYzhjNjBjOTYzYThlYjk0NjNjMzVlZGQyNzgwYzQ1NTg3ZDJjMDM4NjNjNjU1NzkyNzZkMzg0NWImWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0JmFjdG9yX2lkPTAma2V5X2lkPTAmcmVwb19pZD0wIn0.JHLjomLl9dDyrD65YTnghfP592_MIhSsryf9W6A1LWg"
-            ).classes("max-w-[482px] w-full rotate-180 lg:rotate-0"):
+            with ui.image("https://i.ibb.co/tzFrnrf/Pitch-png-scaled.png").classes(
+                "max-w-[482px] w-full rotate-180 lg:rotate-0"
+            ):
                 squad_2_display = ui.element("div").classes(
                     "w-full h-full bg-transparent grid-rows-4 grid grid-cols-1 gap-0"
                 )
