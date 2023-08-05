@@ -290,6 +290,29 @@ def get_players_generator():
 
 
 class RandomSquadGenerator:
+    teams = {
+        1: "Arsenal",
+        2: "Aston Villa",
+        3: "Bournemouth",
+        4: "Brentford",
+        5: "Brighton",
+        6: "Burnley",
+        7: "Chelsea",
+        8: "Crystal Palace",
+        9: "Everton",
+        10: "Fulham",
+        11: "Liverpool",
+        12: "Luton",
+        13: "Man City",
+        14: "Man Utd",
+        15: "Newcastle",
+        16: "Nott'm Forest",
+        17: "Sheffield Utd",
+        18: "Spurs",
+        19: "West Ham",
+        20: "Wolves",
+    }
+
     max_player_position_count = [2, 5, 5, 3]
 
     formations = [
@@ -369,7 +392,7 @@ class RandomSquadGenerator:
                         first_name=player_dict["first_name"],
                         web_name=player_dict["web_name"],
                         position=player_dict["element_type"],
-                        team_name=player_dict["team"],
+                        team_name=RandomSquadGenerator.teams[player_dict["team"]],
                         cost=player_dict["now_cost"],
                     )
                 )
