@@ -35,9 +35,8 @@ def get_manager_gw_transfers(gw: int, manager_id, transfers_list):
     """
     transfers_in = {}
     transfers_out = []
-
+    counter = 0
     for transfer in transfers_list:
-        counter = 0
         if transfer["event"] == gw:
             transfers_in[transfer["element_in"]] = {
                 "element_in_cost": transfer["element_in_cost"],

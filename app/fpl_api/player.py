@@ -11,6 +11,29 @@ shirt_image_div = (
 class Player:
     team_color = {"home": "sky-500", "away": "red-500"}
 
+    team_images = {
+        "Arsenal": "https://i.ibb.co/BBZLt6S/arsenal.png",
+        "Aston Villa": "https://i.ibb.co/6Z0C37X/aston-villa.png",
+        "Bournemouth": "https://i.ibb.co/6t8HvvY/bournemouth.png",
+        "Brentford": "https://i.ibb.co/CJ0sMbx/brentford.png",
+        "Brighton": "https://i.ibb.co/NL8jLg9/brighton.png",
+        "Burnley": "https://i.ibb.co/VQQX3R7/burnley.png",
+        "Chelsea": "https://i.ibb.co/4mdD3dX/chelsea.png",
+        "Crystal Palace": "https://i.ibb.co/31FRWGM/crystal-palace.png",
+        "Everton": "https://i.ibb.co/F3Y6tKb/everton.png",
+        "Fulham": "https://i.ibb.co/nDzqGf3/fulham.png",
+        "Liverpool": "https://i.ibb.co/t3MxJYt/liverpool.png",
+        "Luton": "https://i.ibb.co/bJFTv6W/luton-town.png",
+        "Man City": "https://i.ibb.co/ch7KS2X/manchester-city.png",
+        "Man Utd": "https://i.ibb.co/F8Cp5ht/manchester-united.png",
+        "Newcastle": "https://i.ibb.co/6yyK28z/newcastle-united.png",
+        "Nott'm Forest": "https://i.ibb.co/fkjLr13/nottingham-forest.png",
+        "Sheffield Utd": "https://i.ibb.co/89LX84X/sheffield-united.png",
+        "Spurs": "https://i.ibb.co/FnLrrPV/tottenham-hotspur.png",
+        "West Ham": "https://i.ibb.co/LnfvdzS/wolverhampton-wanders.png",
+        "Wolves": "https://i.ibb.co/MB18mXz/west-ham-united.png",
+    }
+
     def __init__(
         self,
         id: int,
@@ -55,7 +78,7 @@ class Player:
                 # dialog = self.create_player_dialog()
                 # player_card_clickable.on("click", dialog.open)
                 with ui.element("div").classes("grow relative p-1"):
-                    ui.image("https://i.ibb.co/zsQThP3/ARS-2223-HK-PL-S1.webp").classes(
+                    ui.image(Player.team_images[self.team_name]).classes(
                         "border-1 border-black w-full h-full"
                     ).props("fit=scale-down")
 
@@ -198,7 +221,7 @@ class PlayerGameweek(Player):
                 dialog = self.create_player_dialog()
                 player_card_clickable.on("click", dialog.open)
                 with ui.element("div").classes("grow relative p-1"):
-                    ui.image("https://i.ibb.co/zsQThP3/ARS-2223-HK-PL-S1.webp").classes(
+                    ui.image(Player.team_images[self.team_name]).classes(
                         "border-1 border-black w-full h-full"
                     ).props("fit=scale-down")
 
