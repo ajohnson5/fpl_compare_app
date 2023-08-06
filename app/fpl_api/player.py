@@ -147,11 +147,18 @@ class PlayerGameweek(Player):
     def create_player_dialog(
         self,
     ):
-        with ui.dialog() as dialog, ui.card().classes("relative w-72 min-h-48"):
-            ui.label(f"{self.first_name} {self.second_name}").classes(
-                "w-full h-auto text-center text-lg text-zinc-900 font-medium font-sans "
-                "align-middle"
-            )
+        with ui.dialog() as dialog, ui.card().tight().classes(
+            "relative w-72 min-h-48 px-4 pt-4 pb-2"
+        ):
+            with ui.element("div").classes("flex flex-row gap-y-0 w-full pb-2"):
+                ui.label(f"{self.first_name} {self.second_name}").classes(
+                    "w-full h-auto text-center text-lg text-zinc-900 font-medium "
+                    "font-sans align-middle"
+                )
+                ui.label(f"({self.team_name})").classes(
+                    "w-full h-auto text-center text-sm text-zinc-900 font-sans "
+                    "align-middle"
+                )
             ui.separator()
 
             with ui.element("div").classes("w-full h-auto flex flex-row"):
