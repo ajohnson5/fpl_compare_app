@@ -275,11 +275,11 @@ def get_players_generator():
                 better_defenders.append(player["id"])
         if player["element_type"] == 3:
             midfielders.append(player["id"])
-            if player["now_cost"] > 55:
+            if player["now_cost"] > 60:
                 better_midfielders.append(player["id"])
         if player["element_type"] == 4:
             strikers.append(player["id"])
-            if player["now_cost"] > 60:
+            if player["now_cost"] > 70:
                 better_strikers.append(player["id"])
 
     return (
