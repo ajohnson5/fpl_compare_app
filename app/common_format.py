@@ -16,7 +16,7 @@ nav_bar_label_div = (
 def nav_bar(nav_links: list, router):
     with ui.element("div").classes("w-screen h-[100px] absolute top-0 left-0"):
         logo = ui.image("https://i.ibb.co/F3d2BFs/final-fpl-logo.png").classes(
-            "w-[190px] absolute top-8 left-6 hover:cursor-pointer"
+            "w-[170px] absolute top-8 left-6 hover:cursor-pointer"
         )
         logo.on("click", lambda: router.open(nav_links[0][0]))
 
