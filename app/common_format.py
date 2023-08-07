@@ -3,7 +3,7 @@ import asyncio
 
 nav_bar_hover_div = (
     "flex flex-row items-center justify-center cursor-pointer w-full "
-    "h-[70px] sm:px-4 my-4 hover:bg-stone-200"
+    "h-1/6 min-h-[70px] sm:px-4 hover:bg-stone-200"
 )
 nav_bar_link_div = "w-full flex flex-row justify-center justify-center"
 nav_bar_icon_div = "flex flex-row items-center justify-center sm:justify-end h-full"
@@ -15,9 +15,9 @@ nav_bar_label_div = (
 
 def nav_bar(nav_links: list, router):
     with ui.element("div").classes("w-screen h-[100px] absolute top-0 left-0"):
-        logo = ui.image("https://i.ibb.co/F3d2BFs/final-fpl-logo.png").classes(
-            "w-[190px] absolute top-8 left-6 hover:cursor-pointer"
-        )
+        logo = ui.image(
+            "https://storage.googleapis.com/fpl-compare-app/logo_with_text.webp"
+        ).classes("w-[170px] absolute top-8 left-6 hover:cursor-pointer")
         logo.on("click", lambda: router.open(nav_links[0][0]))
 
         menu_state = {"state": True}
@@ -63,7 +63,7 @@ def nav_bar(nav_links: list, router):
             with ui.element("div").classes(nav_bar_hover_div) as menu_link:
                 with ui.element("div").classes(nav_bar_link_div):
                     ui.label(page_name).classes(
-                        "text-slate-900 text-center text-2xl font-semibold font-sans"
+                        "text-zinc-900 text-center text-2xl font-semibold font-sans"
                     )
 
             menu_link.on("click", lambda: link_select(router, page_link))
@@ -101,17 +101,27 @@ def nav_bar(nav_links: list, router):
             "height: 100vh;width: 0;position: fixed; "
             "z-index: 20;top: 0;right: 0;background-color:white; overflow: hidden; "
             "transition: 0.5s;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1); "
-            "padding-top: 100px;text-align:center;filter: "
+            "padding-top: 16vh;text-align:center;filter: "
             "drop-shadow(0 20px 13px rgb(0 0 0 / 0.03)) "
             "drop-shadow(0 8px 5px rgb(0 0 0 / 0.08));"
-        ).classes("drop-shadow-xl") as side_bar:
+        ).classes("drop-shadow-xl flex flex-col") as side_bar:
             for link in nav_links:
                 nav_bar_link(link[0], link[1], router)
 
-            with ui.link(target="https://github.com/ajohnson5"):
-                ui.element("i").classes("eva eva-github").classes(
-                    "text-5xl hover:scale-105 hover:cursor-pointer pt-4 text-zinc-900"
-                )
+            with ui.element("div").classes(
+                "w-full h-1/6 flex flex-row content-center justify-center"
+            ):
+                with ui.link(target="https://github.com/ajohnson5"):
+                    ui.element("i").classes("eva eva-github").classes(
+                        "text-5xl hover:scale-105 hover:cursor-pointer text-zinc-900"
+                    )
+
+            with ui.element("div").classes(
+                "w-full flex flex-row justify-center h-1/6 pb-4"
+            ):
+                ui.image(
+                    "https://storage.googleapis.com/fpl-compare-app/logo_with_text_dark.webp"
+                ).classes("w-[190px]").props('fit="scale-down"')
 
     burger_menu.on("click", lambda x: menu_open_func())
 
