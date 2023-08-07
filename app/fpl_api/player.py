@@ -80,7 +80,7 @@ class Player:
                 with ui.element("div").classes("grow relative p-1"):
                     ui.image(Player.team_images[self.team_name]).classes(
                         "border-1 border-black w-full h-full"
-                    ).props("fit=scale-down")
+                    ).props("fit=scale-down no-spinner")
 
                 with ui.element("div").classes("w-full h-[35%]"):
                     with ui.element("div").classes(
@@ -230,7 +230,7 @@ class PlayerGameweek(Player):
                 with ui.element("div").classes("grow relative p-1"):
                     ui.image(Player.team_images[self.team_name]).classes(
                         "border-1 border-black w-full h-full"
-                    ).props("fit=scale-down")
+                    ).props("fit=scale-down no-spinner")
 
                     if self.is_captain:
                         if self.multiplier == 3:
