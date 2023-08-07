@@ -15,9 +15,9 @@ nav_bar_label_div = (
 
 def nav_bar(nav_links: list, router):
     with ui.element("div").classes("w-screen h-[100px] absolute top-0 left-0"):
-        logo = ui.image("https://i.ibb.co/1KBB1v6/logo-with-text.png").classes(
-            "w-[170px] absolute top-8 left-6 hover:cursor-pointer"
-        )
+        logo = ui.image(
+            "https://storage.googleapis.com/fpl-compare-app/logo_with_text.webp"
+        ).classes("w-[170px] absolute top-8 left-6 hover:cursor-pointer")
         logo.on("click", lambda: router.open(nav_links[0][0]))
 
         menu_state = {"state": True}
@@ -119,9 +119,9 @@ def nav_bar(nav_links: list, router):
             with ui.element("div").classes(
                 "w-full flex flex-row justify-center h-1/6 pb-4"
             ):
-                ui.image("https://i.ibb.co/nPHJ9zV/logo-with-text-dark.png").classes(
-                    "w-[190px]"
-                ).props('fit="scale-down"')
+                ui.image(
+                    "https://storage.googleapis.com/fpl-compare-app/logo_with_text_dark.webp"
+                ).classes("w-[190px]").props('fit="scale-down"')
 
     burger_menu.on("click", lambda x: menu_open_func())
 
