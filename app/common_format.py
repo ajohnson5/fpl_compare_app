@@ -15,7 +15,7 @@ nav_bar_label_div = (
 
 def nav_bar(nav_links: list, router):
     with ui.element("div").classes("w-screen h-[100px] absolute top-0 left-0"):
-        logo = ui.image("https://i.ibb.co/F3d2BFs/final-fpl-logo.png").classes(
+        logo = ui.image("https://i.ibb.co/1KBB1v6/logo-with-text.png").classes(
             "w-[170px] absolute top-8 left-6 hover:cursor-pointer"
         )
         logo.on("click", lambda: router.open(nav_links[0][0]))
@@ -63,7 +63,7 @@ def nav_bar(nav_links: list, router):
             with ui.element("div").classes(nav_bar_hover_div) as menu_link:
                 with ui.element("div").classes(nav_bar_link_div):
                     ui.label(page_name).classes(
-                        "text-slate-900 text-center text-2xl font-semibold font-sans"
+                        "text-zinc-900 text-center text-2xl font-semibold font-sans"
                     )
 
             menu_link.on("click", lambda: link_select(router, page_link))
@@ -116,10 +116,12 @@ def nav_bar(nav_links: list, router):
                         "text-5xl hover:scale-105 hover:cursor-pointer text-zinc-900"
                     )
 
-            with ui.element("div").classes("w-full flex flex-row justify-center h-1/6"):
-                ui.image(
-                    "https://i.ibb.co/1fPj5fD/logo-no-text-new-football-dark-higher.png"
-                ).classes("w-[80px]").props('fit="scale-down"')
+            with ui.element("div").classes(
+                "w-full flex flex-row justify-center h-1/6 pb-4"
+            ):
+                ui.image("https://i.ibb.co/nPHJ9zV/logo-with-text-dark.png").classes(
+                    "w-[190px]"
+                ).props('fit="scale-down"')
 
     burger_menu.on("click", lambda x: menu_open_func())
 
