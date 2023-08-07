@@ -3,7 +3,7 @@ import asyncio
 
 nav_bar_hover_div = (
     "flex flex-row items-center justify-center cursor-pointer w-full "
-    "h-[70px] sm:px-4 my-4 hover:bg-stone-200"
+    "h-1/6 min-h-[70px] sm:px-4 hover:bg-stone-200"
 )
 nav_bar_link_div = "w-full flex flex-row justify-center justify-center"
 nav_bar_icon_div = "flex flex-row items-center justify-center sm:justify-end h-full"
@@ -101,17 +101,25 @@ def nav_bar(nav_links: list, router):
             "height: 100vh;width: 0;position: fixed; "
             "z-index: 20;top: 0;right: 0;background-color:white; overflow: hidden; "
             "transition: 0.5s;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1); "
-            "padding-top: 100px;text-align:center;filter: "
+            "padding-top: 16vh;text-align:center;filter: "
             "drop-shadow(0 20px 13px rgb(0 0 0 / 0.03)) "
             "drop-shadow(0 8px 5px rgb(0 0 0 / 0.08));"
-        ).classes("drop-shadow-xl") as side_bar:
+        ).classes("drop-shadow-xl flex flex-col") as side_bar:
             for link in nav_links:
                 nav_bar_link(link[0], link[1], router)
 
-            with ui.link(target="https://github.com/ajohnson5"):
-                ui.element("i").classes("eva eva-github").classes(
-                    "text-5xl hover:scale-105 hover:cursor-pointer pt-4 text-zinc-900"
-                )
+            with ui.element("div").classes(
+                "w-full h-1/6 flex flex-row content-center justify-center"
+            ):
+                with ui.link(target="https://github.com/ajohnson5"):
+                    ui.element("i").classes("eva eva-github").classes(
+                        "text-5xl hover:scale-105 hover:cursor-pointer text-zinc-900"
+                    )
+
+            with ui.element("div").classes("w-full flex flex-row justify-center h-1/6"):
+                ui.image(
+                    "https://i.ibb.co/1fPj5fD/logo-no-text-new-football-dark-higher.png"
+                ).classes("w-[80px]").props('fit="scale-down"')
 
     burger_menu.on("click", lambda x: menu_open_func())
 
