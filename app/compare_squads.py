@@ -43,6 +43,16 @@ async def compare_squads(
         squad_dict,
         transfers_1,
     )
+
+    if not squad_1:
+        ui.notify(
+            f'{manager_dict["chip_1"]} has no squad on Gameweek '
+            f'{manager_dict["chip_1_gw"]}'
+        )
+        loading_clearable_div.clear()
+
+        return
+
     squad_2 = await get_manager_gw_picks(
         manager_dict["chip_2_gw"],
         manager_dict["chip_2_id"],
@@ -50,6 +60,15 @@ async def compare_squads(
         squad_dict_2,
         transfers_2,
     )
+    squad_2 = None
+    if not squad_2:
+        ui.notify(
+            f'{manager_dict["chip_2"]} has no squad on Gameweek '
+            f'{manager_dict["chip_2_gw"]}'
+        )
+        loading_clearable_div.clear()
+
+        return
 
     # Compare squads - creates the layout instance variable
     squad_1.compare_squad(squad_2)
