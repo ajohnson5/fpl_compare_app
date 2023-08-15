@@ -3,10 +3,6 @@ import asyncio
 
 from fpl_api import (
     get_manager_gw_picks,
-    squad_dict,
-    squad_dict_2,
-    transfers_1,
-    transfers_2,
 )
 
 
@@ -40,16 +36,30 @@ async def compare_squads(
         manager_dict["chip_1_gw"],
         manager_dict["chip_1_id"],
         manager_dict["chip_1"],
-        squad_dict,
-        transfers_1,
     )
+
+    if not squad_1:
+        ui.notify(
+            f'{manager_dict["chip_1"]} has no squad on Gameweek '
+            f'{manager_dict["chip_1_gw"]}'
+        )
+        loading_clearable_div.clear()
+
+        return
+
     squad_2 = await get_manager_gw_picks(
         manager_dict["chip_2_gw"],
         manager_dict["chip_2_id"],
         manager_dict["chip_2"],
-        squad_dict_2,
-        transfers_2,
     )
+    if not squad_2:
+        ui.notify(
+            f'{manager_dict["chip_2"]} has no squad on Gameweek '
+            f'{manager_dict["chip_2_gw"]}'
+        )
+        loading_clearable_div.clear()
+
+        return
 
     # Compare squads - creates the layout instance variable
     squad_1.compare_squad(squad_2)
