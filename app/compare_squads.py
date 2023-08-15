@@ -3,10 +3,6 @@ import asyncio
 
 from fpl_api import (
     get_manager_gw_picks,
-    squad_dict,
-    squad_dict_2,
-    transfers_1,
-    transfers_2,
 )
 
 
@@ -40,8 +36,6 @@ async def compare_squads(
         manager_dict["chip_1_gw"],
         manager_dict["chip_1_id"],
         manager_dict["chip_1"],
-        squad_dict,
-        transfers_1,
     )
 
     if not squad_1:
@@ -57,10 +51,7 @@ async def compare_squads(
         manager_dict["chip_2_gw"],
         manager_dict["chip_2_id"],
         manager_dict["chip_2"],
-        squad_dict_2,
-        transfers_2,
     )
-    squad_2 = None
     if not squad_2:
         ui.notify(
             f'{manager_dict["chip_2"]} has no squad on Gameweek '
