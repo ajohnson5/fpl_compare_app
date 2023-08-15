@@ -78,7 +78,7 @@ async def get_manager_gw_picks(gw: int, manager_id: int, manager_name: str):
 
     req = requests.get(url).json()
 
-    if not req["elements"]:
+    if not req["picks"]:
         return
 
     squad_list = []
@@ -92,6 +92,7 @@ async def get_manager_gw_picks(gw: int, manager_id: int, manager_name: str):
     # Gather firestore request coroutines and concatenate firestore request to each
     # player pick dict
     tasks = []
+
     for pick in req["picks"] + transfers_out:
         collection = db.collection("players")
         tasks.append(asyncio.ensure_future(get_firestore_request(collection, pick)))
