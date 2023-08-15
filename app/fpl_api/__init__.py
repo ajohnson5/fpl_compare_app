@@ -1,6 +1,6 @@
 from .player import Player, PlayerGameweek
 from .squad import Squad, SquadGameweek, RandomSquadGenerator
-from .temp_api import (
+from .fpl_api import (
     get_manager_name,
     get_manager_gw_picks,
     get_league_managers,
