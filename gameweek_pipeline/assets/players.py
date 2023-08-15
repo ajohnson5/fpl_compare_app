@@ -73,7 +73,7 @@ def players(context) -> None:
     firebase_admin.initialize_app()
     client = firestore.client()
 
-    players = get_players(context.partition_key)
+    players = get_gameweeks(context.partition_key)
 
     load_players_batch(players, client)
 
@@ -82,37 +82,29 @@ def players(context) -> None:
 
 #####################################################################
 #####################################################################
-##################### Temporary functions ###########################
+######################## Actual functions ###########################
 #####################################################################
 #####################################################################
 
 
-def generate_gw_live_data():
-    endpoint = {
-        "elements": [],
-        "explain": [],
-    }
-    for i in range(1, 700):
-        endpoint["elements"].append(
-            {
-                "id": i,
-                "stats": {
-                    "minutes": random.randint(0, 90),
-                    "total_points": random.randint(-3, 15),
-                    "bonus": random.randint(0, 3),
-                },
+def get_gameweeks(gw):
+    url = f"https://fantasy.premierleague.com/api/event/{gw}/live/"
+    req = requests.get(url).json()
+
+    players = get_players(gw)
+
+    for player in req["elements"]:
+        players[str(player["id"])]["gameweeks"] = {
+            f"gameweek_{gw}": {
+                "minutes": player["stats"]["minutes"],
+                "points": player["stats"]["total_points"],
+                "bonus": player["stats"]["bonus"],
             }
-        )
-
-    return endpoint
-
-
-mock_data = generate_gw_live_data()
+        }
+    return players
 
 
 def get_players(gw):
-    gameweeks = get_gameweeks(gw)
-
     url = "https://fantasy.premierleague.com/api/bootstrap-static/"
     req = requests.get(url).json()
 
@@ -125,66 +117,5 @@ def get_players(gw):
             "team_name": teams[player["team"]],
             "total_points": player["total_points"],
             "actual_position": player["element_type"],
-            "gameweeks": gameweeks[str(player["id"])],
         }
     return players
-
-
-def get_gameweeks(gw):
-    req = mock_data
-
-    gameweeks = {}
-    for player in req["elements"]:
-        gameweeks[str(player["id"])] = {
-            f"gameweek_{gw}": {
-                "minutes": player["stats"]["minutes"],
-                "points": player["stats"]["total_points"],
-                "bonus": player["stats"]["bonus"],
-            }
-        }
-
-    return gameweeks
-
-
-#####################################################################
-#####################################################################
-######################## Actual functions ###########################
-#####################################################################
-#####################################################################
-
-
-# def get_gameweeks(gw):
-#     url = f"https://fantasy.premierleague.com/api/event/{gw}/live/"
-#     req = requests.get(url).json()
-
-#     gameweeks = {
-#     }
-#     for player in req["elements"]:
-#         gameweeks[player["id"]] = {
-#             f"gameweek_{gw}":{
-#             "minutes":player["stats"]["minutes"],
-#             "points":player["stats"]["total_points"],
-#             "bonus":player["stats"]["bonus"],
-#         }
-#     }
-
-
-# def get_players(gw):
-
-#     gameweeks = get_gameweeks(gw)
-
-#     url = "https://fantasy.premierleague.com/api/bootstrap-static/"
-#     req = requests.get(url).json()
-
-#     players = {}
-#     for player in req["elements"]:
-#         players[str(player["id"])] = {
-#             "first_name":player["first_name"],
-#             "second_name":player["second_name"],
-#             "web_name":player["web_name"],
-#             "team_name":teams[player["team"]],
-#             "total_points":player["total_points"],
-#             "actual_position":player["element_type"],
-#             "gameweeks":gameweeks[str(player["id"])]
-#         }
-#     return players
