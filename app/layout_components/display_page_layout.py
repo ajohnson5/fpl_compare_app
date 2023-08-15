@@ -57,9 +57,9 @@ def pitch_layout():
             "px-2 pt-2 lg:pb-2 w-full max-w-[490px] rounded-t-xl lg:rounded-b-xl "
             "bg-gradient-to-b from-green-400 via-emerald-400 to-emerald-500"
         ):
-            with ui.image("https://i.ibb.co/tzFrnrf/Pitch-png-scaled.png").classes(
-                "max-w-[482px] w-full"
-            ):
+            with ui.image(
+                "https://storage.googleapis.com/fpl-compare-app/pitch_outline.webp"
+            ).classes("max-w-[482px] w-full").props("no-spinner"):
                 squad_1_display = ui.element("div").classes(
                     "w-full h-full bg-transparent grid-rows-4 grid grid-cols-1 gap-0"
                 )
@@ -69,8 +69,10 @@ def pitch_layout():
             "bg-gradient-to-b from-emerald-500 via-emerald-400 to-green-400 "
             "lg:bg-gradient-to-t"
         ):
-            with ui.image("https://i.ibb.co/tzFrnrf/Pitch-png-scaled.png").classes(
-                "max-w-[482px] w-full rotate-180 lg:rotate-0"
+            with ui.image(
+                "https://storage.googleapis.com/fpl-compare-app/pitch_outline.webp"
+            ).classes("max-w-[482px] w-full rotate-180 lg:rotate-0").props(
+                "no-spinner"
             ):
                 squad_2_display = ui.element("div").classes(
                     "w-full h-full bg-transparent grid-rows-4 grid grid-cols-1 gap-0"
@@ -157,8 +159,8 @@ def generate_squad_pitch_layout():
             "bg-gradient-to-b from-green-400 via-emerald-400 to-emerald-500"
         ):
             with ui.image(
-                "https://i.ibb.co/xS9j0v0/half-pitch-complete-final-4.png"
-            ).classes("max-w-[482px] w-full"):
+                "https://storage.googleapis.com/fpl-compare-app/pitch_outline.webp"
+            ).classes("max-w-[482px] w-full").props("no-spinner"):
                 squad_display = ui.element("div").classes(
                     "w-full h-full bg-transparent grid-rows-4 grid grid-cols-1 gap-0"
                 )

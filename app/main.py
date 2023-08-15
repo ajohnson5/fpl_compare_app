@@ -35,7 +35,6 @@ async def main(client: Client):
     border-bottom-left-radius:0px;
     border-top-right-radius:9999px;
     border-bottom-right-radius:9999px;
-
     }
     .gw_select_class.q-field--outlined .q-field__control {
     padding: 0 2px;
@@ -49,11 +48,9 @@ async def main(client: Client):
     border-top-right-radius:0px;
     border-bottom-right-radius:0px;
     }
-
     .q-field__label {
             font-size:14px
     }
-
     @media only screen and (min-width: 40em) {
         .q-field__label {
             font-size:16px
@@ -85,15 +82,6 @@ async def main(client: Client):
     .q-toggle__thumb .q-icon {
         margin-right:1px;
     }
-    .compare_button_class.text-white {
-    color: transparent;
-    }
-
-    .compare_button_class.q-btn{
-    min-height:auto;
-    padding: 10px 8px 20px 8px;
-    text-transform:none;
-    } 
 
     .side_bar {
         width:100% !important;
@@ -102,6 +90,9 @@ async def main(client: Client):
     @media only screen and (min-width: 640px) {
         .side_bar{
             width:300px !important;   
+        }
+        .front{
+            font-size: 3.75rem !important;
         }
     }
     .q-img__content>div {
@@ -119,24 +110,19 @@ async def main(client: Client):
     min-width: 0;
     max-width: 0%;
     }
-
-
     .player-card-height {
         height:80px !important;
     }
-
     @media only screen and (min-width: 400px) {
         .player-card-height {
             height:90px !important;
         }       
     }
-
     @media only screen and (min-width: 415px) {
         .player-card-height {
             height:95px !important;
         }       
     }
-
     @media only screen and (min-width: 490px) {
         .player-card-height {
             height:100px !important;
@@ -232,17 +218,9 @@ async def main(client: Client):
         outline: none;
     }
 
-    @media only screen and (min-width: 640px) {
-        .front{
-            font-size: 3.75rem;
-        }
-    }
-
     .q-item__section--main~.q-item__section--side {
         padding:0 !important;
     }
-
-
     .q-gutter-sm, .q-gutter-x-sm {
         margin-left: 0px;
     }

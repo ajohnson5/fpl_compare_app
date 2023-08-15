@@ -45,12 +45,6 @@ async def show_page():
 
         managers = await get_league_managers(int(league_id))
 
-        managers = {
-            12313: "Ujedinjeni Urci",
-            2131: "Badger Oblong Quasi",
-            3763: "Bad Team On Paper",
-        }
-
         if managers:
             with league_id_input.add_slot("prepend"):
                 ui.icon("check_circle", color="green-500")
