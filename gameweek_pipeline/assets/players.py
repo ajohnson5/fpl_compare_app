@@ -39,12 +39,16 @@ def load_players_batch(data, db):
     batch = db.batch()
     counter = 0
     for key, value in data.items():
+        print(counter)
         player_ref = db.collection("players").document(key)
         batch.set(player_ref, value, merge=True)
         counter += 1
-        if counter == 500:
+        if counter == 499:
             batch.commit()
             batch = db.batch()
+            counter = 0
+
+    batch.commit()
 
 
 # Sync function takees ~38 seconds for each partition
