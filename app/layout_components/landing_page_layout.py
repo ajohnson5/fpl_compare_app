@@ -11,7 +11,12 @@ def combined_search():
                 ui.input("Manager ID")
                 .classes("input_class")
                 .classes("absolute top-0 left-0 w-full z-0")
-                .props(('clearable outlined inputmode="numeric" ' 'bg-color="white"'))
+                .props(
+                    (
+                        'clearable outlined inputmode="search" mask="###########" '
+                        'bg-color="white"'
+                    )
+                )
             )
 
             with manager_id_input.add_slot("prepend"):
