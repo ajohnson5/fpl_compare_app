@@ -13,7 +13,7 @@ def combined_search():
                 .classes("absolute top-0 left-0 w-full z-0")
                 .props(
                     (
-                        'clearable outlined inputmode="search" mask="###########" '
+                        'clearable outlined inputmode="search" mask="##########" '
                         'bg-color="white"'
                     )
                 )
@@ -30,7 +30,7 @@ def combined_search():
                     .classes("input_class")
                     .classes("h-full")
                     .props(
-                        'outlined mask="#########" inputmode="numeric" bg-color="white"'
+                        'outlined inputmode="search" mask="##########" bg-color="white"'
                     )
                 ).style(
                     "width:100%;transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1);"
