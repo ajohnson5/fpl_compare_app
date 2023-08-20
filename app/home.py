@@ -72,6 +72,7 @@ async def show_page():
                     chip_1.style("visibility:visible")
                     manager_id_input.set_value("")
                     manager_select.set_value(value=None)
+                    manager_select.update()
 
                 else:
                     ui.notify("Manager does not exist", closeBtn="OK")
@@ -84,6 +85,7 @@ async def show_page():
                     chip_2.style("visibility:visible")
                     manager_id_input.set_value("")
                     manager_select.set_value(value=None)
+                    manager_select.update()
                 else:
                     ui.notify("Manager does not exist", closeBtn="OK")
         else:
