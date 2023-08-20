@@ -23,7 +23,7 @@ def combined_search():
                 ui.icon("search")
 
             with ui.element("div").classes(
-                "absolute top-0 left-0 w-full z-10 flex flex-row overflow-hidden"
+                "absolute top-0 left-0 w-full z-10 overflow-hidden flex flex-row"
             ):
                 league_id_input = (
                     ui.input("League ID")
@@ -52,10 +52,10 @@ def combined_search():
                     .classes("h-full")
                     .props('outlined bg-color="white" behavior="menu"')
                     .style(
-                        "width:0;transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1);"
-                        "-webkit-transition:  0.5s cubic-bezier(0.4, 0, 0.2, 1); "
-                        "-moz-transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1); "
-                        "-o-transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1); "
+                        "width:0;transition:width 0.5s cubic-bezier(0.4, 0, 0.2, 1);"
+                        "-webkit-transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1); "
+                        "-moz-transition:width 0.5s cubic-bezier(0.4, 0, 0.2, 1); "
+                        "-o-transition:width 0.5s cubic-bezier(0.4, 0, 0.2, 1); "
                     )
                 )
 
