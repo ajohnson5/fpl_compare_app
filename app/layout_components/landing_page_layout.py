@@ -46,7 +46,7 @@ def combined_search():
                     ui.select(
                         options=[],
                         label="Manager",
-                        with_input=True,
+                        with_input=False,
                     )
                     .classes("manager_select_class")
                     .classes("h-full")
