@@ -30,7 +30,7 @@ def combined_search():
                     .classes("input_class")
                     .classes("h-full")
                     .props(
-                        'outlined mask="##########" inputmode="search" bg-color="white"'
+                        'outlined inputmode="search" mask="##########" bg-color="white"'
                     )
                 ).style(
                     "width:100%;transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1);"
@@ -46,7 +46,7 @@ def combined_search():
                     ui.select(
                         options=[],
                         label="Manager",
-                        with_input=True,
+                        with_input=False,
                     )
                     .classes("manager_select_class")
                     .classes("h-full")

@@ -78,7 +78,7 @@ async def get_manager_gw_picks(gw: int, manager_id: int, manager_name: str):
 
     req = requests.get(url).json()
 
-    if not req["picks"]:
+    if "picks" not in req:
         return
 
     squad_list = []
