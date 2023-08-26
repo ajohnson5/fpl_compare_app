@@ -54,7 +54,7 @@ def get_manager_gw_transfers(gw: int, manager_id):
                     "multiplier": 0,
                 }
             )
-        elif transfer["event"] > gw:
+        elif transfer["event"] < gw:
             return transfers_in, transfers_out
         counter += 1
 
@@ -84,7 +84,7 @@ async def get_manager_gw_picks(gw: int, manager_id: int, manager_name: str):
     squad_list = []
     # Get transfers in and transfers out for specified gameweek
     transfers_in, transfers_out = get_manager_gw_transfers(gw, manager_id)
-
+    print(transfers_in)
     # Create sets of the ids for the players automatically subbed in and subbed out
     subs_in = {x["element_in"] for x in req["automatic_subs"]}
     subs_out = {x["element_out"] for x in req["automatic_subs"]}
