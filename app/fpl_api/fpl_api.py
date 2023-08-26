@@ -54,7 +54,7 @@ def get_manager_gw_transfers(gw: int, manager_id):
                     "multiplier": 0,
                 }
             )
-        elif transfer["event"] > gw:
+        elif transfer["event"] < gw:
             return transfers_in, transfers_out
         counter += 1
 
@@ -78,7 +78,8 @@ async def get_manager_gw_picks(gw: int, manager_id: int, manager_name: str):
 
     req = requests.get(url).json()
 
-    if "picks" not in req:
+    # If req is a list then return None
+    if isinstance(req, list):
         return
 
     squad_list = []
