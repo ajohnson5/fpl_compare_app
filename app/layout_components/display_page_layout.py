@@ -109,10 +109,7 @@ def bench_layout():
 def transfer_expansion():
     with ui.expansion("", value=True).classes("bg-slate-50/50 rounded-xl").classes(
         "expansion-element"
-    ).props(
-        'header-class="text-white text-center text-2xl rounded-xl h-[80px]"'
-        'expand-icon-class="text-white" expand-icon="keyboard_double_arrow_down"'
-    ):
+    ).props('expand-icon-class="text-white" expand-icon="keyboard_double_arrow_down"'):
         transfer_display = ui.element("div").classes("col-span-1 h-auto pb-2")
     return transfer_display
 
@@ -122,6 +119,9 @@ def transfer_layout():
         "mx-[4px] w-full gap-x-10 gap-y-4 flex flex-row justify-center "
         "content-center mb-4 "
     ):
+        ui.label("Transfers").classes(
+            "text-slate-900 text-4xl w-full text-center font-sans font-bold pb-1"
+        )
         with ui.element("div").classes("w-full max-w-[490px] h-auto "):
             with ui.element("div").classes(
                 "bg-gradient-to-r from-sky-500 via-sky-300 to-cyan-400 p-1 "
@@ -166,3 +166,36 @@ def generate_squad_pitch_layout():
                 )
 
         return squad_display
+
+
+# Upcoming fixtures section
+def fixture_expansion():
+    with ui.expansion(text="", value=True).classes("bg-slate-50/50 rounded-xl").classes(
+        "expansion-element"
+    ).props('expand-icon-class="text-white" expand-icon="keyboard_double_arrow_down"'):
+        fixture_display = ui.element("div").classes("col-span-1 h-auto pb-2")
+    return fixture_display
+
+
+def fixture_layout():
+    with ui.element("div").classes(
+        "mx-[4px] w-full gap-x-10 gap-y-4 flex flex-row justify-center "
+        "content-center mb-4 "
+    ):
+        ui.label("Upcoming Fixtures").classes(
+            "text-slate-900 text-4xl w-full text-center font-sans font-bold pb-1"
+        )
+        with ui.element("div").classes("w-full max-w-[490px] h-auto "):
+            with ui.element("div").classes(
+                "bg-gradient-to-r from-sky-500 via-sky-300 to-cyan-400 p-1 "
+                "rounded-2xl w-full mx-auto"
+            ):
+                fixture_1_display = fixture_expansion()
+
+        with ui.element("div").classes("w-full max-w-[490px]  h-auto "):
+            with ui.element("div").classes(
+                "bg-gradient-to-r from-red-500 via-red-400 to-rose-400 p-1 "
+                "rounded-2xl w-full mx-auto"
+            ):
+                fixture_2_display = fixture_expansion()
+    return fixture_1_display, fixture_2_display
