@@ -114,6 +114,8 @@ async def show_page():
                 bench_2_display,
                 transfer_1_display,
                 transfer_2_display,
+                fixture_1_display,
+                fixture_2_display,
             )
         else:
             ui.notify("Please enter 2 manager IDs", closeBtn="OK")
