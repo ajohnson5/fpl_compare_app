@@ -34,6 +34,8 @@ class Player:
         "Wolves": "https://storage.googleapis.com/fpl-compare-app/v2/wolverhampton_wanderers.webp",
     }
 
+    position_name = {1: "GK", 2: "DEF", 3: "MID", 4: "FWD"}
+
     def __init__(
         self,
         id: int,
@@ -42,6 +44,7 @@ class Player:
         web_name: str,
         position: int,
         team_name: str,
+        team_name_short: str,
         cost: int,
     ):
         self.id = id
@@ -49,7 +52,9 @@ class Player:
         self.first_name = first_name
         self.web_name = web_name
         self.position = position
+        self.position_name = Player.position_name[position]
         self.team_name = team_name
+        self.team_name_short = team_name_short
         self.cost = cost
 
     def __eq__(self, other):
@@ -104,6 +109,14 @@ class Player:
 
 
 class PlayerGameweek(Player):
+    FDR_color = {
+        1: "bg-green-600",
+        2: "bg-emerald-300",
+        3: "bg-slate-400",
+        4: "bg-red-400",
+        5: "bg-red-700",
+    }
+
     def __init__(
         self,
         id: int,
@@ -117,6 +130,7 @@ class PlayerGameweek(Player):
         bonus_points: int,
         minutes: int,
         team_name: str,
+        team_name_short: str,
         is_captain: bool,
         multiplier: int,
         auto_sub: bool,
@@ -130,6 +144,7 @@ class PlayerGameweek(Player):
             web_name,
             position,
             team_name,
+            team_name_short,
             cost,
         )
         self.squad_order = squad_order
@@ -308,3 +323,29 @@ class PlayerGameweek(Player):
                 ui.icon("swap_horiz", size="40px", color="stone-100").classes("")
 
             other_player.create_card(home, True)
+
+    def create_fixture(self, fixtures):
+        with ui.element("div").classes(
+            "w-full h-[50px] flex flex-row justify-center content-center items-center "
+        ):
+            with ui.element("div").classes("w-1/5 "):
+                ui.label(self.web_name).classes(
+                    "h-auto w-full text-center font-medium tracking-tighter "
+                    "text-white text-sm leading-none "
+                )
+                ui.label(f"({self.team_name_short})").classes(
+                    "h-auto w-full text-center tracking-tighter " "text-white text-xs "
+                )
+
+            with ui.element("div").classes(
+                "w-4/5 h-full grid grid-cols-5 justify-evenly content-center gap-x-1"
+            ):
+                for j in range(5):
+                    with ui.element("div").classes(
+                        "h-[50px] col-span-1 flex flex-row justify-center "
+                        "content-center "
+                        + PlayerGameweek.FDR_color[fixtures[self.team_name][j]["FDR"]]
+                    ):
+                        ui.label(
+                            f"{fixtures[self.team_name][j]['fixture']}({fixtures[self.team_name][j]['home']})"
+                        ).classes("text-white text-center font-semibold")
