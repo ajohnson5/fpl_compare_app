@@ -108,14 +108,14 @@ def get_next_fixtures(gw):
                 {
                     "fixture": teams_shorted[fixture["team_a"]],
                     "FDR": teams_FDR[fixture["team_a"]],
-                    "home": True,
+                    "home": "H",
                 }
             )
             fixtures[fixture["team_a"]].append(
                 {
                     "fixture": teams_shorted[fixture["team_h"]],
                     "FDR": teams_FDR[fixture["team_h"]],
-                    "home": False,
+                    "home": "A",
                 }
             )
 
