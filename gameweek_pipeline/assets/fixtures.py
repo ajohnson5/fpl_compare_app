@@ -48,6 +48,29 @@ teams_shorted = {
     20: "WOL",
 }
 
+teams_FDR = {
+    1: 5,
+    2: 3,
+    3: 1,
+    4: 3,
+    5: 3,
+    6: 1,
+    7: 3,
+    8: 2,
+    9: 1,
+    10: 2,
+    11: 4,
+    12: 1,
+    13: 5,
+    14: 4,
+    15: 4,
+    16: 2,
+    17: 1,
+    18: 4,
+    19: 2,
+    20: 2,
+}
+
 #####################################################################
 #####################################################################
 ############################## Asset ################################
@@ -81,8 +104,20 @@ def get_next_fixtures(gw):
         req = requests.get(url).json()
 
         for fixture in req:
-            fixtures[fixture["team_h"]].append(teams_shorted[fixture["team_a"]])
-            fixtures[fixture["team_a"]].append(teams_shorted[fixture["team_h"]])
+            fixtures[fixture["team_h"]].append(
+                {
+                    "fixture": teams_shorted[fixture["team_a"]],
+                    "FDR": teams_FDR[fixture["team_a"]],
+                    "home": True,
+                }
+            )
+            fixtures[fixture["team_a"]].append(
+                {
+                    "fixture": teams_shorted[fixture["team_h"]],
+                    "FDR": teams_FDR[fixture["team_h"]],
+                    "home": False,
+                }
+            )
 
     next_5_fixtures = {f"gameweek_{int(gw)+k}": {} for k in range(5)}
     for k in range(5):
