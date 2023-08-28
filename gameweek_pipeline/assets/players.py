@@ -1,14 +1,6 @@
 from dagster import asset
 import requests
-import random
-import asyncio
-import firebase_admin
-from firebase_admin import firestore_async
-from firebase_admin import firestore
-
-
 from gameweek_pipeline.partitions import gameweek_partitions_def
-
 
 teams = {
     1: "Arsenal",
@@ -33,60 +25,27 @@ teams = {
     20: "Wolves",
 }
 
-
-# Batch function takes ~8 seconds
-def load_players_batch(data, db):
-    batch = db.batch()
-    counter = 0
-    for key, value in data.items():
-        print(counter)
-        player_ref = db.collection("players").document(key)
-        batch.set(player_ref, value, merge=True)
-        counter += 1
-        if counter == 499:
-            batch.commit()
-            batch = db.batch()
-            counter = 0
-
-    batch.commit()
-
-
-# Sync function takees ~38 seconds for each partition
-def load_players_sync(data, db):
-    for key, value in data.items():
-        db.collection("players").document(key).set(value, merge=True)
-
-
-# Async function takees ~32 seconds for each partition
-async def load_players_async(data, db):
-    for key, value in data.items():
-        await db.collection("players").document(key).set(value, merge=True)
-
-
 #####################################################################
 #####################################################################
-############################## Asset ###############################
+############################## Asset ################################
 #####################################################################
 #####################################################################
 
 
 @asset(
-    partitions_def=gameweek_partitions_def,
+    partitions_def=gameweek_partitions_def, required_resource_keys={"firestore_client"}
 )
 def players(context) -> None:
-    firebase_admin.initialize_app()
-    client = firestore.client()
-
     players = get_gameweeks(context.partition_key)
 
-    load_players_batch(players, client)
+    context.resources.firestore_client.load_batch("players", players)
 
     return None
 
 
 #####################################################################
 #####################################################################
-######################## Actual functions ###########################
+############################ Functions ##############################
 #####################################################################
 #####################################################################
 
