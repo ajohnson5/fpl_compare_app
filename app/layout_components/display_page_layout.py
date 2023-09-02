@@ -1,5 +1,13 @@
 from nicegui import ui
 
+FDR_color = {
+    1: "bg-green-600",
+    2: "bg-emerald-300",
+    3: "bg-slate-400",
+    4: "bg-red-400",
+    5: "bg-red-700",
+}
+
 
 def individual_manager_summary(home: bool):
     if home:
@@ -185,6 +193,24 @@ def fixture_layout():
         ui.label("Upcoming Fixtures").classes(
             "text-slate-900 text-4xl w-full text-center font-sans font-bold pb-1"
         )
+
+        with ui.element("div").classes("w-full flex flex-row justify-center"):
+            with ui.element("div").classes(
+                "w-full max-w-[450px] flex flex-row justify-center items-center"
+            ):
+                ui.label("FDR Key").classes(
+                    "text-center font-bold text-slate-900 w-1/5 text-base"
+                )
+                with ui.element("div").classes("grid grid-cols-5 w-4/5 gap-x-1"):
+                    for i in range(1, 6):
+                        with ui.element("div").classes(
+                            "h-[50px] col-span-1 flex flex-row justify-center "
+                            f"content-center {FDR_color[i]}"
+                        ):
+                            ui.label(f"{i}").classes(
+                                "text-white text-center font-bold text-base"
+                            )
+
         with ui.element("div").classes("w-full max-w-[490px] h-auto "):
             with ui.element("div").classes(
                 "bg-gradient-to-r from-sky-500 via-sky-300 to-cyan-400 p-1 "
