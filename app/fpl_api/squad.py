@@ -86,6 +86,7 @@ class SquadGameweek:
         squad_list: list[PlayerGameweek],
         chip,
         stats: dict,
+        fixtures: dict,
     ):
         self.manager_id = manager_id
         self.manager_name = manager_name
@@ -98,6 +99,7 @@ class SquadGameweek:
         self.transfers_out = squad_list[15:]
         self.chip = chip
         self.stats = stats
+        self.fixtures = fixtures
 
     def players_by_position(self, position: int):
         if position == 1:
@@ -234,6 +236,34 @@ class SquadGameweek:
                 ui.label("No Transfers Made").classes(
                     "w-full text-center text-2xl font-medium text-stone-100 mt-2"
                 )
+
+    def create_fixture_display(
+        self,
+    ):
+        with ui.element("div").classes("w-full flex flex-row gap-y-1 pr-2"):
+            with ui.element("div").classes(
+                "w-full h-[30px] flex flex-row justify-center content-center "
+            ):
+                with ui.element("div").classes("w-1/5 content-center flex flex-row"):
+                    ui.label("Players").classes(
+                        "h-auto w-full text-center font-bold text-white "
+                    )
+
+                with ui.element("div").classes(
+                    "w-4/5 h-full grid grid-cols-5 justify-evenly content-center"
+                    " gap-x-1"
+                ):
+                    for j in range(1, 6):
+                        with ui.element("div").classes(
+                            "h-[30px] col-span-1 flex flex-row justify-center "
+                            "content-center"
+                        ):
+                            ui.label(f"GW{self.stats['event']+j}").classes(
+                                "text-white text-center font-bold"
+                            )
+
+            for player in self.start_xi + self.bench:
+                player.create_fixture(self.fixtures)
 
 
 def get_players_generator():

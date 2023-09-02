@@ -18,6 +18,8 @@ async def compare_squads(
     bench_2_display,
     transfer_div_1,
     transfer_div_2,
+    fixture_1_display,
+    fixture_2_display,
 ):
     # Create loading spinner
     with loading_div:
@@ -98,6 +100,15 @@ async def compare_squads(
     with transfer_div_2:
         transfer_div_2.clear()
         squad_2.create_transfer_display("away")
+
+    # Create fixture section
+    with fixture_1_display:
+        fixture_1_display.clear()
+        squad_1.create_fixture_display()
+
+    with fixture_2_display:
+        fixture_2_display.clear()
+        squad_2.create_fixture_display()
 
     # Clear spinner indicating the comparison is complete
     loading_clearable_div.clear()

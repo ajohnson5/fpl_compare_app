@@ -48,6 +48,29 @@ teams_shorted = {
     20: "WOL",
 }
 
+teams_FDR = {
+    1: 5,
+    2: 3,
+    3: 1,
+    4: 3,
+    5: 3,
+    6: 1,
+    7: 3,
+    8: 2,
+    9: 1,
+    10: 2,
+    11: 4,
+    12: 1,
+    13: 5,
+    14: 4,
+    15: 4,
+    16: 2,
+    17: 1,
+    18: 4,
+    19: 2,
+    20: 2,
+}
+
 #####################################################################
 #####################################################################
 ############################## Asset ################################
@@ -58,10 +81,10 @@ teams_shorted = {
 @asset(
     partitions_def=gameweek_partitions_def, required_resource_keys={"firestore_client"}
 )
-def players(context) -> None:
-    players = get_gameweeks(context.partition_key)
+def fixtures(context) -> None:
+    upcoming_fixtures = get_next_fixtures(context.partition_key)
 
-    context.resources.firestore_client.load_batch("players", players)
+    context.resources.firestore_client.load_batch("fixtures", upcoming_fixtures)
 
     return None
 
@@ -73,36 +96,32 @@ def players(context) -> None:
 #####################################################################
 
 
-def get_gameweeks(gw):
-    url = f"https://fantasy.premierleague.com/api/event/{gw}/live/"
-    req = requests.get(url).json()
+def get_next_fixtures(gw):
+    fixtures = {i: [] for i in range(1, 21)}
 
-    players = get_players(gw)
+    for j in range(1, 11):
+        url = f"https://fantasy.premierleague.com/api/fixtures/?event={int(gw)+j}"
+        req = requests.get(url).json()
 
-    for player in req["elements"]:
-        players[str(player["id"])]["gameweeks"] = {
-            f"gameweek_{gw}": {
-                "minutes": player["stats"]["minutes"],
-                "points": player["stats"]["total_points"],
-                "bonus": player["stats"]["bonus"],
-            }
-        }
-    return players
+        for fixture in req:
+            fixtures[fixture["team_h"]].append(
+                {
+                    "fixture": teams_shorted[fixture["team_a"]],
+                    "FDR": teams_FDR[fixture["team_a"]],
+                    "home": "H",
+                }
+            )
+            fixtures[fixture["team_a"]].append(
+                {
+                    "fixture": teams_shorted[fixture["team_h"]],
+                    "FDR": teams_FDR[fixture["team_h"]],
+                    "home": "A",
+                }
+            )
 
+    next_5_fixtures = {f"gameweek_{int(gw)+k}": {} for k in range(5)}
+    for k in range(5):
+        for key, value in fixtures.items():
+            next_5_fixtures[f"gameweek_{int(gw)+k}"][teams[key]] = value[k : k + 5]
 
-def get_players(gw):
-    url = "https://fantasy.premierleague.com/api/bootstrap-static/"
-    req = requests.get(url).json()
-
-    players = {}
-    for player in req["elements"]:
-        players[str(player["id"])] = {
-            "first_name": player["first_name"],
-            "second_name": player["second_name"],
-            "web_name": player["web_name"],
-            "team_name": teams[player["team"]],
-            "team_name_short": teams_shorted[player["team"]],
-            "total_points": player["total_points"],
-            "actual_position": player["element_type"],
-        }
-    return players
+    return next_5_fixtures
