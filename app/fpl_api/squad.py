@@ -244,10 +244,9 @@ class SquadGameweek:
             with ui.element("div").classes(
                 "w-full h-[30px] flex flex-row justify-center content-center "
             ):
-                with ui.element("div").classes("w-1/5 "):
+                with ui.element("div").classes("w-1/5 content-center flex flex-row"):
                     ui.label("Players").classes(
-                        "h-auto w-full text-center font-bold tracking-tighter "
-                        "text-white text-sm leading-none "
+                        "h-auto w-full text-center font-bold text-white "
                     )
 
                 with ui.element("div").classes(
