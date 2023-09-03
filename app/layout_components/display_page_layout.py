@@ -1,5 +1,13 @@
 from nicegui import ui
 
+FDR_color = {
+    1: "bg-green-600",
+    2: "bg-emerald-300",
+    3: "bg-slate-400",
+    4: "bg-red-400",
+    5: "bg-red-700",
+}
+
 
 def individual_manager_summary(home: bool):
     if home:
@@ -109,10 +117,7 @@ def bench_layout():
 def transfer_expansion():
     with ui.expansion("", value=True).classes("bg-slate-50/50 rounded-xl").classes(
         "expansion-element"
-    ).props(
-        'header-class="text-white text-center text-2xl rounded-xl h-[80px]"'
-        'expand-icon-class="text-white" expand-icon="keyboard_double_arrow_down"'
-    ):
+    ).props('expand-icon-class="text-white" expand-icon="keyboard_double_arrow_down"'):
         transfer_display = ui.element("div").classes("col-span-1 h-auto pb-2")
     return transfer_display
 
@@ -122,6 +127,9 @@ def transfer_layout():
         "mx-[4px] w-full gap-x-10 gap-y-4 flex flex-row justify-center "
         "content-center mb-4 "
     ):
+        ui.label("Transfers").classes(
+            "text-slate-900 text-4xl w-full text-center font-sans font-bold pb-1"
+        )
         with ui.element("div").classes("w-full max-w-[490px] h-auto "):
             with ui.element("div").classes(
                 "bg-gradient-to-r from-sky-500 via-sky-300 to-cyan-400 p-1 "
@@ -166,3 +174,54 @@ def generate_squad_pitch_layout():
                 )
 
         return squad_display
+
+
+# Upcoming fixtures section
+def fixture_expansion():
+    with ui.expansion(text="", value=True).classes("bg-slate-50/50 rounded-xl").classes(
+        "expansion-element"
+    ).props('expand-icon-class="text-white" expand-icon="keyboard_double_arrow_down"'):
+        fixture_display = ui.element("div").classes("col-span-1 h-auto pb-2")
+    return fixture_display
+
+
+def fixture_layout():
+    with ui.element("div").classes(
+        "mx-[4px] w-full gap-x-10 gap-y-4 flex flex-row justify-center "
+        "content-center mb-4 "
+    ):
+        ui.label("Upcoming Fixtures").classes(
+            "text-slate-900 text-4xl w-full text-center font-sans font-bold pb-1"
+        )
+
+        with ui.element("div").classes("w-full flex flex-row justify-center"):
+            with ui.element("div").classes(
+                "w-full max-w-[450px] flex flex-row justify-center items-center"
+            ):
+                ui.label("FDR Key").classes(
+                    "text-center font-bold text-slate-900 w-1/5 text-base"
+                )
+                with ui.element("div").classes("grid grid-cols-5 w-4/5 gap-x-1"):
+                    for i in range(1, 6):
+                        with ui.element("div").classes(
+                            "h-[50px] col-span-1 flex flex-row justify-center "
+                            f"content-center {FDR_color[i]}"
+                        ):
+                            ui.label(f"{i}").classes(
+                                "text-white text-center font-bold text-base"
+                            )
+
+        with ui.element("div").classes("w-full max-w-[490px] h-auto "):
+            with ui.element("div").classes(
+                "bg-gradient-to-r from-sky-500 via-sky-300 to-cyan-400 p-1 "
+                "rounded-2xl w-full mx-auto"
+            ):
+                fixture_1_display = fixture_expansion()
+
+        with ui.element("div").classes("w-full max-w-[490px]  h-auto "):
+            with ui.element("div").classes(
+                "bg-gradient-to-r from-red-500 via-red-400 to-rose-400 p-1 "
+                "rounded-2xl w-full mx-auto"
+            ):
+                fixture_2_display = fixture_expansion()
+    return fixture_1_display, fixture_2_display

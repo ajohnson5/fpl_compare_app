@@ -2,7 +2,7 @@ import requests
 import aiohttp
 import asyncio
 import firebase_admin
-from firebase_admin import firestore_async
+from firebase_admin import firestore_async, firestore
 
 from .player import PlayerGameweek
 from .squad import SquadGameweek
@@ -83,12 +83,16 @@ async def get_manager_gw_picks(gw: int, manager_id: int, manager_name: str):
         return
 
     squad_list = []
+    unique_teams = set()
     # Get transfers in and transfers out for specified gameweek
     transfers_in, transfers_out = get_manager_gw_transfers(gw, manager_id)
 
     # Create sets of the ids for the players automatically subbed in and subbed out
     subs_in = {x["element_in"] for x in req["automatic_subs"]}
     subs_out = {x["element_out"] for x in req["automatic_subs"]}
+
+    fixtures_ref = await db.collection("fixtures").document(f"gameweek_{gw}").get()
+    fixtures = fixtures_ref.to_dict()
 
     # Gather firestore request coroutines and concatenate firestore request to each
     # player pick dict
@@ -117,6 +121,8 @@ async def get_manager_gw_picks(gw: int, manager_id: int, manager_name: str):
         else:
             sub = False
 
+        unique_teams.add(pick["team_name_short"])
+
         squad_list.append(
             PlayerGameweek(
                 id=id,
@@ -130,6 +136,7 @@ async def get_manager_gw_picks(gw: int, manager_id: int, manager_name: str):
                 bonus_points=pick["gameweeks"][f"gameweek_{gw}"]["bonus"],
                 minutes=pick["gameweeks"][f"gameweek_{gw}"]["minutes"],
                 team_name=pick["team_name"],
+                team_name_short=pick["team_name_short"],
                 is_captain=pick["is_captain"],
                 multiplier=pick["multiplier"],
                 auto_sub=sub,
@@ -145,6 +152,8 @@ async def get_manager_gw_picks(gw: int, manager_id: int, manager_name: str):
         squad_list=squad_list,
         chip=req["active_chip"],
         stats=req["entry_history"],
+        fixtures=fixtures,
+        unique_teams=unique_teams,
     )
 
 

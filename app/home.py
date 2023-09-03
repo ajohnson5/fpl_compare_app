@@ -12,6 +12,7 @@ from layout_components import (
     transfer_layout,
     player_icon_key,
     create_button,
+    fixture_layout,
 )
 
 
@@ -113,6 +114,8 @@ async def show_page():
                 bench_2_display,
                 transfer_1_display,
                 transfer_2_display,
+                fixture_1_display,
+                fixture_2_display,
             )
         else:
             ui.notify("Please enter 2 manager IDs", closeBtn="OK")
@@ -248,5 +251,9 @@ async def show_page():
 
             # Create transfer layout for transfers managers' made
             transfer_1_display, transfer_2_display = transfer_layout()
+
+            # Create upcoming fixtures layout
+
+            fixture_1_display, fixture_2_display = fixture_layout()
 
         display_div.set_visibility(False)

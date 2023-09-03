@@ -7,4 +7,5 @@ from .display_page_layout import (
     player_icon_key,
     squad_summary,
     generate_squad_pitch_layout,
+    fixture_layout,
 )
