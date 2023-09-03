@@ -324,7 +324,7 @@ class PlayerGameweek(Player):
 
             other_player.create_card(home, True)
 
-    def create_fixture(self, fixtures):
+    def create_fixture(self, fixtures, unique_teams):
         with ui.element("div").classes(
             "w-full h-[50px] flex flex-row justify-center content-center items-center "
         ):
@@ -343,9 +343,17 @@ class PlayerGameweek(Player):
                 for j in range(5):
                     with ui.element("div").classes(
                         "h-[50px] col-span-1 flex flex-row justify-center "
-                        "content-center "
+                        "content-center relative "
                         + PlayerGameweek.FDR_color[fixtures[self.team_name][j]["FDR"]]
                     ):
                         ui.label(
                             f"{fixtures[self.team_name][j]['fixture']}({fixtures[self.team_name][j]['home']})"
                         ).classes("text-white text-center font-semibold")
+
+                        if (
+                            self.team_name_short
+                            != fixtures[self.team_name][j]["fixture"]
+                        ) and (fixtures[self.team_name][j]["fixture"] in unique_teams):
+                            ui.icon(
+                                name="priority_high", color="white", size="14px"
+                            ).classes("absolute top-1 right-0")

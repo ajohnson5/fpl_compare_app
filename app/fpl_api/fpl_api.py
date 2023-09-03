@@ -83,6 +83,7 @@ async def get_manager_gw_picks(gw: int, manager_id: int, manager_name: str):
         return
 
     squad_list = []
+    unique_teams = set()
     # Get transfers in and transfers out for specified gameweek
     transfers_in, transfers_out = get_manager_gw_transfers(gw, manager_id)
 
@@ -120,6 +121,8 @@ async def get_manager_gw_picks(gw: int, manager_id: int, manager_name: str):
         else:
             sub = False
 
+        unique_teams.add(pick["team_name_short"])
+
         squad_list.append(
             PlayerGameweek(
                 id=id,
@@ -150,6 +153,7 @@ async def get_manager_gw_picks(gw: int, manager_id: int, manager_name: str):
         chip=req["active_chip"],
         stats=req["entry_history"],
         fixtures=fixtures,
+        unique_teams=unique_teams,
     )
 
 

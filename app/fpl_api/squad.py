@@ -87,6 +87,7 @@ class SquadGameweek:
         chip,
         stats: dict,
         fixtures: dict,
+        unique_teams: set,
     ):
         self.manager_id = manager_id
         self.manager_name = manager_name
@@ -100,6 +101,7 @@ class SquadGameweek:
         self.chip = chip
         self.stats = stats
         self.fixtures = fixtures
+        self.unique_teams = unique_teams
 
     def players_by_position(self, position: int):
         if position == 1:
@@ -263,7 +265,7 @@ class SquadGameweek:
                             )
 
             for player in self.start_xi + self.bench:
-                player.create_fixture(self.fixtures)
+                player.create_fixture(self.fixtures, self.unique_teams)
 
 
 def get_players_generator():
