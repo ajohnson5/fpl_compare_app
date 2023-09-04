@@ -425,6 +425,7 @@ class RandomSquadGenerator:
                         web_name=player_dict["web_name"],
                         position=player_dict["element_type"],
                         team_name=RandomSquadGenerator.teams[player_dict["team"]],
+                        team_name_short="Pass",
                         cost=player_dict["now_cost"],
                     )
                 )
