@@ -2,7 +2,7 @@ __pycache__/
 todolist.txt
 app.yaml
 .gcloudignore
-env
+venv
 .ruff_cache
 backend/
 app/test.py
