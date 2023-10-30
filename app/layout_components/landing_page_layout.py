@@ -61,7 +61,7 @@ def combined_search():
 
         with ui.element("div").classes("w-[60px] sm:w-[80px]"):
             gameweek_select = (
-                ui.select([x for x in range(1, 10)], value=9, label="GW")
+                ui.select([x for x in range(1, 11)], value=10, label="GW")
                 .classes("gw_select_class")
                 .classes("w-full h-full")
                 .props('outlined bg-color="white" behavior="menu"')
