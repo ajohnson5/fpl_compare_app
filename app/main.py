@@ -224,6 +224,10 @@ async def main(client: Client):
     .q-gutter-sm, .q-gutter-x-sm {
         margin-left: 0px;
     }
+
+    .q-carousel__control.flex-center {
+        align-items: end;
+    }
     </style>
     """
     )
