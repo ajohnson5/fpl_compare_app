@@ -113,4 +113,6 @@ async def compare_squads(
     # Clear spinner indicating the comparison is complete
     loading_clearable_div.clear()
 
+    loading_div.set_visibility(False)
+
     display_div.set_visibility(True)

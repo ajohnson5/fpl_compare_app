@@ -1,34 +1,41 @@
 from nicegui import ui
 
 
-def combined_search():
+def combined_search_without_gw(input_class: str):
     with ui.element("div").classes(
-        "flex flex-row gap-x-0 w-full content-center justify-center w-full "
-        "min-w-[300px] max-w-[400px]"
-    ):
-        with ui.element("div").classes("grow relative h-auto"):
+        "flex flex-row gap-x-0 w-full content-center justify-center align-middle "
+        "items-center h-full"
+    ) as input_container:
+        # Checkbox to indicate if the manager id or league id input is in use
+        with ui.element("div").classes(
+            "w-[40px] flex flex-row justify-start align-middle items-center"
+        ):
+            search_toggle = ui.checkbox().classes(input_class)
+
+        # Container for manager and league id inputs
+        with ui.element("div").classes("grow relative h-[58px] mr-8"):
+            # Manager Id input on top layer
             manager_id_input = (
                 ui.input("Manager ID")
                 .classes("input_class")
+                .classes(input_class)
                 .classes("absolute top-0 left-0 w-full z-0")
-                .props(
-                    (
-                        'clearable outlined inputmode="search" mask="##########" '
-                        'bg-color="white"'
-                    )
-                )
+                .props('clearable outlined inputmode="search" mask="##########"')
             )
 
             with manager_id_input.add_slot("prepend"):
-                ui.icon("search")
+                ui.icon("person")
 
+            #
             with ui.element("div").classes(
                 "absolute top-0 left-0 w-full z-10 overflow-hidden flex flex-row"
             ):
+                # League Id input on second layer
                 league_id_input = (
                     ui.input("League ID")
                     .classes("input_class")
-                    .classes("h-full")
+                    .classes(input_class)
+                    .classes("h-[55px]")
                     .props(
                         'outlined inputmode="search" mask="##########" bg-color="white"'
                     )
@@ -42,6 +49,8 @@ def combined_search():
                 with league_id_input.add_slot("prepend"):
                     ui.icon("leaderboard")
 
+                # Manager select on second layer but has 0 initial width
+                # Expands on successful league id input
                 manager_select = (
                     ui.select(
                         options=[],
@@ -49,6 +58,7 @@ def combined_search():
                         with_input=False,
                     )
                     .classes("manager_select_class")
+                    .classes(input_class)
                     .classes("h-full")
                     .props('outlined bg-color="white" behavior="menu"')
                     .style(
@@ -58,100 +68,55 @@ def combined_search():
                         "-o-transition:width 0.5s cubic-bezier(0.4, 0, 0.2, 1); "
                     )
                 )
-
-        with ui.element("div").classes("w-[60px] sm:w-[80px]"):
-            gameweek_select = (
-                ui.select([x for x in range(1, 11)], value=10, label="GW")
-                .classes("gw_select_class")
-                .classes("w-full h-full")
-                .props('outlined bg-color="white" behavior="menu"')
-            )
-
-    return manager_id_input, league_id_input, manager_select, gameweek_select
-
-
-def manager_chip(home: bool):
-    if home:
-        chip_bg = " from-sky-500 via-sky-300 to-cyan-400"
-    else:
-        chip_bg = " from-red-500 via-red-400 to-rose-400"
-
-    with ui.element("div").classes(
-        "p-1 bg-white  rounded-xl drop-shadow-xl hover:cursor-pointer"
-    ) as chip:
-        with ui.element("div").classes(
-            "w-[190px] h-[40px] rounded-lg relative bg-gradient-to-r " + chip_bg
-        ):
-            with ui.row().classes(
-                "w-full h-full flex flex-row justify-start content-center "
-                "items-center divide-x-4 divide-white gap-x-0"
-            ):
-                gw_chip_label = ui.label().classes(
-                    "text-stone-100 w-1/5 min-w-[35px] font-semibold text-lg "
-                    "text-center "
-                )
-                with ui.element("div").classes(
-                    "h-full flex flex-row justify-start content-center grow"
-                ):
-                    manager_name = (
-                        ui.label()
-                        .classes(
-                            "text-stone-100 w-[140px] font-semibold text-md "
-                            "text-center pl-1"
-                        )
-                        .style(
-                            "overflow:hidden;white-space: nowrap;text-overflow: "
-                            "ellipsis;display: block; "
-                        )
-                    )
-
-    chip.style("visibility:hidden")
-
-    return chip, manager_name, gw_chip_label
-
-
-def create_button(button_label: str):
-    button = ui.html(
-        f"""
-    <button class="pushable">
-        <span class="shadow"></span>
-        <span class="edge"></span>
-        <span class="front">
-            {button_label}
-        </span>
-    </button>
-    """
+    return (
+        search_toggle,
+        manager_id_input,
+        league_id_input,
+        manager_select,
+        input_container,
     )
 
-    return button
 
+def dual_search():
+    # Create combined searches for manager's 1 and 2
+    with ui.element("div").classes("grid grid-cols-1 grid-rows-2 gap-y-0"):
+        (
+            search_toggle_1,
+            manager_id_input_1,
+            league_id_input_1,
+            manager_select_1,
+            manager_1_container,
+        ) = combined_search_without_gw("manager_1_input_class")
 
-formations = {
-    "352": [1, 3, 5, 2],
-    "343": [1, 3, 4, 3],
-    "451": [1, 4, 5, 1],
-    "442": [1, 4, 4, 2],
-    "433": [1, 4, 3, 3],
-    "541": [1, 5, 4, 1],
-    "532": [1, 5, 3, 2],
-    "523": [1, 5, 2, 3],
-}
+        (
+            search_toggle_2,
+            manager_id_input_2,
+            league_id_input_2,
+            manager_select_2,
+            manager_2_container,
+        ) = combined_search_without_gw("manager_2_input_class")
 
-formation_index = {
-    1: "Squad",
-    2: "352",
-    3: "343",
-    4: "451",
-    5: "442",
-    6: "433",
-    7: "541",
-    8: "532",
-    9: "523",
-}
+    manager_1_container.classes("col-span-1 row-span-1")
+    manager_2_container.classes("col-span-1 row-span-1")
 
+    manager_id_input_1.props('color="light-blue-7"')
+    manager_id_input_2.props('color="red-7"')
 
-def formation_select():
-    ui.select(
-        options=formation_index,
-        value=formation_index[1],
-    ).props("rounded outlined")
+    league_id_input_1.props('color="light-blue-7"')
+    league_id_input_2.props('color="red-7"')
+
+    manager_select_1.props('color="light-blue-7"')
+    manager_select_2.props('color="red-7"')
+
+    return (
+        search_toggle_1,
+        manager_id_input_1,
+        league_id_input_1,
+        manager_select_1,
+        manager_1_container,
+        search_toggle_2,
+        manager_id_input_2,
+        league_id_input_2,
+        manager_select_2,
+        manager_2_container,
+    )

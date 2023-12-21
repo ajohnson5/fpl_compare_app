@@ -1,4 +1,4 @@
-from .landing_page_layout import combined_search, manager_chip, create_button
+from .landing_page_layout import combined_search_without_gw, dual_search
 from .display_page_layout import (
     manager_summary_layout,
     pitch_layout,

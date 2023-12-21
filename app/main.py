@@ -1,18 +1,11 @@
 import asyncio
 from nicegui import ui, Client
 
-from router import Router
 from common_format import display
 import home
-import about
-import generate_squad
 
 
 @ui.page("/")  # normal index page (e.g. the entry point of the app)
-@ui.page(
-    "/{_:path}"
-)  # all other pages will be handled by the router but must be registered
-# to also show the SPA index page
 async def main(client: Client):
     ui.add_head_html(
         """
@@ -24,18 +17,42 @@ async def main(client: Client):
         margin:0;
         overflow-x:hidden;
     }
-    .input_class.q-field--outlined .q-field__control {
-    border-top-left-radius:9999px;
-    border-bottom-left-radius:9999px;
-    border-top-right-radius:0px;
-    border-bottom-right-radius:0px;
+
+    .q-field__control {
+        background: #fafaf9;
     }
+
+    .input_class.q-field--outlined .q-field__control {
+        border-top-left-radius:0px;
+        border-bottom-left-radius:0px;
+        border-top-right-radius:0px;
+        border-bottom-right-radius:0px;
+    }
+
+    .manager_1_input_class.q-field--outlined .q-field__control {
+        border-top-right-radius:25px;
+        border-color: #0ea5e9 !important; 
+    }
+    .manager_2_input_class.q-field--outlined .q-field__control {
+        border-bottom-left-radius:25px;
+        border-color: #ef4444 !important; 
+    }
+
+
     .gw_select_class.q-field--outlined .q-field__control {
     border-top-left-radius:0px;
     border-bottom-left-radius:0px;
-    border-top-right-radius:9999px;
-    border-bottom-right-radius:9999px;
+    border-top-right-radius:0px;
+    border-bottom-right-radius:0px;
     }
+    .update_league_id_input_radius.q-field--outlined .q-field__control {
+        border-top-right-radius:0px;
+    }
+
+    .update_manager_select_radius.q-field--outlined .q-field__control {
+        border-top-right-radius:25px !important;
+    }
+
     .gw_select_class.q-field--outlined .q-field__control {
     padding: 0 2px;
     }
@@ -48,6 +65,62 @@ async def main(client: Client):
     border-top-right-radius:0px;
     border-bottom-right-radius:0px;
     }
+
+    .manager_1_input_class .q-checkbox__inner--truthy {
+        color: #0ea5e9; 
+    }
+
+    .manager_2_input_class .q-checkbox__inner--truthy {
+        color: #ef4444; 
+    }
+
+    .gameweek_button.q-btn--rectangle {
+        border-top-left-radius: 0px;
+        border-bottom-left-radius: 0px;
+        border-top-right-radius: 25px;
+        border-bottom-right-radius: 25px;
+    }
+
+
+    .gameweek_button.q-btn {
+        font-weight:800;
+        font-size: 1.5em;
+        line-height: 2em;
+        padding: 3px 8px 3px 3px;
+        min-height: initial;
+
+    }
+
+    .gameweek_1.q-btn {
+        color: #0ea5e9; 
+    }
+
+    .gameweek_2.q-btn {
+        color: #ef4444; 
+    }
+
+    .gameweek_button.q-btn:before {
+        box-shadow: none;
+    }
+
+    .set_manager_1_button.q-btn {
+        background: linear-gradient(to right, rgb(14, 165, 233), rgb(147, 197, 253), rgb(34, 211, 238)) !important;
+    }
+
+    .set_manager_2_button.q-btn {
+        background:linear-gradient(to right, rgb(239, 68, 68), rgb(248, 113, 113), rgb(251, 113, 133)) !important;
+    }
+
+    .return_button_class .on-left {
+        margin-right:0px
+    }
+
+    .q-field__native > span {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
     .q-field__label {
             font-size:14px
     }
@@ -224,49 +297,114 @@ async def main(client: Client):
     .q-gutter-sm, .q-gutter-x-sm {
         margin-left: 0px;
     }
+
+    .q-carousel__control.flex-center {
+        align-items: end;
+    }
+    .q-field__inner.self-stretch {
+    align-self:center;
+    }
+
+    .q-item {
+        align-items:center;
+        justify-content:center;
+        padding:0;
+    }
+
+    .rect {
+    height: 100px;
+    width: 100px;
+    background: rgba(0, 0, 0, 0.5);
+    position: relative;
+    margin-top: 100px;
+    margin-left: 100px;
+    }
+
+    .circle {
+    display: block;
+    width: 100px;
+    height: 50px;
+    top: -50px;
+    left: 0;
+    overflow: hidden;
+    position: absolute;
+    }
+
+    .circle::after {
+    content: '';
+    width: 100px;
+    height: 100px;
+    -moz-border-radius: 100px;
+    -webkit-border-radius: 100px;
+    border-radius: 100px;
+    background: rgba(0, 0, 0, 0);
+    position: absolute;
+    top: -100px;
+    left: -40px;
+    border: 40px solid rgba(0, 0, 0, 0.5);
+    }
+
     </style>
     """
     )
 
     client.content.classes("p-0 m-0").style("--q-primary: #0ea5e9;")
-    router = Router()
 
-    @router.add("/")
-    async def home_page():
-        await home.show_page()
+    
+    await home.show_page()
 
-    @router.add("/about")
-    async def about_page():
-        await about.show_page()
-
-    @router.add("/generate")
-    async def generate_squad_page():
-        await generate_squad.show_page()
-
-    display(
-        [
-            (home_page, "Compare."),
-            (generate_squad_page, "Generate."),
-            (about_page, "About."),
-        ],
-        router,
-    )
-
-    router.frame().classes("w-full")
 
 
 logo_svg = """
-<svg width="81.960785px" height="50.133762px" viewBox="0 0 81.960785 50.133762" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg">
-  <defs>
-    <path d="M38.9999 42.5237C43.5446 47.2166 49.912 50.1338 56.9608 50.1338C70.7679 50.1338 81.9608 38.9409 81.9608 25.1338C81.9608 11.3266 70.7679 0.133766 56.9608 0.133766C50.0993 0.133766 43.8835 2.89796 39.3661 7.37353C43.7235 11.8731 46.4052 18.0051 46.4052 24.7634C46.4052 31.7091 43.5728 37.9932 38.9999 42.5237Z" id="path_1" />
-    <clipPath id="clip_1">
-      <use xlink:href="#path_1" />
-    </clipPath>
+<svg
+   width="50.192448mm"
+   height="30.000233mm"
+   viewBox="0 0 50.192449 30.000232"
+   version="1.1"
+   id="svg1"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1">
+    <rect
+       x="293.86978"
+       y="748.83093"
+       width="1190.4094"
+       height="419.40659"
+       id="rect43" />
+    <linearGradient
+       id="swatch34">
+      <stop
+         style="stop-color:#000000;stop-opacity:1;"
+         offset="0"
+         id="stop34" />
+    </linearGradient>
   </defs>
-  <path d="M48.1791 15.635C43.0153 2.85386 28.4158 -3.34293 15.635 1.82087C2.85401 6.98467 -3.34295 21.5838 1.82085 34.3651C5.74913 44.0882 15.1362 50.0008 25.0311 50.0001C28.1432 49.9998 31.307 49.4148 34.3651 48.1792C47.1461 43.0154 53.343 28.4161 48.1791 15.635L48.1791 15.635ZM36.4172 37.1059L31.8273 32.2493L34.4152 24.2844L40.7991 20.568L45.6981 26.3591C45.509 29.1692 44.7482 31.9017 43.4874 34.3883L36.4172 37.1059L36.4172 37.1059ZM13.5829 37.1059L6.49961 34.3831C6.23504 33.8606 5.98938 33.3237 5.76603 32.771C4.91706 30.6695 4.43949 28.5089 4.29985 26.3616L9.20102 20.568L15.5847 24.2844L18.1726 32.2493L13.5829 37.1059L13.5829 37.1059ZM16.52 6.0693L23.3725 8.67035L23.3725 16.5057L16.8422 21.2501L10.4783 17.5452L10.4783 10.1874C12.1887 8.50631 14.2171 7.0996 16.52 6.0693L16.52 6.0693ZM39.5216 10.1884L39.5216 17.5453L33.1575 21.2502L26.6274 16.5057L26.6274 8.67019L33.4677 6.07383C35.6968 7.07067 37.7521 8.45847 39.5216 10.1884L39.5216 10.1884ZM7.22332 17.866L4.67722 20.8756C5.15027 18.5632 6.01298 16.3458 7.22332 14.3248L7.22332 17.866L7.22332 17.866ZM21.2015 31.0375L18.8537 23.812L25 19.3464L31.146 23.812L28.7984 31.0375L21.2015 31.0375L21.2015 31.0375ZM45.3342 20.889L42.7767 17.866L42.7767 14.3057C43.3301 15.2266 43.8192 16.2018 44.2342 17.2289C44.721 18.4339 45.0848 19.6586 45.3342 20.889L45.3342 20.889ZM28.3532 4.53347L25 5.80635L21.6348 4.5291C23.8922 4.15755 26.1597 4.17048 28.3532 4.53347L28.3532 4.53347ZM9.83261 39.1515L12.9219 40.339L14.4959 42.8775C12.7839 41.8742 11.2094 40.6238 9.83261 39.1515L9.83261 39.1515ZM19.6657 45.0382L16.0602 39.2234L20.72 34.2925L29.2799 34.2925L33.9397 39.2234L30.3271 45.0495C26.7473 46.0035 23.0796 45.9513 19.6657 45.0382L19.6657 45.0382ZM35.4927 42.8958L37.0782 40.3388L40.1629 39.1531C38.8184 40.5979 37.2538 41.8647 35.4927 42.8958L35.4927 42.8958Z" id="Shape" fill="#F5F5F4" fill-rule="evenodd" stroke="none" />
-  <g id="Oval-3-Subtract">
-    <g clip-path="url(#clip_1)">
-      <use xlink:href="#path_1" fill="none" stroke="#F5F5F4" stroke-width="8" />
+  <g
+     id="layer1"
+     transform="translate(-41.719131,-85.566433)">
+    <g
+       id="g47"
+       transform="translate(-41.456701,-87.675276)"
+       style="fill:#44403c;fill-opacity:1">
+      <g
+         id="g42"
+         transform="matrix(1.0390447,0,0,1.0516628,63.147513,90.181313)"
+         style="fill:#44403c;fill-opacity:1">
+        <path
+           id="path1"
+           style="fill:#44403c;fill-opacity:1;stroke-width:0.313088"
+           d="M 53.145595,78.980065 A 14.436337,14.263127 0 0 0 38.709144,93.243304 14.436337,14.263127 0 0 0 53.145595,107.50654 14.436337,14.263127 0 0 0 67.582042,93.243304 14.436337,14.263127 0 0 0 53.145595,78.980065 Z m 0,4.754577 a 9.6242247,9.5087509 0 0 1 9.624137,9.508662 9.6242247,9.5087509 0 0 1 -9.624137,9.508666 9.6242247,9.5087509 0 0 1 -9.624134,-9.508666 9.6242247,9.5087509 0 0 1 9.624134,-9.508662 z" />
+        <path
+           id="path1-8"
+           style="fill:#44403c;fill-opacity:1;stroke-width:0.313826"
+           d="m 32.987102,78.995802 c -3.863572,0.192817 -7.487545,1.916814 -10.059313,4.785418 -4.869447,5.431565 -4.869447,13.622228 0,19.05379 4.86945,5.43153 13.31342,6.16637 19.313359,1.99583 l -3.019819,-3.71291 c -1.612894,1.12807 -3.536085,1.73679 -5.509098,1.74374 -5.315436,2.3e-4 -9.624582,-4.277098 -9.624632,-9.553554 4.9e-5,-5.276456 4.309195,-9.553779 9.624632,-9.553556 1.974794,0.0011 3.90144,0.605246 5.518547,1.730413 l 3.377037,-3.741018 c -2.62999,-1.828078 -6.414113,-2.908202 -9.620713,-2.748153 z" />
+      </g>
+      <text
+         xml:space="preserve"
+         transform="matrix(0.08178538,0,0,0.08336071,38.875327,158.38144)"
+         id="text43"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:205.08px;font-family:Bahnschrift;-inkscape-font-specification:Bahnschrift;white-space:pre;shape-inside:url(#rect43);fill:#44403c;fill-opacity:1;fill-rule:nonzero" />
     </g>
   </g>
 </svg>
