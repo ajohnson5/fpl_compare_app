@@ -1,4 +1,4 @@
-from nicegui import ui
+from nicegui import ui, app
 import asyncio
 
 nav_bar_hover_div = (
@@ -11,83 +11,65 @@ nav_bar_label_div = (
     "flex flex-row items-center justify-center content-end "
     "w-full flex-1 border-b-[1px] border-slate-200 hover:border-slate-500 "
 )
+logo_url = (
+    "https://storage.googleapis.com/fpl-compare-app/fplcompare_logo_top_stone_1100.svg"
+)
 
 
-def nav_bar(nav_links: list, router):
-    with ui.element("div").classes("w-screen h-[100px] absolute top-0 left-0"):
-        logo = (
-            ui.image(
-                "https://storage.googleapis.com/fpl-compare-app/logo_with_text.webp"
+def nav_bar():
+    with ui.element("div").classes("w-screen h-[100px] absolute top-0 left-0 z-30"):
+        # Add FPL logo to use as a home button
+        with ui.link(target="/").classes("z-30"):
+            (
+                ui.image(logo_url)
+                .classes("w-[140px] absolute top-8 left-6 hover:cursor-pointer z-30")
+                .props("no-spinner")
             )
-            .classes("w-[170px] absolute top-8 left-6 hover:cursor-pointer")
-            .props("no-spinner")
-        )
-        logo.on("click", lambda: router.open(nav_links[0][0]))
 
+        # Dict to track if menu is open or not
         menu_state = {"state": True}
 
+        # Javascript to set burger menu to fixed when side bar is open
         async def overflow_off():
             await ui.run_javascript(
                 f"getElement({burger_menu.id}).style.position = 'fixed'"
             )
             await ui.run_javascript(f'getElement({side_bar.id}).className ="side_bar"')
 
+        # Javascript to set burger menu to absolute when side bar is closed
         async def overflow_on():
             await ui.run_javascript(
                 f"getElement({burger_menu.id}).style.position = 'absolute'"
             )
             await ui.run_javascript(f'getElement({side_bar.id}).className =""')
 
+        # Transform burger to cross when menu is open and vice versa when closed
         async def menu_open_func():
             menu_state["state"] = not menu_state["state"]
             if menu_state["state"]:
-                burger_1.style(
-                    "transform: translate(0px, 0px) rotate(0deg);"
-                    "background-color:#fafaf9;"
-                )
+                burger_1.style("transform: translate(0px, 0px) rotate(0deg);")
                 burger_2.style("opacity:1;transform: translate(0px, 10px)")
-                burger_3.style(
-                    "transform: translate(0px, 20px) rotate(0deg);"
-                    "background-color:#fafaf9;"
-                )
+                burger_3.style("transform: translate(0px, 20px) rotate(0deg);")
                 await overflow_on()
             else:
-                burger_1.style(
-                    "transform: translate(0px, 10px) rotate(45deg);"
-                    "background-color:#18181b;"
-                )
+                burger_1.style("transform: translate(0px, 10px) rotate(45deg);")
                 burger_2.style("opacity:0; transform: translate(0px, 10px)")
-                burger_3.style(
-                    "transform: translate(0px, 10px) rotate(-45deg);"
-                    "background-color:#18181b;"
-                )
+                burger_3.style("transform: translate(0px, 10px) rotate(-45deg);")
                 await overflow_off()
 
-        def nav_bar_link(page_link, page_name, router):
-            with ui.element("div").classes(nav_bar_hover_div) as menu_link:
-                with ui.element("div").classes(nav_bar_link_div):
-                    ui.label(page_name).classes(
-                        "text-zinc-900 text-center text-2xl font-semibold font-sans"
-                    )
-
-            menu_link.on("click", lambda: link_select(router, page_link))
-
-        async def link_select(router, page_link):
-            router.open(page_link)
-            await menu_open_func()
-
+        # Create burger for side bar
         with ui.element("div").classes(
-            "w-[40px] h-[40px] absolute top-9 left-[85vw] md:left-[93vw] z-30 "
+            "w-[40px] h-[40px] absolute top-9 left-[85vw] md:left-[95vw] z-30 "
             "hover:cursor-pointer block"
         ) as burger_menu:
             burger_1 = ui.label().classes(
-                "absolute w-[40px] h-1 bg-stone-100 block transform transition "
+                "absolute w-[40px] h-1 bg-stone-700 block transform transition "
                 "duration-500 ease-in-out"
             )
             burger_2 = (
                 ui.label()
                 .classes(
-                    "absolute w-[40px] h-1 bg-stone-100 block transform transition "
+                    "absolute w-[40px] h-1 bg-stone-700 block transform transition "
                     "duration-500 ease-in-out "
                 )
                 .style("transform: translate(0px, 10px)")
@@ -95,47 +77,62 @@ def nav_bar(nav_links: list, router):
             burger_3 = (
                 ui.label()
                 .classes(
-                    "absolute w-[40px] h-1 bg-stone-100 block transform transition "
+                    "absolute w-[40px] h-1 bg-stone-700 block transform transition "
                     "duration-500 ease-in-out"
                 )
                 .style("transform: translate(0px, 20px)")
             )
 
+        # Create side bar which slides in from right
         with ui.element("div").style(
             "height: 100vh;width: 0;position: fixed; "
             "z-index: 20;top: 0;right: 0;background-color:white; overflow: hidden; "
             "transition: 0.5s;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1); "
-            "padding-top: 16vh;text-align:center;filter: "
+            "padding-top: 110px;text-align:center;filter: "
             "drop-shadow(0 20px 13px rgb(0 0 0 / 0.03)) "
             "drop-shadow(0 8px 5px rgb(0 0 0 / 0.08));"
-        ).classes("drop-shadow-xl flex flex-col") as side_bar:
-            for link in nav_links:
-                nav_bar_link(link[0], link[1], router)
-
+        ).classes("drop-shadow-xl ") as side_bar:
+            # Add manager and league id store where previously entered IDs to be reused
             with ui.element("div").classes(
-                "w-full h-1/6 flex flex-row content-center justify-center"
+                "w-full h-full flex flex-col content-around justify-around"
             ):
-                with ui.link(target="https://github.com/ajohnson5"):
-                    ui.element("i").classes("eva eva-github").classes(
-                        "text-5xl hover:scale-105 hover:cursor-pointer text-zinc-900"
+                with ui.element("div").classes("w-full flex flex-row "):
+                    ui.label("Past Managers").classes(
+                        "w-full text-center text-2xl font-bold"
+                    )
+                    manager_id_store = ui.scroll_area().classes(
+                        "w-full grid grid-cols-1 gap-y-2 p-4 h-1/3 min-h-[200px] "
+                        "sm:min-h-[250px] border-2 border-double border-stone-300 "
+                        "rounded-xl p-2 mx-2"
                     )
 
-            with ui.element("div").classes(
-                "w-full flex flex-row justify-center h-1/6 pb-4"
-            ):
-                ui.image(
-                    "https://storage.googleapis.com/fpl-compare-app/logo_with_text_dark.webp"
-                ).classes("w-[190px]").props('fit="scale-down" no-spinner')
+                with ui.element("div").classes("w-full flex flex-row"):
+                    ui.label("Past Leagues").classes(
+                        "w-full text-center text-2xl font-bold"
+                    )
+                    league_id_store = ui.scroll_area().classes(
+                        "w-full grid grid-cols-1 gap-y-2 p-4 h-1/3 min-h-[200px] "
+                        "sm:min-h-[250px] border-2 border-double border-stone-300 "
+                        "rounded-xl p-2 mx-2"
+                    )
+
+                # GitHub link to my repo
+                with ui.element("div").classes(
+                    "w-full flex flex-row content-center justify-center"
+                ):
+                    with ui.link(target="https://github.com/ajohnson5"):
+                        ui.element("i").classes("eva eva-github").classes(
+                            "text-5xl hover:scale-105 hover:cursor-pointer "
+                            "text-stone-900"
+                        )
 
     burger_menu.on("click", lambda x: menu_open_func())
 
+    return side_bar, manager_id_store, league_id_store
 
-def display(nav_links: list, router):
+
+def display():
     ui.element("div").classes(
-        (
-            "h-screen w-screen bg-gradient-to-b from-sky-500 via-sky-300 to-cyan-100 "
-            "absolute top-0 left-0 -z-10"
-        )
+        ("h-screen w-screen bg-stone-100 " "absolute top-0 left-0 -z-10")
     )
-    nav_bar(nav_links, router)
-    return
+    return nav_bar()
