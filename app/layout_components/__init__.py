@@ -9,3 +9,5 @@ from .display_page_layout import (
     generate_squad_pitch_layout,
     fixture_layout,
 )
+from .svgs import home_logo, favicon_logo
+from .css import css
