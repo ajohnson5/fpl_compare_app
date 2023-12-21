@@ -1,6 +1,8 @@
 from nicegui import ui, app
 import asyncio
 
+from layout_components import home_logo
+
 nav_bar_hover_div = (
     "flex flex-row items-center justify-center cursor-pointer w-full "
     "h-1/6 min-h-[70px] sm:px-4 hover:bg-stone-200"
@@ -11,9 +13,6 @@ nav_bar_label_div = (
     "flex flex-row items-center justify-center content-end "
     "w-full flex-1 border-b-[1px] border-slate-200 hover:border-slate-500 "
 )
-logo_url = (
-    "https://storage.googleapis.com/fpl-compare-app/fplcompare_logo_top_stone_1100.svg"
-)
 
 
 def nav_bar():
@@ -21,8 +20,8 @@ def nav_bar():
         # Add FPL logo to use as a home button
         with ui.link(target="/").classes("z-30"):
             (
-                ui.image(logo_url)
-                .classes("w-[140px] absolute top-8 left-6 hover:cursor-pointer z-30")
+                ui.html(home_logo)
+                .classes("w-[110px] absolute top-8 left-6 hover:cursor-pointer z-30")
                 .props("no-spinner")
             )
 
