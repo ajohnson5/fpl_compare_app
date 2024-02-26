@@ -14,7 +14,7 @@ from layout_components import (
 )
 
 # Latest completed gameweek
-CURRENT_GAMEWEEK = 20
+CURRENT_GAMEWEEK = 25
 
 
 async def show_page():
